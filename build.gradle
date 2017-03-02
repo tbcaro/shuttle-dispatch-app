@@ -3,16 +3,16 @@ version = "0.0.1"
 
 // Setup buildscript for dependencies
 buildscript {
-   ext.kotlin_version = "1.0.6"
+    ext.kotlin_version = "1.0.6"
 
-   repositories {
-     mavenCentral()
-   }
+    repositories {
+        mavenCentral()
+    }
 
-   dependencies {
-     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-     classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
-   }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
+    }
 }
 
 apply plugin: "kotlin"
@@ -23,6 +23,13 @@ repositories {
 }
 
 dependencies {
+    // Guava
+    compile "com.google.guava:guava:20.0"
+
+    // JDBC
+    compile('org.springframework.boot:spring-boot-starter-jdbc')
+    compile("org.springframework:spring-jdbc")
+
     // Kotlin std lib and reflection lib
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
@@ -34,9 +41,11 @@ dependencies {
     }
     compile("org.springframework.boot:spring-boot-starter-jetty")
     compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-devtools")
 
     // JUnit
     testCompile "junit:junit:4.12"
+
+    // Runtime Postgres Driver
+    runtime('org.postgresql:postgresql')
 }
