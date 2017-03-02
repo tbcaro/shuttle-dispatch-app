@@ -13,20 +13,20 @@ import java.util.*
 class HelloWorldController(private val helloWorldService: HelloWorldService) {
 
     @RequestMapping("/helloworld")
-    fun map() : ModelAndView {
-        val modelAndView = ModelAndView("helloworld")
-
+    fun helloworld(model: Model) : String {
         var helloWorldViewAdapter = HelloWorldViewAdapter()
         var errors = ArrayList<String>()
 
         try {
             val helloWorlds = helloWorldService.retrieveAll()
+
             helloWorldViewAdapter.helloWorld = helloWorlds[0].helloWorld
-            modelAndView.addObject("view", helloWorldViewAdapter)
+
+            model.addAttribute("helloWorldViewAdapter", helloWorldViewAdapter)
         } catch (ex: Exception) {
             errors.add(ex.message ?: "")
         }
 
-        return modelAndView
+        return "helloworld"
     }
 }
