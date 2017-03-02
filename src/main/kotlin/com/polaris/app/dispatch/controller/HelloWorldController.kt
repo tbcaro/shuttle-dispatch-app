@@ -1,28 +1,32 @@
 package com.polaris.app.dispatch.controller
 
 import com.polaris.app.dispatch.controller.adapter.HelloWorldViewAdapter
-import com.polaris.app.dispatch.service.impl.HelloWorldServiceImpl
+import com.polaris.app.dispatch.service.HelloWorldService
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.servlet.ModelAndView
 import java.util.*
 
 @Controller
-class HelloWorldController(private val helloWorldService: HelloWorldServiceImpl) {
-
-    val HELLO_WORLD_PAGE = "helloworld"
+class HelloWorldController(private val helloWorldService: HelloWorldService) {
 
     @RequestMapping("/helloworld")
-    fun map() : String {
+    fun map() : ModelAndView {
+        val modelAndView = ModelAndView("helloworld")
+
         var helloWorldViewAdapter = HelloWorldViewAdapter()
         var errors = ArrayList<String>()
 
         try {
             val helloWorlds = helloWorldService.retrieveAll()
             helloWorldViewAdapter.helloWorld = helloWorlds[0].helloWorld
+            modelAndView.addObject("view", helloWorldViewAdapter)
         } catch (ex: Exception) {
             errors.add(ex.message ?: "")
         }
 
-        return HELLO_WORLD_PAGE
+        return modelAndView
     }
 }
