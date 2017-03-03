@@ -1,0 +1,30 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: stretch;
+}
+
+header {
+  background: #0f7496;
+  color: white;
+}
+
+#main {
+  flex: 1 0;
+  display: flex;
+  flex-flow: row;
+  align-items: stretch;
+}
+
+#sidebar {
+  flex: 1 20%;
+}
+
+#content {
+  flex: 4 80%;
+}

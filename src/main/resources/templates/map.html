@@ -4,8 +4,19 @@
   <title>Map</title>
 
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+  <div th:replace="fragments/styles"></div>
+  <div th:replace="fragments/scripts"></div>
+
+  <script src="/js/map.js"></script>
 </head>
 <body>
-  <h1>Map Page</h1>
+  <header th:replace="fragments/header"></header>
+  <div id="main">
+    <nav th:replace="fragments/sidebar"></nav>
+    <div id="content" class="bg-success">
+      Main Content
+    </div>
+  </div>
 </body>
 </html>
