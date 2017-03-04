@@ -1,15 +1,18 @@
 package com.polaris.app.dispatch.controller
 
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 class StopsController {
 
-    val STOPS_PAGE = "stops"
-
     @RequestMapping("/stops")
-    fun stops() : String {
-        return STOPS_PAGE
+    fun map(model: Model) : String {
+
+        model.addAttribute("title", "Stops")
+        model.addAttribute("username", "tcaro")
+
+        return "stops"
     }
 }
