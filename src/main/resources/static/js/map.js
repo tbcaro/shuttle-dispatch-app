@@ -4,7 +4,6 @@ function App(options) {
   var elements = { };
 
   var geoLocator = { };
-  var mapUtils = { };
 
   self.map = { };
   self.mapMarkers = [];
@@ -16,7 +15,6 @@ function App(options) {
 
     // TBC : Setup utility objects
     geoLocator = new GeoLocator();
-    mapUtils = new MapUtils();
     
     geoLocator.getLocation().done(function (location) {
       self.initializeMap(location);
