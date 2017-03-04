@@ -4,19 +4,45 @@
   <title th:text="${title}"></title>
 
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
   <div th:replace="fragments/styles"></div>
-  <div th:replace="fragments/scripts"></div>
-
-  <script src="/js/map.js"></script>
+  <link rel="stylesheet" href="/css/map.css"/>
 </head>
 <body>
   <header th:replace="fragments/header"></header>
   <div id="main">
     <nav th:replace="fragments/sidebar"></nav>
-    <div id="content" class="">
+    <div id="content" class="d-flex flex-column">
+      <div id="map-container" class="d-flex align-self-stretch">
 
+        <!-- temporary loading icon -->
+        <div class="row col align-self-stretch">
+          <div class="col align-self-center text-center">
+            <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            <div class="p-4">
+              Loading...
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div id="active-shuttle-card-container" class="align-self-stretch">
+        Card Container
+      </div>
     </div>
   </div>
+
+  <div th:replace="fragments/scripts"></div>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCMCmjl0mitA-dr-aEQdFMGtFNeIQwF7g"></script>
+  <script src="/js/geolocation.js"></script>
+  <script src="/js/map.js"></script>
+  <script>
+    $(document).ready(function(){
+      var options = { };
+      var app = new App(options);
+      app.initialize();
+    });
+  </script>
 </body>
 </html>

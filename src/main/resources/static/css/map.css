@@ -1,0 +1,9 @@
+#map-container {
+  flex: 1 0;
+  background: #f0f0f0;
+  border-bottom: 1px solid lightgrey;
+}
+
+#active-shuttle-card-container {
+  flex: 1 0;
+}
