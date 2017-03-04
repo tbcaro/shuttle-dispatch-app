@@ -3,9 +3,11 @@ function App(options) {
 
   var elements = { };
 
-  self.geoLocator = { };
-  self.googleMapsLoader = { };
+  var geoLocator = { };
+  var mapUtils = { };
+
   self.map = { };
+  self.mapMarkers = [];
 
   self.initialize = function() {
     // TBC : Setup elements
@@ -13,24 +15,45 @@ function App(options) {
     elements.activeShuttleCardContainer = $('#active-shuttle-card-container');
 
     // TBC : Setup utility objects
-    self.geoLocator = new GeoLocator();
+    geoLocator = new GeoLocator();
+    mapUtils = new MapUtils();
     
-    self.geoLocator.getLocation().done(function (location) {
-      self.initializeMap(10, location);
+    geoLocator.getLocation().done(function (location) {
+      self.initializeMap(location);
     });
   };
 
-  self.initializeMap = function(_zoom, _center) {
-    var zoom = _zoom || 10;
-    var center = _center || { lat: 100, lng: 100 };
+  self.initializeMap = function(location) {
+    var zoom = 10;
+    var center = location || { lat: 41.208151, lng: -79.378834 }; // TBC : Default over Clarion University
 
     self.map = new google.maps.Map(elements.mapContainer[0], {
       center: center,
       zoom: zoom
     });
+
+    var marker = new google.maps.Marker({
+      position: location,
+      map: self.map,
+      icon: {
+        path: fontawesome.markers.MAP_MARKER,
+        scale: 0.5,
+        strokeWeight: 0.2,
+        strokeColor: 'black',
+        strokeOpacity: 1,
+        fillColor: '#ff0000',
+        fillOpacity: 1,
+        rotation: 0
+      },
+      title: 'test'
+    });
+
+    self.mapMarkers.push(marker);
   };
 
   var bindEventHandlers = function() {
 
   };
+
+  return self;
 }
