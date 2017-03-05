@@ -1,15 +1,15 @@
-<header class="header p-2" xmlns:th="http://www.thymeleaf.org">
+<header class="header p-1" xmlns:th="http://www.thymeleaf.org">
   <div class="container-fluid">
     <div class="row">
       <div class="col-4 offset-4 text-center">
-        <h1 th:text="${title}"></h1>
+        <h2 class="h2" th:text="${title}"></h2>
       </div>
       <div class="col-4 align-self-center text-right">
         <div class="btn-group">
-          <button type="button" class="btn btn-secondary">
+          <button type="button" class="btn btn-sm btn-secondary">
             <i class="fa fa-user"></i> <span th:text="${username}"></span>
           </button>
-          <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <div class="dropdown-menu dropdown-menu-right">
