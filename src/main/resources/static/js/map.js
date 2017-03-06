@@ -22,7 +22,7 @@ function App(options) {
   };
 
   self.initializeMap = function(location) {
-    var zoom = 10;
+    var zoom = 15;
     var center = location || { lat: 41.208151, lng: -79.378834 }; // TBC : Default over Clarion University
 
     self.map = new google.maps.Map(elements.mapContainer[0], {
