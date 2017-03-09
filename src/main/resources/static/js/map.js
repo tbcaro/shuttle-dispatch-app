@@ -42,8 +42,7 @@ function App(options) {
         fillColor: '#ff0000',
         fillOpacity: 1,
         rotation: 0
-      },
-      title: 'test'
+      }
     });
 
     self.mapMarkers.push(marker);
