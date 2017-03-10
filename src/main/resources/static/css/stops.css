@@ -1,0 +1,22 @@
+#map-container {
+  flex: 1 1;
+  background: #f0f0f0;
+  border-bottom: 1px solid lightgrey;
+}
+
+#stop-panel {
+  flex: 2 2;
+  overflow-y: hidden;
+}
+
+#stop-panel #control-panel {
+  border-bottom: 1px solid lightgrey;
+}
+
+#stop-panel #stop-card-container {
+  flex: 1 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+
