@@ -4,14 +4,12 @@
 
 #route-panel {
   flex: 1 1;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
-  height: 0px;
 }
 
 #route-card-container {
   flex: 1 1;
-  height: 0px;
   overflow-x: hidden;
   overflow-y: auto;
 }
