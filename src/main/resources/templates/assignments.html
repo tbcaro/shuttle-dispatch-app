@@ -6,17 +6,581 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
   <div th:replace="fragments/styles"></div>
-  <div th:replace="fragments/scripts"></div>
-
-  <script src="/js/map.js"></script>
+  <link rel="stylesheet" href="/css/assignments.css"/>
 </head>
 <body>
 <header th:replace="fragments/header"></header>
 <div id="main">
   <nav th:replace="fragments/sidebar"></nav>
-  <div id="content" class="">
+  <div id="content" class="d-flex flex-column">
+    <div id="map-container" class="d-flex align-self-stretch">
 
+      <!-- temporary loading icon -->
+      <div class="row col align-self-stretch">
+        <div class="col align-self-center text-center">
+          <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+          <div class="p-4">
+            Loading...
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div id="assignment-panel" class="d-flex align-self-stretch flex-column">
+
+
+
+
+        <div id="control-panel" class="p-2">
+          <div class="row">
+            <div id="date-cursor" class="col-4 text-left">
+              <button id="btn-prevday" class="btn btn-secondary"><i class="fa fa-chevron-left"></i></button>
+              <button id="btn-current-date" class="btn btn-secondary">
+                Thursday, March 9, 2017
+              </button>
+              <button id="btn-nextday" class="btn btn-secondary"><i class="fa fa-chevron-right"></i></button>
+            </div>
+            <div class="col-4 text-center">
+              <div class="input-group">
+                <span class="input-group-addon">Address</span>
+                <input type="text" class="form-control" />
+              </div>
+            </div>
+            <div class="col-4 text-right">
+              <button id="btn-search" class="btn btn-secondary">Search</button>
+              <button id="btn-new-assignment" class="btn btn-success">New Assignment</button>
+            </div>
+          </div>
+        </div>
+        <div id="assignment-card-container" class="align-self-stretch p-2">
+          <div class="row">
+            <div class="col-12">
+
+
+              <div class="card assignment-card m-2 p-2">
+                <div class="row">
+                  <div class="col-9">
+                    <div class="row">
+                      <div class="col-3">
+                        <i class="fa fa-bus fa-lg"></i>
+                        Shuttle 2A
+                      </div>
+                      <div class="col-3">
+                        <i class="fa fa-user fa-lg"></i>
+                        Ryan Reynolds
+                      </div>
+                      <div class="col-3">
+                        <i class="fa fa-map-signs fa-lg"></i>
+                        Baseball Stadium
+                      </div>
+                      <div class="col-3">
+                        <i class="fa fa-clock-o fa-lg"></i>
+                        4:30 PM
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3 text-right">
+                    <button class="btn btn-sm btn-success btn-edit">
+                      <i class="fa fa-edit fa-lg text-white"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger btn-archive">
+                      <i class="fa fa-trash fa-lg text-white"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="schedule-card card m-1">
+                  <div class="row p-1">
+                    <div class="col-12">
+                      <table class="table table-sm overflow-y">
+                        <thead>
+                        <th>Order</th>
+                        <th>Stop</th>
+                        <th>Address</th>
+                        <th>Est. Arrive</th>
+                        <th>Est. Wait</th>
+                        <th>Est. Depart</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>Airport</td>
+                          <td>123 Airport Rd</td>
+                          <td>4:30 PM</td>
+                          <td>30 mins</td>
+                          <td>4:30 PM</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>Baseball Stadium</td>
+                          <td>123 Baseball Stadium Rd</td>
+                          <td>5:00 PM</td>
+                          <td>30 mins</td>
+                          <td>5:30 PM</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>Hotel</td>
+                          <td>123 Hotel Ln</td>
+                          <td>6:00 PM</td>
+                          <td>--</td>
+                          <td>--</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card assignment-card m-2 p-2">
+                <div class="row">
+                  <div class="col-9">
+                    <div class="row">
+                      <div class="col-3">
+                        <i class="fa fa-bus fa-lg"></i>
+                        Shuttle 2A
+                      </div>
+                      <div class="col-3">
+                        <i class="fa fa-user fa-lg"></i>
+                        Ryan Reynolds
+                      </div>
+                      <div class="col-3">
+                        <i class="fa fa-map-signs fa-lg"></i>
+                        Baseball Stadium
+                      </div>
+                      <div class="col-3">
+                        <i class="fa fa-clock-o fa-lg"></i>
+                        4:30 PM
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3 text-right">
+                    <button class="btn btn-sm btn-success btn-edit">
+                      <i class="fa fa-edit fa-lg text-white"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger btn-archive">
+                      <i class="fa fa-trash fa-lg text-white"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="schedule-card card m-1">
+                  <div class="row p-1">
+                    <div class="col-12">
+                      <table class="table table-sm overflow-y">
+                        <thead>
+                        <th>Order</th>
+                        <th>Stop</th>
+                        <th>Address</th>
+                        <th>Est. Arrive</th>
+                        <th>Est. Wait</th>
+                        <th>Est. Depart</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>Airport</td>
+                          <td>123 Airport Rd</td>
+                          <td>4:30 PM</td>
+                          <td>30 mins</td>
+                          <td>4:30 PM</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>Baseball Stadium</td>
+                          <td>123 Baseball Stadium Rd</td>
+                          <td>5:00 PM</td>
+                          <td>30 mins</td>
+                          <td>5:30 PM</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>Hotel</td>
+                          <td>123 Hotel Ln</td>
+                          <td>6:00 PM</td>
+                          <td>--</td>
+                          <td>--</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card assignment-card m-2 p-2">
+                <div class="row">
+                  <div class="col-9">
+                    <div class="row">
+                      <div class="col-3">
+                        <i class="fa fa-bus fa-lg"></i>
+                        Shuttle 2A
+                      </div>
+                      <div class="col-3">
+                        <i class="fa fa-user fa-lg"></i>
+                        Ryan Reynolds
+                      </div>
+                      <div class="col-3">
+                        <i class="fa fa-map-signs fa-lg"></i>
+                        Baseball Stadium
+                      </div>
+                      <div class="col-3">
+                        <i class="fa fa-clock-o fa-lg"></i>
+                        4:30 PM
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3 text-right">
+                    <button class="btn btn-sm btn-success btn-edit">
+                      <i class="fa fa-edit fa-lg text-white"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger btn-archive">
+                      <i class="fa fa-trash fa-lg text-white"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="schedule-card card m-1">
+                  <div class="row p-1">
+                    <div class="col-12">
+                      <table class="table table-sm overflow-y">
+                        <thead>
+                        <th>Order</th>
+                        <th>Stop</th>
+                        <th>Address</th>
+                        <th>Est. Arrive</th>
+                        <th>Est. Wait</th>
+                        <th>Est. Depart</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>Airport</td>
+                          <td>123 Airport Rd</td>
+                          <td>4:30 PM</td>
+                          <td>30 mins</td>
+                          <td>4:30 PM</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>Baseball Stadium</td>
+                          <td>123 Baseball Stadium Rd</td>
+                          <td>5:00 PM</td>
+                          <td>30 mins</td>
+                          <td>5:30 PM</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>Hotel</td>
+                          <td>123 Hotel Ln</td>
+                          <td>6:00 PM</td>
+                          <td>--</td>
+                          <td>--</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!--<div class="container-fluid col">-->
+        <!--<div id="control-panel" class="row p-2">-->
+          <!--<div id="date-cursor" class="col-4 text-left">-->
+            <!--<button id="btn-prevday" class="btn btn-secondary"><i class="fa fa-chevron-left"></i></button>-->
+            <!--<button id="btn-current-date" class="btn btn-secondary">-->
+              <!--Thursday, March 9, 2017-->
+            <!--</button>-->
+            <!--<button id="btn-nextday" class="btn btn-secondary"><i class="fa fa-chevron-right"></i></button>-->
+          <!--</div>-->
+          <!--<div class="col-4 text-center">-->
+            <!--<div class="input-group">-->
+              <!--<span class="input-group-addon">Address</span>-->
+              <!--<input type="text" class="form-control" />-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="col-4 text-right">-->
+            <!--<button id="btn-search" class="btn btn-secondary">Search</button>-->
+            <!--<button id="btn-new-assignment" class="btn btn-success">New Assignment</button>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div id="assignment-card-container" class="row p-2">-->
+          <!--<div class="col-12">-->
+
+
+            <!--<div class="card assignment-card m-2 p-2">-->
+              <!--<div class="row">-->
+                <!--<div class="col-9">-->
+                  <!--<div class="row">-->
+                    <!--<div class="col-3">-->
+                      <!--<i class="fa fa-bus fa-lg"></i>-->
+                      <!--Shuttle 2A-->
+                    <!--</div>-->
+                    <!--<div class="col-3">-->
+                      <!--<i class="fa fa-user fa-lg"></i>-->
+                      <!--Ryan Reynolds-->
+                    <!--</div>-->
+                    <!--<div class="col-3">-->
+                      <!--<i class="fa fa-map-signs fa-lg"></i>-->
+                      <!--Baseball Stadium-->
+                    <!--</div>-->
+                    <!--<div class="col-3">-->
+                      <!--<i class="fa fa-clock-o fa-lg"></i>-->
+                      <!--4:30 PM-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-3 text-right">-->
+                  <!--<button class="btn btn-sm btn-success btn-edit">-->
+                    <!--<i class="fa fa-edit fa-lg text-white"></i>-->
+                  <!--</button>-->
+                  <!--<button class="btn btn-sm btn-danger btn-archive">-->
+                    <!--<i class="fa fa-trash fa-lg text-white"></i>-->
+                  <!--</button>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="schedule-card card m-1">-->
+                <!--<div class="row p-1">-->
+                  <!--<div class="col-12">-->
+                    <!--<table class="table table-sm overflow-y">-->
+                      <!--<thead>-->
+                        <!--<th>Order</th>-->
+                        <!--<th>Stop</th>-->
+                        <!--<th>Address</th>-->
+                        <!--<th>Est. Arrive</th>-->
+                        <!--<th>Est. Wait</th>-->
+                        <!--<th>Est. Depart</th>-->
+                      <!--</thead>-->
+                      <!--<tbody>-->
+                      <!--<tr>-->
+                        <!--<td>1</td>-->
+                        <!--<td>Airport</td>-->
+                        <!--<td>123 Airport Rd</td>-->
+                        <!--<td>4:30 PM</td>-->
+                        <!--<td>30 mins</td>-->
+                        <!--<td>4:30 PM</td>-->
+                      <!--</tr>-->
+                      <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Baseball Stadium</td>-->
+                        <!--<td>123 Baseball Stadium Rd</td>-->
+                        <!--<td>5:00 PM</td>-->
+                        <!--<td>30 mins</td>-->
+                        <!--<td>5:30 PM</td>-->
+                      <!--</tr>-->
+                      <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Hotel</td>-->
+                        <!--<td>123 Hotel Ln</td>-->
+                        <!--<td>6:00 PM</td>-->
+                        <!--<td>&#45;&#45;</td>-->
+                        <!--<td>&#45;&#45;</td>-->
+                      <!--</tr>-->
+                      <!--</tbody>-->
+                    <!--</table>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="card assignment-card m-2 p-2">-->
+              <!--<div class="row">-->
+                <!--<div class="col-9">-->
+                  <!--<div class="row">-->
+                    <!--<div class="col-3">-->
+                      <!--<i class="fa fa-bus fa-lg"></i>-->
+                      <!--Shuttle 2A-->
+                    <!--</div>-->
+                    <!--<div class="col-3">-->
+                      <!--<i class="fa fa-user fa-lg"></i>-->
+                      <!--Ryan Reynolds-->
+                    <!--</div>-->
+                    <!--<div class="col-3">-->
+                      <!--<i class="fa fa-map-signs fa-lg"></i>-->
+                      <!--Baseball Stadium-->
+                    <!--</div>-->
+                    <!--<div class="col-3">-->
+                      <!--<i class="fa fa-clock-o fa-lg"></i>-->
+                      <!--4:30 PM-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-3 text-right">-->
+                  <!--<button class="btn btn-sm btn-success btn-edit">-->
+                    <!--<i class="fa fa-edit fa-lg text-white"></i>-->
+                  <!--</button>-->
+                  <!--<button class="btn btn-sm btn-danger btn-archive">-->
+                    <!--<i class="fa fa-trash fa-lg text-white"></i>-->
+                  <!--</button>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="schedule-card card m-1">-->
+                <!--<div class="row p-1">-->
+                  <!--<div class="col-12">-->
+                    <!--<table class="table table-sm overflow-y">-->
+                      <!--<thead>-->
+                      <!--<th>Order</th>-->
+                      <!--<th>Stop</th>-->
+                      <!--<th>Address</th>-->
+                      <!--<th>Est. Arrive</th>-->
+                      <!--<th>Est. Wait</th>-->
+                      <!--<th>Est. Depart</th>-->
+                      <!--</thead>-->
+                      <!--<tbody>-->
+                      <!--<tr>-->
+                        <!--<td>1</td>-->
+                        <!--<td>Airport</td>-->
+                        <!--<td>123 Airport Rd</td>-->
+                        <!--<td>4:30 PM</td>-->
+                        <!--<td>30 mins</td>-->
+                        <!--<td>4:30 PM</td>-->
+                      <!--</tr>-->
+                      <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Baseball Stadium</td>-->
+                        <!--<td>123 Baseball Stadium Rd</td>-->
+                        <!--<td>5:00 PM</td>-->
+                        <!--<td>30 mins</td>-->
+                        <!--<td>5:30 PM</td>-->
+                      <!--</tr>-->
+                      <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Hotel</td>-->
+                        <!--<td>123 Hotel Ln</td>-->
+                        <!--<td>6:00 PM</td>-->
+                        <!--<td>&#45;&#45;</td>-->
+                        <!--<td>&#45;&#45;</td>-->
+                      <!--</tr>-->
+                      <!--</tbody>-->
+                    <!--</table>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="card assignment-card m-2 p-2">-->
+              <!--<div class="row">-->
+                <!--<div class="col-9">-->
+                  <!--<div class="row">-->
+                    <!--<div class="col-3">-->
+                      <!--<i class="fa fa-bus fa-lg"></i>-->
+                      <!--Shuttle 2A-->
+                    <!--</div>-->
+                    <!--<div class="col-3">-->
+                      <!--<i class="fa fa-user fa-lg"></i>-->
+                      <!--Ryan Reynolds-->
+                    <!--</div>-->
+                    <!--<div class="col-3">-->
+                      <!--<i class="fa fa-map-signs fa-lg"></i>-->
+                      <!--Baseball Stadium-->
+                    <!--</div>-->
+                    <!--<div class="col-3">-->
+                      <!--<i class="fa fa-clock-o fa-lg"></i>-->
+                      <!--4:30 PM-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-3 text-right">-->
+                  <!--<button class="btn btn-sm btn-success btn-edit">-->
+                    <!--<i class="fa fa-edit fa-lg text-white"></i>-->
+                  <!--</button>-->
+                  <!--<button class="btn btn-sm btn-danger btn-archive">-->
+                    <!--<i class="fa fa-trash fa-lg text-white"></i>-->
+                  <!--</button>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="schedule-card card m-1">-->
+                <!--<div class="row p-1">-->
+                  <!--<div class="col-12">-->
+                    <!--<table class="table table-sm overflow-y">-->
+                      <!--<thead>-->
+                      <!--<th>Order</th>-->
+                      <!--<th>Stop</th>-->
+                      <!--<th>Address</th>-->
+                      <!--<th>Est. Arrive</th>-->
+                      <!--<th>Est. Wait</th>-->
+                      <!--<th>Est. Depart</th>-->
+                      <!--</thead>-->
+                      <!--<tbody>-->
+                      <!--<tr>-->
+                        <!--<td>1</td>-->
+                        <!--<td>Airport</td>-->
+                        <!--<td>123 Airport Rd</td>-->
+                        <!--<td>4:30 PM</td>-->
+                        <!--<td>30 mins</td>-->
+                        <!--<td>4:30 PM</td>-->
+                      <!--</tr>-->
+                      <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Baseball Stadium</td>-->
+                        <!--<td>123 Baseball Stadium Rd</td>-->
+                        <!--<td>5:00 PM</td>-->
+                        <!--<td>30 mins</td>-->
+                        <!--<td>5:30 PM</td>-->
+                      <!--</tr>-->
+                      <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Hotel</td>-->
+                        <!--<td>123 Hotel Ln</td>-->
+                        <!--<td>6:00 PM</td>-->
+                        <!--<td>&#45;&#45;</td>-->
+                        <!--<td>&#45;&#45;</td>-->
+                      <!--</tr>-->
+                      <!--</tbody>-->
+                    <!--</table>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+
+
+
+
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    </div>
   </div>
 </div>
+
+<div th:replace="fragments/scripts"></div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCMCmjl0mitA-dr-aEQdFMGtFNeIQwF7g"></script>
+<script src="/lib/fontawesome-markers/fontawesome-markers.min.js"></script>
+<script src="/js/geolocation.js"></script>
+<script src="/js/assignments.js"></script>
+<script>
+  $(document).ready(function(){
+    var app = new AssignmentApp();
+  });
+</script>
 </body>
 </html>

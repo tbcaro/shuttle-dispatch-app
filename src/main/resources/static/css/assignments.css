@@ -4,22 +4,27 @@
   border-bottom: 1px solid lightgrey;
 }
 
-#active-shuttle-card-container {
-  flex: 1 0;
-  overflow-y: auto;
+#assignment-panel {
+  flex: 2 0;
+  overflow-y: hidden;
 }
 
-.shuttle-card {
-  background: #f8f8f8;
+#assignment-panel #control-panel {
+  border-bottom: 1px solid lightgrey;
+}
+
+#assignment-panel #assignment-card-container {
+  flex: 1 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.btn {
   cursor: pointer;
 }
 
-.shuttle-card.selected {
-  border: 3px solid deepskyblue;
-}
-
-.shuttle-card .state-label {
-  width: 100px;
+.assignment-card {
+  background: #f8f8f8;
 }
 
 .schedule-card {

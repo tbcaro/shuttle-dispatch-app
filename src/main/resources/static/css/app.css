@@ -2,6 +2,7 @@ html, body {
   height: 100%;
   font-family: 'Open Sans', sans-serif;
   color: #736e70;
+  box-sizing: border-box;
   /*font-family: 'Shadows Into Light', cursive;*/
 }
 

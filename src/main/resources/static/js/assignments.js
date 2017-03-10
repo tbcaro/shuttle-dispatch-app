@@ -1,4 +1,5 @@
-function MapApp(options) {
+
+function AssignmentApp(options) {
   var self = this;
 
   var elements = { };
@@ -11,11 +12,10 @@ function MapApp(options) {
   self.initialize = function() {
     // TBC : Setup elements
     elements.mapContainer = $('#map-container');
-    elements.activeShuttleCardContainer = $('#active-shuttle-card-container');
 
     // TBC : Setup utility objects
     geoLocator = new GeoLocator();
-    
+
     geoLocator.getLocation().done(function (location) {
       self.initializeMap(location);
     });
