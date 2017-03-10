@@ -7,6 +7,7 @@
 #stop-panel {
   flex: 1 1;
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 #stop-panel #control-panel {

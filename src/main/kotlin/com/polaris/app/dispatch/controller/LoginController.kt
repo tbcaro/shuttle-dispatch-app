@@ -23,9 +23,9 @@ class LoginController {
 
         // TBC : Just for showing off testing idea
         if (loggedIn) {
-            return "map"
+            return "redirect:/map"
         } else {
-            return "login"
+            return "redirect:/loginForm"
         }
     }
 }
