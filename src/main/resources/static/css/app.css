@@ -3,6 +3,7 @@ html, body {
   font-family: 'Open Sans', sans-serif;
   color: #736e70;
   box-sizing: border-box;
+  overflow: hidden;
   /*font-family: 'Shadows Into Light', cursive;*/
 }
 
@@ -47,6 +48,7 @@ a.navigation:active {
   display: flex;
   flex-flow: row;
   align-items: stretch;
+  overflow: hidden;
 }
 
 #sidebar {
@@ -76,8 +78,38 @@ a.navigation:active {
 
 #content {
   flex: 4 85%;
+  overflow: hidden;
 }
 
 .btn {
   cursor: pointer;
+}
+
+.btn-edit:hover > i {
+  cursor: pointer;
+  color: #449d44;
+  transition: all .2s ease-in-out;
+}
+
+.btn-archive:hover > i{
+  cursor: pointer;
+  color: #c9302c;
+  transition: all .2s ease-in-out;
+}
+
+.card {
+  background: #f8f8f8;
+}
+
+.schedule-card {
+  background: #f8f8f8;
+  font-size: 10pt;
+  height: 100px;
+  width: 85%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.schedule-card .table {
+  margin-bottom: 0;
 }
