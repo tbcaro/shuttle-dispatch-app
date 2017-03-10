@@ -19,8 +19,16 @@
   overflow-x: hidden;
 }
 
-.btn {
+.btn-edit:hover > i {
   cursor: pointer;
+  color: #449d44;
+  transition: all .2s ease-in-out;
+}
+
+.btn-archive:hover > i{
+  cursor: pointer;
+  color: #c9302c;
+  transition: all .2s ease-in-out;
 }
 
 .assignment-card {

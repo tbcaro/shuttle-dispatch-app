@@ -77,3 +77,7 @@ a.navigation:active {
 #content {
   flex: 4 85%;
 }
+
+.btn {
+  cursor: pointer;
+}
