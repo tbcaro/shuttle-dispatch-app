@@ -6,7 +6,7 @@
 
 #active-shuttle-card-container {
   flex: 1 0;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .shuttle-card {

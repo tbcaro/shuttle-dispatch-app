@@ -22,6 +22,7 @@ class MapApiController {
     ) : ResponseEntity<List<ShuttleActivityDetailsAdapter>> {
         val testDetails = ShuttleActivityDetailsAdapter()
 
+        testDetails.activityId = 1
         testDetails.driverName = "Travis Caro"
         testDetails.shuttleName = "Shuttle 1"
         testDetails.shuttleColorHex = "#0000ff"
@@ -55,7 +56,13 @@ class MapApiController {
         val listOfDetails = arrayListOf<ShuttleActivityDetailsAdapter>()
 
         listOfDetails.add(testDetails)
+
+        testDetails.activityId = 2
+        testDetails.shuttleStatus = ShuttleState.ACTIVE
         listOfDetails.add(testDetails)
+
+        testDetails.activityId = 3
+        testDetails.shuttleStatus = ShuttleState.AT_STOP
         listOfDetails.add(testDetails)
 
         if (serviceCode.isNullOrBlank()) {

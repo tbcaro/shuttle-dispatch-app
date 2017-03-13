@@ -5,10 +5,11 @@ function MapApp(options) {
   var geoLocator;
   var serviceCode = options.serviceCode;
   var intervalId;
+  var shuttleActivityCardtemplate;
 
   self.map = { };
   self.mapMarkers = { };
-  self.shuttleActivities = [];
+  self.shuttleActivities = { };
 
   self.initialize = function() {
     // TBC : Setup elements
@@ -18,7 +19,13 @@ function MapApp(options) {
     // TBC : Setup utility objects
     geoLocator = new GeoLocator();
 
+    // TBC : Compile templates
+    shuttleActivityCardtemplate = Handlebars.compile($("#shuttle-activity-card-template").html());
+
+    // TBC : Initialize map
     self.initializeMap();
+
+    // TBC : Center map on user location
     geoLocator.getLocation().done(function(location) {
       self.map.setCenter(location);
       self.map.setZoom(12);
@@ -36,10 +43,14 @@ function MapApp(options) {
           rotation: 0
         }
       });
+
+      // TBC : Bind event handlers
+      self.bindEventHandlers();
     });
 
+    // TBC : Begin loading shuttle activities from server
     self.loadShuttleActivities();
-    intervalId = setInterval(self.loadShuttleActivities, 3000);
+    intervalId = setInterval(self.loadShuttleActivities, 5000);
   };
 
   self.initializeMap = function() {
@@ -52,57 +63,84 @@ function MapApp(options) {
   self.loadShuttleActivities = function() {
     axios.get('/api/fetchAllShuttleActivity?serviceCode=' + serviceCode)
         .then(function (response) {
-          console.log(response);
+          self.updateShuttleCards(response.data);
         })
         .catch(function (error) {
           console.log(error);
+          clearInterval(intervalId);
         });
+  };
+
+  self.bindEventHandlers = function() {
+    elements.shuttleCardContainer.on('click', '.shuttle-card', function() {
+      self.highlightSelectedCard($(this));
+    });
+  };
+
+  self.highlightSelectedCard = function(card) {
+    var selected = elements.shuttleCardContainer.find('.selected');
+
+    selected.removeClass('selected');
+    card.addClass('selected');
+  };
+
+  self.updateShuttleCards = function(data) {
+    data.forEach(function(activity) {
+      // TBC : If activity has already been loaded, update it.
+      if (self.shuttleActivities.hasOwnProperty(activity.activityId.toString())) {
+        self.shuttleActivities[activity.activityId].updateData(activity);
+        self.shuttleActivities[activity.activityId].element.replaceWith(self.generateElement());
+      } else { // TBC : If activity is not present, create it
+        var shuttleActivity = new ShuttleActivity(activity, shuttleActivityCardtemplate);
+        self.shuttleActivities[shuttleActivity.activityId] = shuttleActivity;
+        elements.shuttleCardContainer.append(shuttleActivity.element);
+      }
+    });
   };
 
   self.initialize();
   return self;
 }
 
-function ShuttleActivity(serializedActivity) {
+function ShuttleActivity(serializedActivity, template) {
   var self = this;
 
-  self.element = { };
-  self.isSelected = false;
+  self.element;
+  self.data = { };
 
-  self.constructor = function() {
-    self.JSONString = serializedActivity.toString();
-    self.shuttleName = serializedActivity.shuttleName;
-    self.shuttleColorHex = serializedActivity.shuttleColorHex;
-    self.shuttleLatitude = serializedActivity.shuttleLatitude;
-    self.shuttleLongitude = serializedActivity.shuttleLongitude;
-    self.shuttleHeading = serializedActivity.shuttleHeading;
-    self.driverName = serializedActivity.driverName;
-    self.shuttleStatus = serializedActivity.shuttleStatus;
-    self.assignmentReport = serializedActivity.assignmentReport;
+  self.initialize = function() {
+    self.updateData(serializedActivity);
 
-    self.generateElement();
+    // TBC : Generate element from template
+    self.element = self.generateElement();
   };
 
-  self.bindEventHandlers = function() {
-    self.element.on('click', function() {
-      self.toggleSelected();
-    });
-  };
-
-  self.toggleSelected = function() {
-    if (self.isSelected)  {
-      self.isSelected = false;
-      self.element.removeClass('selected');
-    } else {
-      self.isSelected = true;
-      self.element.addClass('selected');
+  self.updateData = function(activity) {
+    for (var key in activity) {
+      self.data[key] = activity[key];
     }
   };
 
   self.generateElement = function() {
-    self.element = $('div');
-    self.element.html(self.JSONString);
+    return $(template(self.data)).filter('.shuttle-card');
   };
+  //
+  // self.bindEventHandlers = function() {
+  //   self.element.on('click', function() {
+  //     self.toggleSelected();
+  //   });
+  // };
+  //
+  // self.toggleSelected = function() {
+  //   if (self.isSelected)  {
+  //     self.isSelected = false;
+  //     self.element.removeClass('selected');
+  //   } else {
+  //     self.isSelected = true;
+  //     self.element.addClass('selected');
+  //   }
+  // };
 
+  self.initialize();
   return self;
 }
