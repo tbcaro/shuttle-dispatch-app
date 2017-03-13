@@ -12,6 +12,7 @@ class MapController {
 
         model.addAttribute("title", "Map")
         model.addAttribute("username", "tcaro")
+        model.addAttribute("serviceCode", "test-service-code")
 
         return "map"
     }
