@@ -2,10 +2,11 @@
 function MapApp(options) {
   var self = this;
   var elements = { };
-  var geoLocator;
+  var geoLocator = { };
   var serviceCode = options.serviceCode;
-  var intervalId;
+  var intervalId = 0;
   var initialLoad = true;
+  var selectedActivityCardId = null;
 
   self.map = { };
   self.mapMarkers = { };
@@ -101,21 +102,60 @@ function MapApp(options) {
   };
 
   self.toggleCardSelected = function(selectedCard) {
-    var toSelectActivityId = selectedCard.data('activityId');
-    var prevSelectedActivityId = elements.shuttleCardContainer.find('.selected').data('activityId');
-
-    if (prevSelectedActivityId == null) {
-      self.shuttleActivities[toSelectActivityId].select();
-    } else if (toSelectActivityId === prevSelectedActivityId){
-      self.shuttleActivities[toSelectActivityId].deselect();
+    if (selectedCard.hasClass('selected')) {
+      selectedActivityCardId = null;
+      selectedCard.removeClass('selected');
     } else {
-      self.shuttleActivities[toSelectActivityId].select();
-      self.shuttleActivities[prevSelectedActivityId].deselect();
+      selectedActivityCardId = selectedCard.data('activityId');
+      elements.shuttleCardContainer.find('.selected').removeClass('selected');
+      selectedCard.addClass('selected');
     }
   };
 
   self.showSelectedRoute = function() {
+    if (self.mapMarkers.hasOwnProperty('selectedRouteMarkers') && self.mapMarkers.selectedRouteMarkers.length > 0) {
+      // Remove all markers from map
+      self.mapMarkers.selectedRouteMarkers.forEach(function (marker) {
+        marker.setMap(null);
+      });
+    }
 
+    self.mapMarkers.selectedRouteMarkers = [];
+    if (selectedActivityCardId != null) {
+      var activity = self.shuttleActivities[selectedActivityCardId];
+
+      if (activity.data.assignmentReport != null) {
+        activity.data.assignmentReport.stops.forEach(function (stop) {
+          var markerColor = '';
+
+          if (activity.data.assignmentReport.currentStop > stop.order) {
+            markerColor = 'grey';
+          } else if (activity.data.assignmentReport.currentStop === stop.order) {
+            markerColor = 'yellow';
+          } else {
+            markerColor = activity.data.shuttleColorHex;
+          }
+
+          self.mapMarkers.selectedRouteMarkers.push(new google.maps.Marker({
+            position: {
+              lat: stop.lat,
+              lng: stop.long
+            },
+            map: self.map,
+            icon: {
+              path: fontawesome.markers.MAP_PIN,
+              scale: 0.5,
+              strokeWeight: 0.2,
+              strokeColor: 'black',
+              strokeOpacity: 1,
+              fillColor: markerColor,
+              fillOpacity: 1,
+              rotation: 0
+            }
+          }));
+        });
+      }
+    }
   };
 
   self.updateShuttleCards = function(data) {
@@ -171,7 +211,6 @@ function ShuttleActivity(data) {
   self.container = { };
   self.elements = { };
   self.data = { };
-  self.isSelected = false;
 
   self.initialize = function() {
     self.elements.card = $(templateId).find('.shuttle-card').clone();
@@ -281,16 +320,6 @@ function ShuttleActivity(data) {
 
   self.appendTo = function(container) {
     container.append(self.elements.card);
-  };
-
-  self.select = function() {
-    self.isSelected = true;
-    self.elements.card.addClass('selected');
-  };
-
-  self.deselect = function() {
-    self.isSelected = false;
-    self.elements.card.removeClass('selected');
   };
 
   self.show = function() {
