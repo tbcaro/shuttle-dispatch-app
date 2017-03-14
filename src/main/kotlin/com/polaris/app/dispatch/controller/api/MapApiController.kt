@@ -20,50 +20,82 @@ class MapApiController {
     fun fetchAllShuttleActivity(
             serviceCode: String?
     ) : ResponseEntity<List<ShuttleActivityDetailsAdapter>> {
-        val testDetails = ShuttleActivityDetailsAdapter()
-
-        testDetails.activityId = 1
-        testDetails.driverName = "Travis Caro"
-        testDetails.shuttleName = "Shuttle 1"
-        testDetails.shuttleColorHex = "#0000ff"
-        testDetails.shuttleStatus = ShuttleState.DRIVING
-        testDetails.shuttleLatitude = BigDecimal("39.8282")
-        testDetails.shuttleLongitude = BigDecimal("-98.5795")
-        testDetails.shuttleHeading = BigDecimal("0")
-
-        val testStop = StopAdapter()
-        testStop.name = "Baseball Stadium"
-        testStop.order = 0
-        testStop.address = "123 Baseball Stadium Road"
-        testStop.lat = BigDecimal("39.8282")
-        testStop.long = BigDecimal("-98.5795")
-        testStop.estArriveTime = LocalTime.of(5 + 12, 30)
-        testStop.estDepartTime = LocalTime.of(6 + 12, 0)
-
         val stops = arrayListOf<StopAdapter>()
-        stops.add(testStop)
+        val stop1 = StopAdapter()
+        stop1.name = "Baseball Stadium"
+        stop1.order = 0
+        stop1.address = "123 Baseball Stadium Road"
+        stop1.lat = BigDecimal("39.8282")
+        stop1.long = BigDecimal("-98.5795")
+        stop1.estArriveTime = LocalTime.of(5 + 12, 30)
+        stop1.estDepartTime = LocalTime.of(6 + 12, 0)
 
-        testStop.order = 1
-        stops.add(testStop)
+        val stop2 = StopAdapter()
+        stop2.name = "Baseball Stadium"
+        stop2.order = 1
+        stop2.address = "123 Baseball Stadium Road"
+        stop2.lat = BigDecimal("39.8282")
+        stop2.long = BigDecimal("-98.5795")
+        stop2.estArriveTime = LocalTime.of(5 + 12, 30)
+        stop2.estDepartTime = LocalTime.of(6 + 12, 0)
 
-        testStop.order = 2
-        stops.add(testStop)
+        val stop3 = StopAdapter()
+        stop3.name = "Baseball Stadium"
+        stop3.order = 2
+        stop3.address = "123 Baseball Stadium Road"
+        stop3.lat = BigDecimal("39.8282")
+        stop3.long = BigDecimal("-98.5795")
+        stop3.estArriveTime = LocalTime.of(5 + 12, 30)
+        stop3.estDepartTime = LocalTime.of(6 + 12, 0)
 
-        testDetails.assignmentReport.stops = stops
-        testDetails.assignmentReport.currentStop = 1
-        testDetails.assignmentReport.assignmentStatus = AssignmentState.IN_PROGRESS
+        stops.add(stop1)
+        stops.add(stop2)
+        stops.add(stop3)
 
         val listOfDetails = arrayListOf<ShuttleActivityDetailsAdapter>()
 
-        listOfDetails.add(testDetails)
+        val activity1 = ShuttleActivityDetailsAdapter()
+        activity1.activityId = 1
+        activity1.driverName = "Travis Caro"
+        activity1.shuttleName = "Shuttle 1"
+        activity1.shuttleColorHex = "#00ff00"
+        activity1.shuttleStatus = ShuttleState.ACTIVE
+        activity1.shuttleLatitude = BigDecimal("39.8282")
+        activity1.shuttleLongitude = BigDecimal("-98.5795")
+        activity1.shuttleHeading = BigDecimal("0")
+        activity1.assignmentReport.stops = stops
+        activity1.assignmentReport.currentStop = 1
+        activity1.assignmentReport.assignmentStatus = AssignmentState.IN_PROGRESS
 
-        testDetails.activityId = 2
-        testDetails.shuttleStatus = ShuttleState.ACTIVE
-        listOfDetails.add(testDetails)
+        val activity2 = ShuttleActivityDetailsAdapter()
+        activity2.activityId = 2
+        activity2.driverName = "Tyler Holben"
+        activity2.shuttleName = "Shuttle 2"
+        activity2.shuttleColorHex = "#0000ff"
+        activity2.shuttleStatus = ShuttleState.DRIVING
+        activity2.shuttleLatitude = BigDecimal("39.8282")
+        activity2.shuttleLongitude = BigDecimal("-98.5795")
+        activity2.shuttleHeading = BigDecimal("0")
+        activity2.assignmentReport.stops = stops
+        activity2.assignmentReport.currentStop = 1
+        activity2.assignmentReport.assignmentStatus = AssignmentState.IN_PROGRESS
 
-        testDetails.activityId = 3
-        testDetails.shuttleStatus = ShuttleState.AT_STOP
-        listOfDetails.add(testDetails)
+        val activity3 = ShuttleActivityDetailsAdapter()
+        activity3.activityId = 3
+        activity3.driverName = "Zach Kruise"
+        activity3.shuttleName = "Shuttle 3"
+        activity3.shuttleColorHex = "#ff0000"
+        activity3.shuttleStatus = ShuttleState.AT_STOP
+        activity3.shuttleLatitude = BigDecimal("39.8282")
+        activity3.shuttleLongitude = BigDecimal("-98.5795")
+        activity3.shuttleHeading = BigDecimal("0")
+        activity3.assignmentReport.stops = stops
+        activity3.assignmentReport.currentStop = 1
+        activity3.assignmentReport.assignmentStatus = AssignmentState.IN_PROGRESS
+
+        listOfDetails.add(activity1)
+        listOfDetails.add(activity2)
+        listOfDetails.add(activity3)
 
         if (serviceCode.isNullOrBlank()) {
             return ResponseEntity(HttpStatus.BAD_REQUEST)

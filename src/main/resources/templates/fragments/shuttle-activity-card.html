@@ -1,27 +1,21 @@
-<script id="shuttle-activity-card-template" type="text/x-handlebars-template">
+<div id="shuttle-activity-card-template" style="display: none">
 
-  <div class="card shuttle-card m-2 p-2" data-activity-id="{{activityId}}">
+  <div class="card shuttle-card m-2 p-2">
     <div class="row">
       <div class="col-2">
-        <i class="fa fa-location-arrow fa-lg" style="color: {{shuttleColorHex}}"></i>
-        {{shuttleName}}
+        <i class="shuttle-icon fa fa-location-arrow fa-lg"></i>
+        <span class="field-shuttle-name"></span>
       </div>
       <div class="col-2">
         <i class="fa fa-user fa-lg"></i>
-        {{driverName}}
+        <span class="field-driver-name"></span>
       </div>
       <div class="col-2">
         <i class="fa fa-map-pin fa-lg"></i>
-        {{currentStopName}}
+        <span class="field-stop-name"></span>
       </div>
       <div class="col-2 offset-4 text-right">
-        {{#if isActive}}
-          <div class="state-label btn btn-sm btn-info mr-4">Active</div>
-        {{else isDriving}}
-          <div class="state-label btn btn-sm btn-success mr-4">Driving</div>
-        {{else isAtStop}}
-        <div class="state-label btn btn-sm btn-warning mr-4">At-Stop</div>
-        {{/if}}
+        <div class="state-label btn btn-sm mr-4"></div>
         <a href="" class="cursor-pointer">
           <i class="fa fa-calendar fa-lg"></i>
         </a>
@@ -74,4 +68,4 @@
       </div>
     </div>
   </div>
-</script>
+</div>

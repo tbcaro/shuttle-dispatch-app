@@ -17,13 +17,4 @@ class ShuttleActivityDetailsAdapter {
     val currentStopName: String by lazy {
         this.assignmentReport.stops[this.assignmentReport.currentStop].name
     }
-    val isActive: Boolean by lazy {
-        this.shuttleStatus == ShuttleState.ACTIVE
-    }
-    val isDriving: Boolean by lazy {
-        this.shuttleStatus == ShuttleState.DRIVING
-    }
-    val isAtStop: Boolean by lazy {
-        this.shuttleStatus == ShuttleState.AT_STOP
-    }
 }
