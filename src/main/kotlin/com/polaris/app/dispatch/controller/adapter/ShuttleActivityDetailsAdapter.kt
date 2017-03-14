@@ -13,8 +13,12 @@ class ShuttleActivityDetailsAdapter {
     var shuttleHeading: BigDecimal = BigDecimal("0")
     var driverName: String = ""
     var shuttleStatus: ShuttleState = ShuttleState.NONE
-    var assignmentReport: AssignmentReport = AssignmentReport()
-    val currentStopName: String by lazy {
-        this.assignmentReport.stops[this.assignmentReport.currentStop].name
+    var assignmentReport: AssignmentReport? = AssignmentReport()
+    val currentStopName: String? by lazy {
+        if (this.assignmentReport == null) {
+            null
+        } else {
+            this.assignmentReport!!.stops[this.assignmentReport!!.currentStop].name
+        }
     }
 }

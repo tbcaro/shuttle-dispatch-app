@@ -5,7 +5,6 @@ function MapApp(options) {
   var geoLocator;
   var serviceCode = options.serviceCode;
   var intervalId;
-  var shuttleActivityCardtemplate;
 
   self.map = { };
   self.mapMarkers = { };
@@ -18,9 +17,6 @@ function MapApp(options) {
 
     // TBC : Setup utility objects
     geoLocator = new GeoLocator();
-
-    // TBC : Compile templates
-    shuttleActivityCardtemplate = Handlebars.compile($("#shuttle-activity-card-template").html());
 
     // TBC : Initialize map
     self.initializeMap();
@@ -64,6 +60,7 @@ function MapApp(options) {
     axios.get('/api/fetchAllShuttleActivity?serviceCode=' + serviceCode)
         .then(function (response) {
           self.updateShuttleCards(response.data);
+          self.updateShuttleMapMarkers();
         })
         .catch(function (error) {
           console.log(error);
@@ -73,15 +70,24 @@ function MapApp(options) {
 
   self.bindEventHandlers = function() {
     elements.shuttleCardContainer.on('click', '.shuttle-card', function() {
-      var activityId = $(this).data('activity-id');
-      var activity = self.shuttleActivities[activityId];
-      self.clearSelectedCards();
-      // activity.setSelected(true);
+      self.setCardSelected($(this));
+      self.showSelectedRoute();
     });
   };
 
-  self.clearSelectedCards = function() {
-    elements.shuttleCardContainer.find('.selected').removeClass('selected');
+  self.setCardSelected = function(selectedCard) {
+    var toSelectActivityId = selectedCard.data('activityId');
+    var prevSelectedActivityId = elements.shuttleCardContainer.find('.selected').data('activityId');
+
+    if (prevSelectedActivityId != null) {
+      self.shuttleActivities[prevSelectedActivityId].deselect();
+    }
+
+    self.shuttleActivities[toSelectActivityId].select();
+  };
+
+  self.showSelectedRoute = function() {
+
   };
 
   self.updateShuttleCards = function(data) {
@@ -100,45 +106,13 @@ function MapApp(options) {
     });
   };
 
+  self.updateShuttleMapMarkers = function() {
+
+  };
+
   self.initialize();
   return self;
 }
-
-// function ShuttleActivity(serializedActivity, template) {
-//   var self = this;
-//
-//   self.element;
-//   self.data = { };
-//   self.isSelected = false;
-//
-//   self.initialize = function() {
-//     self.updateData(serializedActivity);
-//
-//     // TBC : Generate element from template
-//     self.element = self.generateElement();
-//   };
-//
-//   self.updateData = function(activity) {
-//     for (var key in activity) {
-//       self.data[key] = activity[key];
-//     }
-//   };
-//
-//   self.generateElement = function() {
-//     return $(template(self.data)).filter('.shuttle-card');
-//   };
-//
-//   self.setSelected = function(selected) {
-//     self.isSelected = selected;
-//     if (selected) {
-//       self.element.addClass('selected');
-//     }
-//
-//   };
-//
-//   self.initialize();
-//   return self;
-// }
 
 function ShuttleActivity(data) {
   var self = this;
@@ -150,12 +124,14 @@ function ShuttleActivity(data) {
   self.isSelected = false;
 
   self.initialize = function() {
-    self.elements.card = $(templateId).clone();
+    self.elements.card = $(templateId).find('.shuttle-card').clone();
     self.elements.shuttleIcon = self.elements.card.find('.shuttle-icon');
     self.elements.shuttleName = self.elements.card.find('.field-shuttle-name');
     self.elements.driverName = self.elements.card.find('.field-driver-name');
     self.elements.currentStopName = self.elements.card.find('.field-stop-name');
     self.elements.statusLabel = self.elements.card.find('.state-label');
+    self.elements.scheduleCard = self.elements.card.find('.schedule-card');
+    self.elements.scheduleTableBody = self.elements.scheduleCard.find('tbody');
 
     self.update(data);
   };
@@ -179,7 +155,7 @@ function ShuttleActivity(data) {
   };
 
   self.bindData = function() {
-    self.elements.card.data('activity-id', self.data.activityId);
+    self.elements.card.data('activityId', self.data.activityId);
     self.elements.shuttleIcon.css('color', self.data.shuttleColorHex);
     self.elements.shuttleName.html(self.data.shuttleName);
     self.elements.driverName.html(self.data.driverName);
@@ -203,6 +179,54 @@ function ShuttleActivity(data) {
         self.elements.statusLabel.html('At-Stop');
         break;
     }
+
+    // TBC : Bind assignment report to table
+    if (self.data.assignmentReport != null) {
+      self.bindAssignmentReportData();
+    }
+  };
+
+  self.bindAssignmentReportData = function() {
+    var report = self.data.assignmentReport;
+    self.elements.scheduleTableBody.empty();
+
+    for (var i = 0; i < report.stops.length; i++) {
+      var row = $('<tr>');
+
+      var icon = $('<td>');
+      var order = $('<td>');
+      var stopName = $('<td>');
+      var address = $('<td>');
+      var estArrive = $('<td>');
+      var estWait = $('<td>');
+      var actDepart = $('<td>');
+
+      icon.append($('<i>').addClass('fa'));
+      if (report.currentStop < i) {
+        icon.find('i').addClass('fa-square-o');
+      } else if (report.currentStop === i) {
+        icon.find('i').addClass('fa-spinner');
+      } else {
+        icon.find('i').addClass('fa-check-square-o');
+      }
+
+      order.html(i + 1);
+      stopName.html(report.stops[i].name);
+      address.html(report.stops[i].address);
+      estArrive.html(formatTime(report.stops[i].estArriveTime));
+      estWait.html(formatWait(report.stops[i].estWaitTime));
+      actDepart.html(formatTime(report.stops[i].actualDepartTime));
+
+      row.append(icon);
+      row.append(order);
+      row.append(stopName);
+      row.append(address);
+      row.append(estArrive);
+      row.append(estWait);
+      row.append(actDepart);
+
+      self.elements.scheduleTableBody.append(row);
+    }
   };
 
   self.appendTo = function(container) {
@@ -211,7 +235,12 @@ function ShuttleActivity(data) {
 
   self.select = function() {
     self.isSelected = true;
-    self.addClass('selected');
+    self.elements.card.addClass('selected');
+  };
+
+  self.deselect = function() {
+    self.isSelected = false;
+    self.elements.card.removeClass('selected');
   };
 
   self.show = function() {
@@ -220,6 +249,58 @@ function ShuttleActivity(data) {
 
   self.hide = function() {
     self.elements.card.hide();
+  };
+
+  var formatTime = function(localTime) {
+    var min = 0;
+    var hr = 0;
+    var ampm = '';
+    var strBuilder = '';
+
+    if (localTime == null) {
+      strBuilder = '--';
+    } else {
+      if (localTime.hour - 12 > 0) {
+        hr = localTime.hour - 12;
+        ampm = 'PM';
+      } else {
+        hr = localTime.hour;
+        ampm = 'AM';
+      }
+      strBuilder += hr.toString() + ":";
+
+      min = localTime.minute;
+      if (min < 10) {
+        strBuilder += '0' + min.toString();
+      } else {
+        strBuilder += min.toString();
+      }
+
+      strBuilder += ' ' + ampm.toString();
+    }
+
+    return strBuilder;
+  };
+
+  var formatWait = function(waitMins) {
+    var mins = 0;
+    var hrs = 0;
+    var strBuilder = '';
+
+    if (waitMins == null) {
+      strBuilder = '--';
+    } else if (waitMins / 60 < 1) {
+      strBuilder += waitMins.toString() + 'mins';
+    } else {
+      hrs = Math.floor(waitMins / 60);
+      mins = waitMins - (60 * hrs);
+
+      strBuilder += hrs.toString();
+      hrs === 1 ? strBuilder += 'hr' : strBuilder += 'hrs';
+      if(mins > 0) strBuilder += mins.toString() + 'mins';
+    }
+
+    return strBuilder;
   };
 
   self.initialize();

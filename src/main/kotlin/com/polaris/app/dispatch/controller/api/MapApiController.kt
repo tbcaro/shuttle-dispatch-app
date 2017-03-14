@@ -22,31 +22,31 @@ class MapApiController {
     ) : ResponseEntity<List<ShuttleActivityDetailsAdapter>> {
         val stops = arrayListOf<StopAdapter>()
         val stop1 = StopAdapter()
-        stop1.name = "Baseball Stadium"
+        stop1.name = "Stop 1"
         stop1.order = 0
         stop1.address = "123 Baseball Stadium Road"
         stop1.lat = BigDecimal("39.8282")
         stop1.long = BigDecimal("-98.5795")
-        stop1.estArriveTime = LocalTime.of(5 + 12, 30)
-        stop1.estDepartTime = LocalTime.of(6 + 12, 0)
+        stop1.estArriveTime = LocalTime.of(11, 30)
+        stop1.estDepartTime = LocalTime.of(12, 0)
 
         val stop2 = StopAdapter()
-        stop2.name = "Baseball Stadium"
+        stop2.name = "Stop 2"
         stop2.order = 1
         stop2.address = "123 Baseball Stadium Road"
         stop2.lat = BigDecimal("39.8282")
         stop2.long = BigDecimal("-98.5795")
-        stop2.estArriveTime = LocalTime.of(5 + 12, 30)
-        stop2.estDepartTime = LocalTime.of(6 + 12, 0)
+        stop2.estArriveTime = LocalTime.of(12+1, 30)
+        stop2.estDepartTime = LocalTime.of(12+2, 30)
 
         val stop3 = StopAdapter()
-        stop3.name = "Baseball Stadium"
+        stop3.name = "Stop 3"
         stop3.order = 2
         stop3.address = "123 Baseball Stadium Road"
         stop3.lat = BigDecimal("39.8282")
         stop3.long = BigDecimal("-98.5795")
-        stop3.estArriveTime = LocalTime.of(5 + 12, 30)
-        stop3.estDepartTime = LocalTime.of(6 + 12, 0)
+        stop3.estArriveTime = LocalTime.of(12+3, 0)
+        stop3.estDepartTime = null
 
         stops.add(stop1)
         stops.add(stop2)
@@ -63,9 +63,7 @@ class MapApiController {
         activity1.shuttleLatitude = BigDecimal("39.8282")
         activity1.shuttleLongitude = BigDecimal("-98.5795")
         activity1.shuttleHeading = BigDecimal("0")
-        activity1.assignmentReport.stops = stops
-        activity1.assignmentReport.currentStop = 1
-        activity1.assignmentReport.assignmentStatus = AssignmentState.IN_PROGRESS
+        activity1.assignmentReport = null
 
         val activity2 = ShuttleActivityDetailsAdapter()
         activity2.activityId = 2
@@ -76,9 +74,9 @@ class MapApiController {
         activity2.shuttleLatitude = BigDecimal("39.8282")
         activity2.shuttleLongitude = BigDecimal("-98.5795")
         activity2.shuttleHeading = BigDecimal("0")
-        activity2.assignmentReport.stops = stops
-        activity2.assignmentReport.currentStop = 1
-        activity2.assignmentReport.assignmentStatus = AssignmentState.IN_PROGRESS
+        activity2.assignmentReport?.stops = stops
+        activity2.assignmentReport?.currentStop = 0
+        activity2.assignmentReport?.assignmentStatus = AssignmentState.IN_PROGRESS
 
         val activity3 = ShuttleActivityDetailsAdapter()
         activity3.activityId = 3
@@ -89,9 +87,9 @@ class MapApiController {
         activity3.shuttleLatitude = BigDecimal("39.8282")
         activity3.shuttleLongitude = BigDecimal("-98.5795")
         activity3.shuttleHeading = BigDecimal("0")
-        activity3.assignmentReport.stops = stops
-        activity3.assignmentReport.currentStop = 1
-        activity3.assignmentReport.assignmentStatus = AssignmentState.IN_PROGRESS
+        activity3.assignmentReport?.stops = stops
+        activity3.assignmentReport?.currentStop = 1
+        activity3.assignmentReport?.assignmentStatus = AssignmentState.IN_PROGRESS
 
         listOfDetails.add(activity1)
         listOfDetails.add(activity2)
