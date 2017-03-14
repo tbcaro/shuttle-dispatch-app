@@ -70,20 +70,23 @@ function MapApp(options) {
 
   self.bindEventHandlers = function() {
     elements.shuttleCardContainer.on('click', '.shuttle-card', function() {
-      self.setCardSelected($(this));
+      self.toggleCardSelected($(this));
       self.showSelectedRoute();
     });
   };
 
-  self.setCardSelected = function(selectedCard) {
+  self.toggleCardSelected = function(selectedCard) {
     var toSelectActivityId = selectedCard.data('activityId');
     var prevSelectedActivityId = elements.shuttleCardContainer.find('.selected').data('activityId');
 
-    if (prevSelectedActivityId != null) {
+    if (prevSelectedActivityId == null) {
+      self.shuttleActivities[toSelectActivityId].select();
+    } else if (toSelectActivityId === prevSelectedActivityId){
+      self.shuttleActivities[toSelectActivityId].deselect();
+    } else {
+      self.shuttleActivities[toSelectActivityId].select();
       self.shuttleActivities[prevSelectedActivityId].deselect();
     }
-
-    self.shuttleActivities[toSelectActivityId].select();
   };
 
   self.showSelectedRoute = function() {
