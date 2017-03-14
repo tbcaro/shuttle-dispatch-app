@@ -57,7 +57,7 @@ function MapApp(options) {
   };
 
   self.loadShuttleActivities = function() {
-    axios.get('/api/fetchAllShuttleActivity?serviceCode=' + serviceCode)
+    axios.get('/test/api/fetchAllShuttleActivity?serviceCode=' + serviceCode)
         .then(function (response) {
           self.updateShuttleCards(response.data);
           self.updateShuttleMapMarkers();
