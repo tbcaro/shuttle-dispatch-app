@@ -5,6 +5,7 @@ function MapApp(options) {
   var geoLocator;
   var serviceCode = options.serviceCode;
   var intervalId;
+  var initialLoad = true;
 
   self.map = { };
   self.mapMarkers = { };
@@ -24,7 +25,6 @@ function MapApp(options) {
     // TBC : Center map on user location
     geoLocator.getLocation().done(function(location) {
       self.map.setCenter(location);
-      self.map.setZoom(12);
       self.mapMarkers.userMarker = new google.maps.Marker({
         position: location,
         map: self.map,
@@ -40,9 +40,11 @@ function MapApp(options) {
         }
       });
 
-      // TBC : Bind event handlers
-      self.bindEventHandlers();
+      self.fitMapToBounds();
     });
+
+    // TBC : Bind event handlers
+    self.bindEventHandlers();
 
     // TBC : Begin loading shuttle activities from server
     self.loadShuttleActivities();
@@ -52,8 +54,27 @@ function MapApp(options) {
   self.initializeMap = function() {
     self.map = new google.maps.Map(elements.mapContainer[0], {
       center: { lat: 39.8282, lng: -98.5795 }, // TBC : Default center over central USA
-      zoom: 5
+      zoom: 5,
+      disableDefaultUI: true
     });
+  };
+
+  self.fitMapToBounds = function() {
+    var bounds = new google.maps.LatLngBounds();
+
+    // TBC : Extend bounds to user position
+    if (self.mapMarkers.hasOwnProperty('userMarker') && self.mapMarkers.userMarker.length > 0) {
+      bounds.extend(self.mapMarkers.userMarker.getPosition());
+    }
+
+    // TBC : Extend bounds to shuttle positions
+    if (self.mapMarkers.hasOwnProperty('busMarkers') && self.mapMarkers.busMarkers.length > 0) {
+      self.mapMarkers.busMarkers.forEach(function(marker) {
+        bounds.extend(marker.getPosition());
+      });
+    }
+
+    self.map.fitBounds(bounds);
   };
 
   self.loadShuttleActivities = function() {
@@ -61,6 +82,10 @@ function MapApp(options) {
         .then(function (response) {
           self.updateShuttleCards(response.data);
           self.updateShuttleMapMarkers();
+          if(initialLoad) {
+            self.fitMapToBounds();
+          }
+          initialLoad = false;
         })
         .catch(function (error) {
           console.log(error);
@@ -102,15 +127,37 @@ function MapApp(options) {
         activity.update(activityData);
       } else { // TBC : If activity is not present, create it
         activity = new ShuttleActivity(activityData);
+        self.shuttleActivities[activity.data.activityId] = activity;
         activity.appendTo(elements.shuttleCardContainer);
         activity.show();
-        self.shuttleActivities[activity.data.activityId] = activity;
       }
     });
   };
 
   self.updateShuttleMapMarkers = function() {
+    self.mapMarkers.busMarkers = [];
 
+    for (var activityId in self.shuttleActivities) {
+      var activity = self.shuttleActivities[activityId];
+
+      self.mapMarkers.busMarkers.push(new google.maps.Marker({
+        position: {
+          lat: activity.data.shuttleLatitude,
+          lng: activity.data.shuttleLongitude
+        },
+        map: self.map,
+        icon: {
+          path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          scale: 5,
+          strokeColor: 'lightgrey',
+          strokeOpacity: 0.5,
+          strokeWeight: 0.2,
+          rotation: activity.data.shuttleHeading,
+          fillColor: activity.data.shuttleColorHex,
+          fillOpacity: 1
+        }
+      }));
+    }
   };
 
   self.initialize();

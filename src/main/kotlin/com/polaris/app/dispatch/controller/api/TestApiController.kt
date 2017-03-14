@@ -25,8 +25,8 @@ class TestApiController {
         stop1.name = "Stop 1"
         stop1.order = 0
         stop1.address = "123 Baseball Stadium Road"
-        stop1.lat = BigDecimal("39.8282")
-        stop1.long = BigDecimal("-98.5795")
+        stop1.lat = BigDecimal("41.192382")
+        stop1.long = BigDecimal("-79.391694")
         stop1.estArriveTime = LocalTime.of(11, 30)
         stop1.estDepartTime = LocalTime.of(12, 0)
 
@@ -34,8 +34,8 @@ class TestApiController {
         stop2.name = "Stop 2"
         stop2.order = 1
         stop2.address = "123 Baseball Stadium Road"
-        stop2.lat = BigDecimal("39.8282")
-        stop2.long = BigDecimal("-98.5795")
+        stop2.lat = BigDecimal("41.188791")
+        stop2.long = BigDecimal("-79.394937")
         stop2.estArriveTime = LocalTime.of(12+1, 30)
         stop2.estDepartTime = LocalTime.of(12+2, 30)
 
@@ -43,8 +43,8 @@ class TestApiController {
         stop3.name = "Stop 3"
         stop3.order = 2
         stop3.address = "123 Baseball Stadium Road"
-        stop3.lat = BigDecimal("39.8282")
-        stop3.long = BigDecimal("-98.5795")
+        stop3.lat = BigDecimal("41.207504")
+        stop3.long = BigDecimal("-79.397200")
         stop3.estArriveTime = LocalTime.of(12+3, 0)
         stop3.estDepartTime = null
 
@@ -60,9 +60,9 @@ class TestApiController {
         activity1.shuttleName = "Shuttle 1"
         activity1.shuttleColorHex = "#00ff00"
         activity1.shuttleStatus = ShuttleState.ACTIVE
-        activity1.shuttleLatitude = BigDecimal("39.8282")
-        activity1.shuttleLongitude = BigDecimal("-98.5795")
-        activity1.shuttleHeading = BigDecimal("0")
+        activity1.shuttleLatitude = BigDecimal("41.211460")
+        activity1.shuttleLongitude = BigDecimal("-79.380963")
+        activity1.shuttleHeading = BigDecimal("30")
         activity1.assignmentReport = null
 
         val activity2 = ShuttleActivityDetailsAdapter()
@@ -71,9 +71,9 @@ class TestApiController {
         activity2.shuttleName = "Shuttle 2"
         activity2.shuttleColorHex = "#0000ff"
         activity2.shuttleStatus = ShuttleState.DRIVING
-        activity2.shuttleLatitude = BigDecimal("39.8282")
-        activity2.shuttleLongitude = BigDecimal("-98.5795")
-        activity2.shuttleHeading = BigDecimal("0")
+        activity2.shuttleLatitude = BigDecimal("41.214120")
+        activity2.shuttleLongitude = BigDecimal("-79.384094")
+        activity2.shuttleHeading = BigDecimal("275")
         activity2.assignmentReport?.stops = stops
         activity2.assignmentReport?.currentStop = 0
         activity2.assignmentReport?.assignmentStatus = AssignmentState.IN_PROGRESS
@@ -84,9 +84,9 @@ class TestApiController {
         activity3.shuttleName = "Shuttle 3"
         activity3.shuttleColorHex = "#ff0000"
         activity3.shuttleStatus = ShuttleState.AT_STOP
-        activity3.shuttleLatitude = BigDecimal("39.8282")
-        activity3.shuttleLongitude = BigDecimal("-98.5795")
-        activity3.shuttleHeading = BigDecimal("0")
+        activity3.shuttleLatitude = BigDecimal("41.194253")
+        activity3.shuttleLongitude = BigDecimal("-79.392443")
+        activity3.shuttleHeading = BigDecimal("10")
         activity3.assignmentReport?.stops = stops
         activity3.assignmentReport?.currentStop = 1
         activity3.assignmentReport?.assignmentStatus = AssignmentState.IN_PROGRESS
