@@ -28,13 +28,13 @@ class TestPageController {
         return "assignments"
     }
 
-    @RequestMapping("/assignmentStops")
+    @RequestMapping("/stops")
     fun stops(model: Model) : String {
 
         model.addAttribute("title", "Stops")
         model.addAttribute("username", "tcaro")
 
-        return "assignmentStops"
+        return "stops"
     }
 
     @RequestMapping("/routes")
