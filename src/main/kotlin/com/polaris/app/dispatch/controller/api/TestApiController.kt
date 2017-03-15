@@ -1,15 +1,17 @@
 package com.polaris.app.dispatch.controller.api
 
-import com.polaris.app.dispatch.controller.adapter.AssignmentReport
-import com.polaris.app.dispatch.controller.adapter.ShuttleActivityDetailsAdapter
-import com.polaris.app.dispatch.controller.adapter.StopAdapter
+import com.polaris.app.dispatch.DisplayDateFormatter
+import com.polaris.app.dispatch.controller.adapter.*
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentState
 import com.polaris.app.dispatch.controller.adapter.enums.ShuttleState
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.time.LocalTime
 
 @RestController
@@ -20,8 +22,8 @@ class TestApiController {
     fun fetchAllShuttleActivity(
             serviceCode: String?
     ) : ResponseEntity<List<ShuttleActivityDetailsAdapter>> {
-        val stops = arrayListOf<StopAdapter>()
-        val stop1 = StopAdapter()
+        val stops = arrayListOf<AssignmentStopAdapter>()
+        val stop1 = AssignmentStopAdapter()
         stop1.name = "Stop 1"
         stop1.order = 0
         stop1.address = "123 Baseball Stadium Road"
@@ -30,7 +32,7 @@ class TestApiController {
         stop1.estArriveTime = LocalTime.of(11, 30)
         stop1.estDepartTime = LocalTime.of(12, 0)
 
-        val stop2 = StopAdapter()
+        val stop2 = AssignmentStopAdapter()
         stop2.name = "Stop 2"
         stop2.order = 1
         stop2.address = "123 Baseball Stadium Road"
@@ -39,7 +41,7 @@ class TestApiController {
         stop2.estArriveTime = LocalTime.of(12+1, 30)
         stop2.estDepartTime = LocalTime.of(12+2, 30)
 
-        val stop3 = StopAdapter()
+        val stop3 = AssignmentStopAdapter()
         stop3.name = "Stop 3"
         stop3.order = 2
         stop3.address = "123 Baseball Stadium Road"
@@ -74,7 +76,7 @@ class TestApiController {
         activity2.shuttleLatitude = BigDecimal("41.214120")
         activity2.shuttleLongitude = BigDecimal("-79.384094")
         activity2.shuttleHeading = BigDecimal("275")
-        activity2.assignmentReport?.stops = stops
+        activity2.assignmentReport?.assignmentStops = stops
         activity2.assignmentReport?.currentStop = 0
         activity2.assignmentReport?.assignmentStatus = AssignmentState.IN_PROGRESS
 
@@ -87,7 +89,7 @@ class TestApiController {
         activity3.shuttleLatitude = BigDecimal("41.194253")
         activity3.shuttleLongitude = BigDecimal("-79.392443")
         activity3.shuttleHeading = BigDecimal("10")
-        activity3.assignmentReport?.stops = stops
+        activity3.assignmentReport?.assignmentStops = stops
         activity3.assignmentReport?.currentStop = 1
         activity3.assignmentReport?.assignmentStatus = AssignmentState.IN_PROGRESS
 
@@ -100,5 +102,47 @@ class TestApiController {
         }
 
         return ResponseEntity(listOfDetails, HttpStatus.OK)
+    }
+
+    @RequestMapping("/fetchAllAssignments")
+    fun fetchAllAssignments(
+            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) date: LocalDate?
+    ) : ResponseEntity<AssignmentListAdapter> {
+        val listAdapter = AssignmentListAdapter()
+        listAdapter.selectedDate = date
+
+
+        return ResponseEntity(listAdapter, HttpStatus.OK)
+    }
+
+    @RequestMapping("/assignment/form")
+    fun assignmentForm() : ResponseEntity<AssignmentFormAdapter> {
+        val form = AssignmentFormAdapter()
+
+        // TBC : Populate options for form and return
+
+        return ResponseEntity(form, HttpStatus.OK)
+    }
+
+    @RequestMapping("/assignment/create")
+    fun createAssignment(
+            form: AssignmentFormAdapter
+    ) : ResponseEntity<Int> {
+        val id = 0
+
+        // TBC : Throw exception if invalid
+
+        return ResponseEntity(id, HttpStatus.OK)
+    }
+
+    @RequestMapping("/assignment/update")
+    fun updateAssignment(
+            form: AssignmentFormAdapter
+    ) : ResponseEntity<Int> {
+        val id = 0
+
+        // TBC : Throw exception if invalid
+
+        return ResponseEntity(id, HttpStatus.OK)
     }
 }

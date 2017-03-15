@@ -5,7 +5,7 @@ import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
 
-class StopAdapter {
+class AssignmentStopAdapter {
     var order: Int = 0
     var name: String = ""
     var address: String = ""

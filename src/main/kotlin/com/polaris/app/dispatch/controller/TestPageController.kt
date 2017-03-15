@@ -1,5 +1,6 @@
 package com.polaris.app.dispatch.controller
 
+import com.polaris.app.dispatch.DisplayDateFormatter
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -14,49 +15,26 @@ import java.util.*
 class TestPageController {
 
     @RequestMapping("/assignments")
-    fun assignments(
-            @RequestParam("date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) date: LocalDate?,
-            model: Model
-    ) : String {
+    fun assignments(model: Model) : String {
         // TBC : Default selected date to today
-        var selectedDate: LocalDate = LocalDate.now()
-
-        // TBC : If date is set, override selected date to the date passed in.
-        date?.let { selectedDate = date }
-
-        // TBC : Build string 'DayOfWeek, Month dayNum, Year' -> 'Saturday, March 18, 2017
-        var displayDateBuilder = StringBuilder()
-        displayDateBuilder.append(selectedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.US))
-        displayDateBuilder.append(", ")
-        displayDateBuilder.append(selectedDate.month.getDisplayName(TextStyle.FULL, Locale.US))
-        displayDateBuilder.append(" ")
-        displayDateBuilder.append(selectedDate.dayOfMonth)
-        when (selectedDate.dayOfMonth.toString().get(selectedDate.dayOfMonth.toString().lastIndex)) {
-            "1".toCharArray().first() -> displayDateBuilder.append("st")
-            "2".toCharArray().first() -> displayDateBuilder.append("nd")
-            "3".toCharArray().first() -> displayDateBuilder.append("rd")
-            else -> {
-                displayDateBuilder.append("th")
-            }
-        }
-        displayDateBuilder.append(", ")
-        displayDateBuilder.append(selectedDate.year)
+        val selectedDate: LocalDate = LocalDate.now()
+        val formatter = DisplayDateFormatter()
 
         model.addAttribute("title", "Assignments")
         model.addAttribute("username", "tcaro")
         model.addAttribute("selectedDate", selectedDate)
-        model.addAttribute("displayDate", displayDateBuilder.toString())
+        model.addAttribute("displayDate", formatter.format(selectedDate))
 
         return "assignments"
     }
 
-    @RequestMapping("/stops")
+    @RequestMapping("/assignmentStops")
     fun stops(model: Model) : String {
 
         model.addAttribute("title", "Stops")
         model.addAttribute("username", "tcaro")
 
-        return "stops"
+        return "assignmentStops"
     }
 
     @RequestMapping("/routes")

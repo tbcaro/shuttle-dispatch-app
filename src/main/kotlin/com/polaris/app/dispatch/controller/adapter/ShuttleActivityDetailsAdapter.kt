@@ -18,7 +18,7 @@ class ShuttleActivityDetailsAdapter {
         if (this.assignmentReport == null) {
             null
         } else {
-            this.assignmentReport!!.stops[this.assignmentReport!!.currentStop].name
+            this.assignmentReport!!.assignmentStops[this.assignmentReport!!.currentStop].name
         }
     }
 }

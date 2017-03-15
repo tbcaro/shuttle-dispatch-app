@@ -2,7 +2,7 @@ package com.polaris.app.dispatch.controller.api
 
 import com.polaris.app.dispatch.controller.adapter.AssignmentReport
 import com.polaris.app.dispatch.controller.adapter.ShuttleActivityDetailsAdapter
-import com.polaris.app.dispatch.controller.adapter.StopAdapter
+import com.polaris.app.dispatch.controller.adapter.AssignmentStopAdapter
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentState
 import com.polaris.app.dispatch.controller.adapter.enums.ShuttleState
 import org.springframework.http.HttpStatus

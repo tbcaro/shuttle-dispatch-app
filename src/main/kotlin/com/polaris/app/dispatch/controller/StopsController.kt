@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 class StopsController {
 
-    @RequestMapping("/stops")
+    @RequestMapping("/assignmentStops")
     fun stops(model: Model) : String {
 
         model.addAttribute("title", "Stops")
         model.addAttribute("username", "tcaro")
 
-        return "stops"
+        return "assignmentStops"
     }
 }

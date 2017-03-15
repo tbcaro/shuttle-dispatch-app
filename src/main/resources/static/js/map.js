@@ -125,12 +125,12 @@ function MapApp(options) {
       var activity = self.shuttleActivities[selectedActivityCardId];
 
       if (activity.data.assignmentReport != null) {
-        activity.data.assignmentReport.stops.forEach(function (stop) {
+        activity.data.assignmentReport.assignmentStops.forEach(function (assignmentStop) {
           var markerColor = '';
 
-          if (activity.data.assignmentReport.currentStop > stop.order) {
+          if (activity.data.assignmentReport.currentStop > assignmentStop.order) {
             markerColor = 'grey';
-          } else if (activity.data.assignmentReport.currentStop === stop.order) {
+          } else if (activity.data.assignmentReport.currentStop === assignmentStop.order) {
             markerColor = 'yellow';
           } else {
             markerColor = activity.data.shuttleColorHex;
@@ -138,8 +138,8 @@ function MapApp(options) {
 
           self.mapMarkers.selectedRouteMarkers.push(new google.maps.Marker({
             position: {
-              lat: stop.lat,
-              lng: stop.long
+              lat: assignmentStop.lat,
+              lng: assignmentStop.long
             },
             map: self.map,
             icon: {
@@ -279,7 +279,7 @@ function ShuttleActivity(data) {
     var report = self.data.assignmentReport;
     self.elements.scheduleTableBody.empty();
 
-    for (var i = 0; i < report.stops.length; i++) {
+    for (var i = 0; i < report.assignmentStops.length; i++) {
       var row = $('<tr>');
 
       var icon = $('<td>');
@@ -300,11 +300,11 @@ function ShuttleActivity(data) {
       }
 
       order.html(i + 1);
-      stopName.html(report.stops[i].name);
-      address.html(report.stops[i].address);
-      estArrive.html(formatTime(report.stops[i].estArriveTime));
-      estWait.html(formatWait(report.stops[i].estWaitTime));
-      actDepart.html(formatTime(report.stops[i].actualDepartTime));
+      stopName.html(report.assignmentStops[i].name);
+      address.html(report.assignmentStops[i].address);
+      estArrive.html(formatTime(report.assignmentStops[i].estArriveTime));
+      estWait.html(formatWait(report.assignmentStops[i].estWaitTime));
+      actDepart.html(formatTime(report.assignmentStops[i].actualDepartTime));
 
       row.append(icon);
       row.append(order);
