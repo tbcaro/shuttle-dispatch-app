@@ -32,7 +32,8 @@
         <div class="row">
           <div id="date-cursor" class="col-4 text-left">
             <button id="btn-prevday" class="btn btn-secondary"><i class="fa fa-chevron-left"></i></button>
-            <button id="btn-current-date" class="btn btn-secondary">
+            <button id="btn-current-date" class="btn btn-secondary"
+                    th:text="${displayDate}">
               Thursday, March 9, 2017
             </button>
             <button id="btn-nextday" class="btn btn-secondary"><i class="fa fa-chevron-right"></i></button>
@@ -354,9 +355,15 @@
 <script src="/lib/fontawesome-markers/fontawesome-markers.min.js"></script>
 <script src="/js/geolocation.js"></script>
 <script src="/js/assignments.js"></script>
-<script>
+<script th:inline="javascript">
+  var AppOptions = { };
+
+  /*<![CDATA[*/
+  AppOptions.selectedDate = [[${selectedDate}]];
+  /*]]>*/
+
   $(document).ready(function(){
-    var app = new AssignmentApp();
+    var app = new AssignmentApp(AppOptions);
   });
 </script>
 </body>

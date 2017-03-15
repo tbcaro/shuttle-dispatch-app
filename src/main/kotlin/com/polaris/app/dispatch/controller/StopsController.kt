@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 class StopsController {
 
     @RequestMapping("/stops")
-    fun map(model: Model) : String {
+    fun stops(model: Model) : String {
 
         model.addAttribute("title", "Stops")
         model.addAttribute("username", "tcaro")

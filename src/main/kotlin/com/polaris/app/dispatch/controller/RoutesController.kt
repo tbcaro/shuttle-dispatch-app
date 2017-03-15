@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 class RoutesController {
 
     @RequestMapping("/routes")
-    fun map(model: Model) : String {
+    fun routes(model: Model) : String {
 
         model.addAttribute("title", "Routes")
         model.addAttribute("username", "tcaro")
