@@ -13,7 +13,7 @@ function AssignmentApp(options) {
   self.selectedDate = moment();
   self.assignmentCards = { };
   self.assignmentForms = { };
-  
+
   self.initialize = function() {
     // TBC : Setup elements
     elements.mapContainer = $('#map-container');
@@ -92,6 +92,16 @@ function AssignmentApp(options) {
     });
   };
 
+  self.loadNewAssignmentForm = function() {
+    axios.get('/test/api/assignment/formOptions')
+        .then(function(response){
+          console.log(response);
+        })
+        .catch(function(error){
+          console.log(error);
+        });
+  };
+
   var bindEventHandlers = function() {
     elements.btnPrevDay.on('click', function() {
       var day = moment(self.selectedDate);
@@ -104,6 +114,10 @@ function AssignmentApp(options) {
       day.add(1, 'd');
       self.fetchAssignments(day);
     });
+
+    elements.btnNewAssignment.on('click', function() {
+      self.loadNewAssignmentForm();
+    });
   };
 
   self.initialize();
@@ -113,6 +127,7 @@ function AssignmentApp(options) {
 function Assignment(data) {
   var self = this;
   var templateId = '#assignment-details-card-template';
+  var timeUtils = new TimeUtils();
 
   self.elements = { };
   self.data = { };
@@ -147,7 +162,7 @@ function Assignment(data) {
     self.elements.shuttleName.html(self.data.shuttleName);
     self.elements.driverName.html(self.data.driverName);
     self.elements.routeName.html(self.data.routeName);
-    self.elements.startTime.html(formatTime(self.data.startTime));
+    self.elements.startTime.html(timeUtils.formatTime(self.data.startTime));
 
     // TBC : Bind assignment report to table
     if (self.data.assignmentReport != null) {
@@ -172,9 +187,9 @@ function Assignment(data) {
       order.html(i + 1);
       stopName.html(report.assignmentStops[i].name);
       address.html(report.assignmentStops[i].address);
-      estArrive.html(formatTime(report.assignmentStops[i].estArriveTime));
-      estWait.html(formatWait(report.assignmentStops[i].estWaitTime));
-      estDepart.html(formatTime(report.assignmentStops[i].estDepartTime));
+      estArrive.html(timeUtils.formatTime(report.assignmentStops[i].estArriveTime));
+      estWait.html(timeUtils.formatWait(report.assignmentStops[i].estWaitTime));
+      estDepart.html(timeUtils.formatTime(report.assignmentStops[i].estDepartTime));
 
       row.append(order);
       row.append(stopName);
@@ -195,64 +210,23 @@ function Assignment(data) {
     self.elements.card.hide();
   };
 
-  var formatTime = function(localTime) {
-    var min = 0;
-    var hr = 0;
-    var ampm = '';
-    var strBuilder = '';
-
-    if (localTime == null) {
-      strBuilder = '--';
-    } else {
-      if (localTime.hour - 12 > 0) {
-        hr = localTime.hour - 12;
-        ampm = 'PM';
-      } else {
-        hr = localTime.hour;
-        ampm = 'AM';
-      }
-      strBuilder += hr.toString() + ":";
-
-      min = localTime.minute;
-      if (min < 10) {
-        strBuilder += '0' + min.toString();
-      } else {
-        strBuilder += min.toString();
-      }
-
-      strBuilder += ' ' + ampm.toString();
-    }
-
-    return strBuilder;
-  };
-
-  var formatWait = function(waitMins) {
-    var mins = 0;
-    var hrs = 0;
-    var strBuilder = '';
-
-    if (waitMins == null) {
-      strBuilder = '--';
-    } else if (waitMins / 60 < 1) {
-      strBuilder += waitMins.toString() + 'mins';
-    } else {
-      hrs = Math.floor(waitMins / 60);
-      mins = waitMins - (60 * hrs);
-
-      strBuilder += hrs.toString();
-      hrs === 1 ? strBuilder += 'hr' : strBuilder += 'hrs';
-      if(mins > 0) strBuilder += mins.toString() + 'mins';
-    }
-
-    return strBuilder;
-  };
-
   self.initialize();
   return self;
 }
 
 function AssignmentForm() {
+  var self = this;
+  var templateId = '#assignment-form-card-template';
 
+  self.elements = { };
+  self.data = { };
+
+  self.initialize = function() {
+
+  };
+
+  self.initialize();
+  return self;
 }
 
 function AssignmentStopForm() {

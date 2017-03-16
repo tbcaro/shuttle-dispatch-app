@@ -6,6 +6,8 @@ import java.time.temporal.ChronoUnit
 
 
 class AssignmentStopAdapter {
+    var assingmentStopId: Int = 0
+    var stopId: Int = 0
     var order: Int = 0
     var name: String = ""
     var address: String = ""

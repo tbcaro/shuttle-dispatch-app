@@ -201,13 +201,49 @@ class TestApiController {
         return ResponseEntity(listAdapter, HttpStatus.OK)
     }
 
-    @RequestMapping("/assignment/form")
-    fun assignmentForm() : ResponseEntity<AssignmentFormAdapter> {
-        val form = AssignmentFormAdapter()
+    @RequestMapping("/assignment/formOptions")
+    fun assignmentForm() : ResponseEntity<AssignmentFormOptionsAdapter> {
+        val options = AssignmentFormOptionsAdapter()
 
         // TBC : Populate options for form and return
+        options.shuttleOptions.put(1, "Shuttle 1A")
+        options.shuttleOptions.put(2, "Shuttle 2A")
+        options.shuttleOptions.put(3, "Shuttle 3A")
 
-        return ResponseEntity(form, HttpStatus.OK)
+        options.driverOptions.put(1, "Travis Caro")
+        options.driverOptions.put(2, "Tyler Holben")
+        options.driverOptions.put(3, "Zach Kruise")
+
+        options.routeOptions.put(1, "Trav's Route")
+        options.routeOptions.put(2, "Tyler's Route")
+        options.routeOptions.put(3, "Zach's Route")
+
+        val stop1 = StopAdapter()
+        stop1.stopId = 1
+        stop1.name = "Stop 1"
+        stop1.address = "123 Stop 1 Address"
+        stop1.lat = BigDecimal("41.192382")
+        stop1.long = BigDecimal("-79.391694")
+
+        val stop2 = StopAdapter()
+        stop2.stopId = 2
+        stop2.name = "Stop 2"
+        stop2.address = "123 Stop 2 Address"
+        stop2.lat = BigDecimal("41.188791")
+        stop2.long = BigDecimal("-79.394937")
+
+        val stop3 = StopAdapter()
+        stop3.stopId = 3
+        stop3.name = "Stop 3"
+        stop3.address = "123 Stop 3 Address"
+        stop3.lat = BigDecimal("41.207504")
+        stop3.long = BigDecimal("-79.397200")
+
+        options.stopOptions.put(stop1.stopId, stop1)
+        options.stopOptions.put(stop2.stopId, stop2)
+        options.stopOptions.put(stop3.stopId, stop3)
+
+        return ResponseEntity(options, HttpStatus.OK)
     }
 
     @RequestMapping("/assignment/create")
