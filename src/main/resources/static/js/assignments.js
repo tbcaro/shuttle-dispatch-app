@@ -79,7 +79,7 @@ function AssignmentApp(options) {
 
   self.updateAssignments = function(assignmentAdapters) {
     self.assignments = { };
-    self.elements.assignmentCardContainer.empty();
+    elements.assignmentCardContainer.empty();
     assignmentAdapters.forEach(function(assignmentData) {
       self.assignments[assignmentData.assignmentReport.assignmentId] = new Assignment(assignmentData);
       elements.assignmentCardContainer.append(self.assignments[assignmentData.assignmentReport.assignmentId].elements.card);
@@ -107,20 +107,19 @@ function AssignmentApp(options) {
 
 function Assignment(data) {
   var self = this;
-  var templateId = '#assignment-card-template';
+  var templateId = '#assignment-details-card-template';
 
   self.elements = { };
   self.data = { };
 
   self.initialize = function() {
     self.elements.card = $(templateId).find('.assignment-card').clone();
-    // self.elements.shuttleIcon = self.elements.card.find('.shuttle-icon');
-    // self.elements.shuttleName = self.elements.card.find('.field-shuttle-name');
-    // self.elements.driverName = self.elements.card.find('.field-driver-name');
-    // self.elements.currentStopName = self.elements.card.find('.field-stop-name');
-    // self.elements.statusLabel = self.elements.card.find('.state-label');
-    // self.elements.scheduleCard = self.elements.card.find('.schedule-card');
-    // self.elements.scheduleTableBody = self.elements.scheduleCard.find('tbody');
+    self.elements.shuttleName = self.elements.card.find('.field-shuttle-name');
+    self.elements.driverName = self.elements.card.find('.field-driver-name');
+    self.elements.routeName = self.elements.card.find('.field-route-name');
+    self.elements.startTime = self.elements.card.find('.field-start-time');
+    self.elements.scheduleCard = self.elements.card.find('.schedule-card');
+    self.elements.scheduleTableBody = self.elements.scheduleCard.find('tbody');
 
     self.update(data);
   };
@@ -131,80 +130,56 @@ function Assignment(data) {
   };
 
   self.setData = function(data) {
-    // self.data.activityId = data.activityId;
-    // self.data.shuttleName = data.shuttleName;
-    // self.data.shuttleColorHex = data.shuttleColorHex;
-    // self.data.shuttleLatitude = data.shuttleLatitude;
-    // self.data.shuttleLongitude = data.shuttleLongitude;
-    // self.data.shuttleHeading = data.shuttleHeading;
-    // self.data.driverName = data.driverName;
-    // self.data.shuttleStatus = data.shuttleStatus;
-    // self.data.assignmentReport = data.assignmentReport;
-    // self.data.currentStopName = data.currentStopName;
+    self.data.shuttleName = data.shuttleName;
+    self.data.driverName = data.driverName;
+    self.data.routeName = data.routeName;
+    self.data.startTime = data.startTime;
+    self.data.assignmentReport = data.assignmentReport;
   };
 
   self.bindData = function() {
-    // self.elements.card.data('activityId', self.data.activityId);
-    // self.elements.shuttleIcon.css('color', self.data.shuttleColorHex);
-    // self.elements.shuttleName.html(self.data.shuttleName);
-    // self.elements.driverName.html(self.data.driverName);
-    // self.elements.currentStopName.html(self.data.currentStopName);
-    //
-    // // TBC : Reset status label
-    // self.elements.statusLabel.removeClass('btn-info');
-    // self.elements.statusLabel.removeClass('btn-success');
-    // self.elements.statusLabel.removeClass('btn-warning');
-    // switch (self.data.shuttleStatus) {
-    //   case 'ACTIVE':
-    //     self.elements.statusLabel.addClass('btn-info');
-    //     self.elements.statusLabel.html('Active');
-    //     break;
-    //   case 'DRIVING':
-    //     self.elements.statusLabel.addClass('btn-success');
-    //     self.elements.statusLabel.html('Driving');
-    //     break;
-    //   case 'AT_STOP':
-    //     self.elements.statusLabel.addClass('btn-warning');
-    //     self.elements.statusLabel.html('At-Stop');
-    //     break;
-    // }
-    //
-    // // TBC : Bind assignment report to table
-    // if (self.data.assignmentReport != null) {
-    //   self.bindAssignmentReportData();
-    // }
+    self.elements.card.data('assingmentId', self.data.assignmentReport.assignmentId);
+    self.elements.shuttleName.html(self.data.shuttleName);
+    self.elements.driverName.html(self.data.driverName);
+    self.elements.routeName.html(self.data.routeName);
+    self.elements.startTime.html(formatTime(self.data.startTime));
+
+    // TBC : Bind assignment report to table
+    if (self.data.assignmentReport != null) {
+      self.bindAssignmentReportData();
+    }
   };
 
   self.bindAssignmentReportData = function() {
-    // var report = self.data.assignmentReport;
-    // self.elements.scheduleTableBody.empty();
-    //
-    // for (var i = 0; i < report.assignmentStops.length; i++) {
-    //   var row = $('<tr>');
-    //
-    //   var order = $('<td>');
-    //   var stopName = $('<td>');
-    //   var address = $('<td>');
-    //   var estArrive = $('<td>');
-    //   var estWait = $('<td>');
-    //   var estDepart = $('<td>');
-    //
-    //   order.html(i + 1);
-    //   stopName.html(report.assignmentStops[i].name);
-    //   address.html(report.assignmentStops[i].address);
-    //   estArrive.html(formatTime(report.assignmentStops[i].estArriveTime));
-    //   estWait.html(formatWait(report.assignmentStops[i].estWaitTime));
-    //   estDepart.html(formatTime(report.assignmentStops[i].estDepartTime));
-    //
-    //   row.append(order);
-    //   row.append(stopName);
-    //   row.append(address);
-    //   row.append(estArrive);
-    //   row.append(estWait);
-    //   row.append(estDepart);
-    //
-    //   self.elements.scheduleTableBody.append(row);
-    // }
+    var report = self.data.assignmentReport;
+    self.elements.scheduleTableBody.empty();
+
+    for (var i = 0; i < report.assignmentStops.length; i++) {
+      var row = $('<tr>');
+
+      var order = $('<td>');
+      var stopName = $('<td>');
+      var address = $('<td>');
+      var estArrive = $('<td>');
+      var estWait = $('<td>');
+      var estDepart = $('<td>');
+
+      order.html(i + 1);
+      stopName.html(report.assignmentStops[i].name);
+      address.html(report.assignmentStops[i].address);
+      estArrive.html(formatTime(report.assignmentStops[i].estArriveTime));
+      estWait.html(formatWait(report.assignmentStops[i].estWaitTime));
+      estDepart.html(formatTime(report.assignmentStops[i].estDepartTime));
+
+      row.append(order);
+      row.append(stopName);
+      row.append(address);
+      row.append(estArrive);
+      row.append(estWait);
+      row.append(estDepart);
+
+      self.elements.scheduleTableBody.append(row);
+    }
   };
 
   self.show = function() {

@@ -150,7 +150,7 @@ class TestApiController {
         assignment1.driverId = 1
         assignment1.driverName = "Travis Caro"
         assignment1.routeId = 1
-        assignment1.routeName = "Downtown Loop"
+        assignment1.routeName = "Trav's Route"
         assignment1.startTime = LocalTime.now()
 
         val assignment2 = AssignmentDetailsAdapter()
@@ -163,7 +163,7 @@ class TestApiController {
         assignment2.driverId = 2
         assignment2.driverName = "Tyler Holben"
         assignment2.routeId = 2
-        assignment2.routeName = "Downtown Loop"
+        assignment2.routeName = "Tyler's Route"
         assignment2.startTime = LocalTime.now()
 
         val assignment3 = AssignmentDetailsAdapter()
@@ -176,7 +176,7 @@ class TestApiController {
         assignment3.driverId = 3
         assignment3.driverName = "Zach Kruise"
         assignment3.routeId = 3
-        assignment3.routeName = "Downtown Loop"
+        assignment3.routeName = "Zach's Route"
         assignment3.startTime = LocalTime.now()
 
         val listAdapter = AssignmentListAdapter()
