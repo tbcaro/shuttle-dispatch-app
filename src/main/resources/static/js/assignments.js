@@ -108,6 +108,7 @@ function AssignmentApp(options) {
 
     self.assignmentForm = new AssignmentForm(options);
     elements.assignmentCardContainer.prepend(self.assignmentForm.elements.form);
+    self.assignmentForm.elements.shuttleSelector[0].focus(); // TBC : Set focus to the element
   };
 
   self.removeAssignmentForm = function() {
@@ -132,6 +133,10 @@ function AssignmentApp(options) {
 
     elements.btnNewAssignment.on('click', function() {
       self.loadNewAssignmentForm();
+    });
+
+    elements.assignmentCardContainer.on('click', '.assignment-form .btn-cancel', function() {
+      self.removeAssignmentForm();
     });
   };
 
@@ -322,5 +327,16 @@ function AssignmentForm(selectOptions, data) {
 }
 
 function AssignmentStopForm() {
+  var self = this;
+  var templateId = '#assignment-stop-form-template';
 
+  self.elements = { };
+  self.data = { };
+
+  self.initialize = function() {
+    self.elements.form = $(templateId).find('.assignment-stop-form').clone();
+  };
+
+  self.initialize();
+  return self;
 }
