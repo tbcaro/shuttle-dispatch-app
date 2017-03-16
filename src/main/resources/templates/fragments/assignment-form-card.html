@@ -4,29 +4,19 @@
     <div class="row">
       <div class="col-2">
         <div class="input-group">
-          <select class="field-shuttle-name form-control">
-            <option value="1">Shuttle 1A</option>
-            <option value="2">Shuttle 2A</option>
-            <option value="3">Shuttle 3A</option>
+          <select class="field-shuttle-select form-control">
           </select>
         </div>
       </div>
       <div class="col-2">
         <div class="input-group">
-          <select class="field-driver-name form-control">
-            <option value="1">Travis Caro</option>
-            <option value="2">Tyler Holben</option>
-            <option value="3">Zach Kruise</option>
+          <select class="field-driver-select form-control">
           </select>
         </div>
       </div>
       <div class="col-2">
         <div class="input-group">
-          <select class="field-route-name form-control">
-            <option value="0">Custom Route</option>
-            <option value="1">Downtown Loop</option>
-            <option value="2">Airport Route</option>
-            <option value="3">Park Mall</option>
+          <select class="field-route-select form-control">
           </select>
         </div>
       </div>
@@ -35,21 +25,14 @@
       </div>
       <div class="col-2">
         <div class="input-group">
-          <select class="field-start-time form-control">
-            <option value="12:00">12:00 PM</option>
-            <option value="12:30">12:30 PM</option>
-            <option value="13:00">1:00 PM</option>
-          </select>
+          <input type="text" class="field-start-time form-control center-text"/>
         </div>
       </div>
     </div>
     <div class="row pt-1">
       <div class="col-2">
         <div class="input-group">
-          <select class="field-stop-name form-control">
-            <option value="0">Custom Stop</option>
-            <option value="1">Stop 1</option>
-            <option value="2">Stop 2</option>
+          <select class="field-stop-select form-control">
           </select>
         </div>
       </div>
@@ -73,54 +56,58 @@
             <th>Est. Depart</th>
             </thead>
             <tbody>
-            <tr class="assignment-stop-form">
-              <td>
-                <i class="fa fa-arrow-up"></i>
-                <i class="fa fa-arrow-down"></i>
-              </td>
-              <td style="width: 80px;">
-                <div class="input-group">
-                  <input type="text" class="field-stop-order form-control text-center"/>
-                </div>
-              </td>
-              <td>
-                        <span class="field-stop-name">
-                          Baseball Stadium Stop Name
-                        </span>
-              </td>
-              <td>
-                        <span class="field-stop-address">
-                          123 Baseball Address Rd, Pittsburgh PA, 16214
-                        </span>
-              </td>
-              <td>
-                <div class="input-group">
-                  <select class="field-est-arrive form-control">
-                    <option value="12:00">12:00 PM</option>
-                    <option value="12:30">12:30 PM</option>
-                    <option value="13:00">1:00 PM</option>
-                  </select>
-                </div>
-              </td>
-              <td>
-                <div class="input-group">
-                  <select class="field-est-wait form-control">
-                    <option value="30">30mins</option>
-                    <option value="60">1hr</option>
-                    <option value="90">1h 30mins</option>
-                  </select>
-                </div>
-              </td>
-              <td>
-                <div class="input-group">
-                  <select class="field-est-depart form-control">
-                    <option value="12:00">12:00 PM</option>
-                    <option value="12:30">12:30 PM</option>
-                    <option value="13:00">1:00 PM</option>
-                  </select>
-                </div>
-              </td>
-            </tr>
+
+              <!-- test assignment form -->
+              <!--<tr class="assignment-stop-form">-->
+                <!--<td>-->
+                  <!--<i class="fa fa-arrow-up"></i>-->
+                  <!--<i class="fa fa-arrow-down"></i>-->
+                <!--</td>-->
+                <!--<td style="width: 80px;">-->
+                  <!--<div class="input-group">-->
+                    <!--<input type="text" class="field-stop-order form-control text-center"/>-->
+                  <!--</div>-->
+                <!--</td>-->
+                <!--<td>-->
+                  <!--<span class="field-stop-name">-->
+                    <!--Baseball Stadium Stop Name-->
+                  <!--</span>-->
+                <!--</td>-->
+                <!--<td>-->
+                  <!--<span class="field-stop-address">-->
+                    <!--123 Baseball Address Rd, Pittsburgh PA, 16214-->
+                  <!--</span>-->
+                <!--</td>-->
+                <!--<td>-->
+                  <!--<div class="input-group">-->
+                    <!--<select class="field-est-arrive form-control">-->
+                      <!--<option value="12:00">12:00 PM</option>-->
+                      <!--<option value="12:30">12:30 PM</option>-->
+                      <!--<option value="13:00">1:00 PM</option>-->
+                    <!--</select>-->
+                  <!--</div>-->
+                <!--</td>-->
+                <!--<td>-->
+                  <!--<div class="input-group">-->
+                    <!--<select class="field-est-wait form-control">-->
+                      <!--<option value="30">30mins</option>-->
+                      <!--<option value="60">1hr</option>-->
+                      <!--<option value="90">1h 30mins</option>-->
+                    <!--</select>-->
+                  <!--</div>-->
+                <!--</td>-->
+                <!--<td>-->
+                  <!--<div class="input-group">-->
+                    <!--<select class="field-est-depart form-control">-->
+                      <!--<option value="12:00">12:00 PM</option>-->
+                      <!--<option value="12:30">12:30 PM</option>-->
+                      <!--<option value="13:00">1:00 PM</option>-->
+                    <!--</select>-->
+                  <!--</div>-->
+                <!--</td>-->
+              <!--</tr>-->
+
+
             </tbody>
           </table>
         </div>

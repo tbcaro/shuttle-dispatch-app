@@ -12,7 +12,7 @@ function AssignmentApp(options) {
   self.mapMarkers = { };
   self.selectedDate = moment();
   self.assignmentCards = { };
-  self.assignmentForms = { };
+  self.assignmentForm = null;
 
   self.initialize = function() {
     // TBC : Setup elements
@@ -96,10 +96,25 @@ function AssignmentApp(options) {
     axios.get('/test/api/assignment/formOptions')
         .then(function(response){
           console.log(response);
+          self.addAssignmentForm(response.data);
         })
         .catch(function(error){
           console.log(error);
         });
+  };
+
+  self.addAssignmentForm = function(options) {
+    self.removeAssignmentForm();
+
+    self.assignmentForm = new AssignmentForm(options);
+    elements.assignmentCardContainer.prepend(self.assignmentForm.elements.form);
+  };
+
+  self.removeAssignmentForm = function() {
+    if (self.assignmentForm != null) {
+      self.assignmentForm.elements.form.remove();
+      self.assignmentForm = null;
+    }
   };
 
   var bindEventHandlers = function() {
@@ -214,15 +229,92 @@ function Assignment(data) {
   return self;
 }
 
-function AssignmentForm() {
+function AssignmentForm(selectOptions, data) {
   var self = this;
   var templateId = '#assignment-form-card-template';
 
   self.elements = { };
   self.data = { };
+  self.assignmentStopForms =[];
 
   self.initialize = function() {
+    self.elements.form = $(templateId).find('.assignment-form').clone();
+    self.elements.shuttleSelector = self.elements.form.find('.field-shuttle-select');
+    self.elements.driverSelector = self.elements.form.find('.field-driver-select');
+    self.elements.routeSelector = self.elements.form.find('.field-route-select');
+    self.elements.startTimeSelector = self.elements.form.find('.field-start-time');
+    self.elements.stopSelector = self.elements.form.find('.field-stop-select');
+    self.elements.scheduleForm = self.elements.form.find('.schedule-form');
+    self.elements.scheduleFormTableBody = self.elements.scheduleForm.find('tbody');
 
+    // TBC : Populate components with options
+    populateOptions();
+    self.elements.startTimeSelector.timepicker({
+      'scrollDefault': 'now',
+      'timeFormat': 'g:i A'
+    });
+  };
+
+  self.update = function(data) {
+    self.setData(data);
+    self.bindData();
+  };
+
+  self.setData = function(data) {
+
+  };
+
+  self.bindData = function() {
+
+  };
+
+  self.show = function() {
+    self.elements.card.show();
+  };
+
+  self.hide = function() {
+    self.elements.card.hide();
+  };
+
+  var populateOptions = function() {
+    for (var driverId in selectOptions.driverOptions) {
+      populateSelector({
+          value: driverId,
+          label: selectOptions.driverOptions[driverId]
+        }, self.elements.driverSelector
+      );
+    }
+
+    for (var routeId in selectOptions.routeOptions) {
+      populateSelector({
+           value: routeId,
+           label: selectOptions.routeOptions[routeId]
+         }, self.elements.routeSelector
+      );
+    }
+
+    for (var shuttleId in selectOptions.shuttleOptions) {
+      populateSelector({
+           value: shuttleId,
+           label: selectOptions.shuttleOptions[shuttleId]
+         }, self.elements.shuttleSelector
+      );
+    }
+
+    for (var stopId in selectOptions.stopOptions) {
+      populateSelector({
+           value: stopId,
+           label: selectOptions.stopOptions[stopId].name
+         }, self.elements.stopSelector
+      );
+    }
+  };
+
+  var populateSelector = function(map, selector) {
+    var option = $('<option>');
+    option.val(map.value);
+    option.html(map.label);
+    selector.append(option);
   };
 
   self.initialize();
