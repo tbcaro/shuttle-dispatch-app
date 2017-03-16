@@ -15,9 +15,16 @@ import java.util.*
 class TestPageController {
 
     @RequestMapping("/assignments")
-    fun assignments(model: Model) : String {
+    fun assignments(
+            @RequestParam("date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) date: LocalDate?,
+            model: Model
+    ) : String {
         // TBC : Default selected date to today
-        val selectedDate: LocalDate = LocalDate.now()
+        var selectedDate: LocalDate = LocalDate.now()
+
+        if (date != null) {
+            selectedDate = date
+        }
         val formatter = DisplayDateFormatter()
 
         model.addAttribute("title", "Assignments")

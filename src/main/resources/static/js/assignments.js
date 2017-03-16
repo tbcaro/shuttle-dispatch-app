@@ -19,8 +19,6 @@ function AssignmentApp(options) {
     elements.btnSearchAddress = elements.controlPanel.find('#btn-search');
     elements.btnNewAssignment = elements.controlPanel.find('#btn-new-assignment');
 
-    self.setSelectedDate(options.selectedDate);
-
     // TBC : Setup utility objects
     geoLocator = new GeoLocator();
     self.initializeMap();
@@ -43,6 +41,8 @@ function AssignmentApp(options) {
           });
     });
 
+    self.setSelectedDate(options.selectedDate);
+    self.fetchAssignments(self.selectedDate);
     bindEventHandlers();
   };
 
@@ -76,20 +76,12 @@ function AssignmentApp(options) {
 
   var bindEventHandlers = function() {
     elements.btnPrevDay.on('click', function() {
-      // var prevDate = new Date();
-      // // TBC : Offset by day in milliseconds due to js Date() bug with wrapping at beginning/end of month
-      // prevDate.setTime(self.selectedDate.getTime() - 1000*60*60*24*1);
-      // self.fetchAssignments(prevDate);
       var day = moment(self.selectedDate);
       day.subtract(1, 'd');
       self.fetchAssignments(day);
     });
 
     elements.btnNextDay.on('click', function() {
-      // var nextDate = new Date();
-      // // TBC : Offset by day in milliseconds due to js Date() bug with wrapping at beginning/end of month
-      // nextDate.setTime(self.selectedDate.getTime() + 1000*60*60*24*1);
-      // self.fetchAssignments(nextDate);
       var day = moment(self.selectedDate);
       day.add(1, 'd');
       self.fetchAssignments(day);
