@@ -3,7 +3,7 @@ package com.polaris.app.dispatch.controller.adapter
 import java.math.BigDecimal
 
 
-class StopAdapter {
+class StopDetailsAdapter {
     var stopId: Int = 0
     var name: String = ""
     var address: String = ""

@@ -214,25 +214,21 @@ class TestApiController {
         options.driverOptions.put(2, "Tyler Holben")
         options.driverOptions.put(3, "Zach Kruise")
 
-        options.routeOptions.put(1, "Trav's Route")
-        options.routeOptions.put(2, "Tyler's Route")
-        options.routeOptions.put(3, "Zach's Route")
-
-        val stop1 = StopAdapter()
+        val stop1 = StopDetailsAdapter()
         stop1.stopId = 1
         stop1.name = "Stop 1"
         stop1.address = "123 Stop 1 Address"
         stop1.lat = BigDecimal("41.192382")
         stop1.long = BigDecimal("-79.391694")
 
-        val stop2 = StopAdapter()
+        val stop2 = StopDetailsAdapter()
         stop2.stopId = 2
         stop2.name = "Stop 2"
         stop2.address = "123 Stop 2 Address"
         stop2.lat = BigDecimal("41.188791")
         stop2.long = BigDecimal("-79.394937")
 
-        val stop3 = StopAdapter()
+        val stop3 = StopDetailsAdapter()
         stop3.stopId = 3
         stop3.name = "Stop 3"
         stop3.address = "123 Stop 3 Address"
@@ -242,6 +238,25 @@ class TestApiController {
         options.stopOptions.put(stop1.stopId, stop1)
         options.stopOptions.put(stop2.stopId, stop2)
         options.stopOptions.put(stop3.stopId, stop3)
+
+        val route1 = RouteDetailsAdapter()
+        route1.routeId = 1
+        route1.name = "Trav's Route"
+        route1.stops = arrayListOf(stop1, stop2)
+
+        val route2 = RouteDetailsAdapter()
+        route2.routeId = 2
+        route2.name = "Tyler's Route"
+        route2.stops = arrayListOf(stop2, stop3)
+
+        val route3 = RouteDetailsAdapter()
+        route3.routeId = 3
+        route3.name = "Zach's Route"
+        route3.stops = arrayListOf(stop2, stop3, stop1)
+
+        options.routeOptions.put(route1.routeId, route1)
+        options.routeOptions.put(route2.routeId, route2)
+        options.routeOptions.put(route3.routeId, route3)
 
         return ResponseEntity(options, HttpStatus.OK)
     }

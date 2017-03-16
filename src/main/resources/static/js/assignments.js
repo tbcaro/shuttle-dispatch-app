@@ -290,19 +290,19 @@ function AssignmentForm(selectOptions, data) {
       );
     }
 
-    for (var routeId in selectOptions.routeOptions) {
-      populateSelector({
-           value: routeId,
-           label: selectOptions.routeOptions[routeId]
-         }, self.elements.routeSelector
-      );
-    }
-
     for (var shuttleId in selectOptions.shuttleOptions) {
       populateSelector({
            value: shuttleId,
            label: selectOptions.shuttleOptions[shuttleId]
          }, self.elements.shuttleSelector
+      );
+    }
+
+    for (var routeId in selectOptions.routeOptions) {
+      populateSelector({
+           value: routeId,
+           label: selectOptions.routeOptions[routeId].name
+         }, self.elements.routeSelector
       );
     }
 
