@@ -3,12 +3,17 @@ function AssignmentApp(options) {
   var self = this;
   var elements = { };
   var geoLocator = { };
+  var formTypes = {
+    CREATE: 'create',
+    EDIT: 'edit'
+  };
 
   self.map = { };
   self.mapMarkers = { };
   self.selectedDate = moment();
-  self.assignments = { };
-
+  self.assignmentCards = { };
+  self.assignmentForms = { };
+  
   self.initialize = function() {
     // TBC : Setup elements
     elements.mapContainer = $('#map-container');
@@ -78,12 +83,12 @@ function AssignmentApp(options) {
   };
 
   self.updateAssignments = function(assignmentAdapters) {
-    self.assignments = { };
+    self.assignmentCards = { };
     elements.assignmentCardContainer.empty();
     assignmentAdapters.forEach(function(assignmentData) {
-      self.assignments[assignmentData.assignmentReport.assignmentId] = new Assignment(assignmentData);
-      elements.assignmentCardContainer.append(self.assignments[assignmentData.assignmentReport.assignmentId].elements.card);
-      self.assignments[assignmentData.assignmentReport.assignmentId].show();
+      self.assignmentCards[assignmentData.assignmentReport.assignmentId] = new Assignment(assignmentData);
+      elements.assignmentCardContainer.append(self.assignmentCards[assignmentData.assignmentReport.assignmentId].elements.card);
+      self.assignmentCards[assignmentData.assignmentReport.assignmentId].show();
     });
   };
 
@@ -244,4 +249,12 @@ function Assignment(data) {
 
   self.initialize();
   return self;
+}
+
+function AssignmentForm() {
+
+}
+
+function AssignmentStopForm() {
+
 }

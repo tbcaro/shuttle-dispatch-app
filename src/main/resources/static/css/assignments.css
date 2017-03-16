@@ -20,6 +20,19 @@
   overflow-x: hidden;
 }
 
+
+#assignment-panel .schedule-form {
+  background: #f8f8f8;
+  font-size: 10pt;
+  height: 100px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#assignment-panel .schedule-form .table {
+  margin-bottom: 0;
+}
+
 #btn-selecteddate {
   width: 250px;
 }
