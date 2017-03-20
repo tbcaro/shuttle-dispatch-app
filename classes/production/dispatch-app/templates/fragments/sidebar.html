@@ -1,0 +1,52 @@
+<nav id="sidebar" xmlns:th="http://www.thymeleaf.org">
+  <ul class="list-unstyled p-2">
+    <a href="/map" class="navigation">
+      <li class="p-2 m-1" th:classappend="${title == 'Map'} ? active">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa fa-map"></i>
+          </div>
+          <div class="col-10">
+            Map
+          </div>
+        </div>
+      </li>
+    </a>
+    <a href="/assignments" class="navigation">
+      <li class="p-2 m-1" th:classappend="${title == 'Assignments'} ? active">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa fa-calendar"></i>
+          </div>
+          <div class="col-10">
+            Assignments
+          </div>
+        </div>
+      </li>
+    </a>
+    <a href="/routes" class="navigation">
+      <li class="p-2 m-1" th:classappend="${title == 'Routes'} ? active">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa fa-map-signs"></i>
+          </div>
+          <div class="col-10">
+            Routes
+          </div>
+        </div>
+      </li>
+    </a>
+    <a href="/stops" class="navigation">
+      <li class="p-2 m-1" th:classappend="${title == 'Stops'} ? active">
+        <div class="row">
+          <div class="col-2">
+            <i class="fa fa-map-pin"></i>
+          </div>
+          <div class="col-10">
+            Stops
+          </div>
+        </div>
+      </li>
+    </a>
+  </ul>
+</nav>
