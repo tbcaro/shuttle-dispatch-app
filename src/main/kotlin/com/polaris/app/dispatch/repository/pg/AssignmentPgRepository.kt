@@ -15,7 +15,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                 {
                     resultSet, rowNum -> AssignmentEntity(
                         resultSet.getInt("SerialID"),
-                        resultSet.getTime("TimeStamp"),
+                        resultSet.getTimestamp("TimeStamp").toLocalDateTime().toLocalTime(),
                         resultSet.getString("RouteName"),
                         resultSet.getInt("DriverID"),
                         resultSet.getInt("ShuttleID")
@@ -32,12 +32,12 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                     resultSet, rowNum -> AssignmentStopEntity(
                         resultSet.getString("AssignmentStops.Name"),
                         resultSet.getString("AssignmentStops.Address"),
-                        resultSet.getString("AssignmentStops.Latitude"),
-                        resultSet.getString("AssignmentStops.Longitude"),
-                        resultSet.getTime("AssignmentStops.TimeArrival"),
-                        resultSet.getTime("AssignmentStops.TimeDepart"),
-                        resultSet.getTime("AssignmentStops.EstArrival"),
-                        resultSet.getTime("AssignmentStops.EstDepart")
+                        resultSet.getBigDecimal("AssignmentStops.Latitude"),
+                        resultSet.getBigDecimal("AssignmentStops.Longitude"),
+                        resultSet.getTimestamp("AssignmentStops.TimeArrival").toLocalDateTime().toLocalTime(),
+                        resultSet.getTimestamp("AssignmentStops.TimeDepart").toLocalDateTime().toLocalTime(),
+                        resultSet.getTimestamp("AssignmentStops.EstArrival").toLocalDateTime().toLocalTime(),
+                        resultSet.getTimestamp("AssignmentStops.EstDepart").toLocalDateTime().toLocalTime()
                 )
                 }
         )

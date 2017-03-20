@@ -2,14 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9cc5aafe-c424-4683-8311-5fab29655c9b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules/dispatch-app.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules/passenger-app.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules/shuttle-app.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/AssignmentEntity.kt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/AssignmentStopEntity.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/AssignmentStopEntity.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/AssignmentStopEntity.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapAssignStopEntity.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapAssignStopEntity.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapShuttleEntity.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapShuttleEntity.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/MapPgRepository.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/MapPgRepository.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/AssignmentStop.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/AssignmentStop.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapAssignmentStop.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapAssignmentStop.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapShuttle.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapShuttle.kt" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -48,20 +48,70 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MapEntity.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapEntity.kt">
+      <file leaf-file-name="MapPgRepository.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/MapPgRepository.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+            <state relative-caret-position="340">
+              <caret line="20" column="48" lean-forward="false" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
+              <folding>
+                <element signature="e#48#409#0" expanded="true" />
+                <marker date="1490039635276" expanded="true" signature="606:667" ph="SELECT \&quot;Shu... ShuttleActivity" />
+                <marker date="1490039635276" expanded="true" signature="1373:1428" ph="SELECT * FRO... Assignment" />
+                <marker date="1490039635276" expanded="true" signature="1921:1991" ph="SELECT * FRO... Assignment" />
+                <marker date="1490039635276" expanded="true" signature="1921:2013" ph="SELECT * FRO... Assignment" />
+                <marker date="1490039635276" expanded="true" signature="1921:2017" ph="SELECT * FRO... Assignment" />
+                <marker date="1490039635276" expanded="true" signature="1921:2026" ph="SELECT * FRO... Assignment" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AssignmentRepository.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/AssignmentRepository.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="10" column="86" lean-forward="false" selection-start-line="10" selection-start-column="86" selection-end-line="10" selection-end-column="86" />
+              <folding>
+                <element signature="e#45#203#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Map.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/Map.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="4" lean-forward="false" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="25" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AssignmentServiceImpl.kt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MapAssignment.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapAssignment.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="1" lean-forward="false" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MapRepository.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/MapRepository.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="6" column="10" lean-forward="false" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AssignmentServiceImpl.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
+            <state relative-caret-position="476">
               <caret line="37" column="38" lean-forward="false" selection-start-line="37" selection-start-column="38" selection-end-line="37" selection-end-column="38" />
               <folding>
                 <element signature="e#47#301#0" expanded="true" />
@@ -70,20 +120,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MapShuttleEntity.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapShuttleEntity.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MapServiceImpl.kt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MapServiceImpl.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/MapServiceImpl.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="901">
+            <state relative-caret-position="803">
               <caret line="56" column="29" lean-forward="true" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
               <folding>
                 <element signature="e#47#326#0" expanded="true" />
@@ -92,56 +132,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AssignmentService.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/AssignmentService.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="47" lean-forward="false" selection-start-line="6" selection-start-column="47" selection-end-line="6" selection-end-column="47" />
-              <folding>
-                <element signature="e#42#116#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MapService.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/MapService.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="10" lean-forward="false" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
-              <folding>
-                <element signature="e#42#152#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MapAssignStopEntity.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapAssignStopEntity.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MapAssignmentEntity.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapAssignmentEntity.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="11" lean-forward="false" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="MapAssignmentStop.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapAssignmentStop.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="153">
+              <caret line="9" column="32" lean-forward="false" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
+              <folding>
+                <element signature="e#45#99#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -149,9 +147,29 @@
       <file leaf-file-name="MapShuttle.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapShuttle.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="33" lean-forward="false" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
+            <state relative-caret-position="153">
+              <caret line="9" column="35" lean-forward="false" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AssignmentPgRepository.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="313">
+              <caret line="35" column="48" lean-forward="false" selection-start-line="35" selection-start-column="48" selection-end-line="35" selection-end-column="48" />
+              <folding>
+                <element signature="e#48#368#0" expanded="true" />
+                <marker date="1490039635007" expanded="true" signature="611:639" ph="SELECT * FRO... Assignment" />
+                <marker date="1490039635007" expanded="true" signature="611:725" ph="SELECT * FRO... Assignment" />
+                <marker date="1490039635007" expanded="true" signature="1351:1456" ph="SELECT * FRO... Assignment" />
+                <marker date="1490039635007" expanded="true" signature="2480:2505" ph="INSERT INTO " />
+                <marker date="1490039635007" expanded="true" signature="2480:2507" ph="INSERT INTO \&quot;Assignments\&quot;... " />
+                <marker date="1490039635007" expanded="true" signature="2480:2514" ph="INSERT INTO \&quot;Assignments\&quot;... " />
+                <marker date="1490039635007" expanded="true" signature="2480:2515" ph="INSERT INTO \&quot;Assignments\&quot;... " />
+                <marker date="1490039635007" expanded="true" signature="2480:2656" ph="INSERT INTO \&quot;Assignments\&quot;... " />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1170,20 +1188,20 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/MapRepository.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapAssignment.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/MapService.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapShuttleEntity.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/MapPgRepository.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapShuttle.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/AssignmentRepository.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/AssignmentService.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/MapServiceImpl.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/AssignmentStopEntity.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/AssignmentEntity.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/Assignment.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapShuttleEntity.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapAssignStopEntity.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/AssignmentStopEntity.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/AssignmentStop.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapAssignmentStop.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapAssignStopEntity.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapShuttle.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/MapPgRepository.kt" />
       </list>
     </option>
   </component>
@@ -1883,12 +1901,12 @@
       <workItem from="1489068772179" duration="2199000" />
       <workItem from="1489608458827" duration="321000" />
       <workItem from="1489700133845" duration="10952000" />
-      <workItem from="1489952774024" duration="10462000" />
+      <workItem from="1489952774024" duration="13214000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29799000" />
+    <option name="totallyTimeSpent" value="32551000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -2152,16 +2170,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/MapRepository.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="10" lean-forward="false" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
-          <folding>
-            <element signature="e#45#251#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/Application.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -2188,50 +2196,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/Map.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="4" lean-forward="false" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="52" column="50" lean-forward="false" selection-start-line="52" selection-start-column="50" selection-end-line="52" selection-end-column="50" />
-          <folding>
-            <element signature="e#48#368#0" expanded="true" />
-            <marker date="1489981616795" expanded="true" signature="611:639" ph="SELECT * FRO... Assignment" />
-            <marker date="1489981616795" expanded="true" signature="611:725" ph="SELECT * FRO... Assignment" />
-            <marker date="1489981616795" expanded="true" signature="1314:1419" ph="SELECT * FRO... Assignment" />
-            <marker date="1489981616795" expanded="true" signature="2287:2312" ph="INSERT INTO " />
-            <marker date="1489981616795" expanded="true" signature="2287:2314" ph="INSERT INTO \&quot;Assignments\&quot;... " />
-            <marker date="1489981616795" expanded="true" signature="2287:2321" ph="INSERT INTO \&quot;Assignments\&quot;... " />
-            <marker date="1489981616795" expanded="true" signature="2287:2322" ph="INSERT INTO \&quot;Assignments\&quot;... " />
-            <marker date="1489981616795" expanded="true" signature="2287:2463" ph="INSERT INTO \&quot;Assignments\&quot;... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/AssignmentRepository.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="86" lean-forward="false" selection-start-line="10" selection-start-column="86" selection-end-line="10" selection-end-column="86" />
-          <folding>
-            <element signature="e#45#203#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/AssignmentStopEntity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/HelloWorldPgRepository.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -2239,122 +2203,6 @@
           <folding>
             <element signature="e#48#276#0" expanded="true" />
             <marker date="1488558237103" expanded="true" signature="478:506" ph="SELECT * FRO... HelloWorld" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/MapPgRepository.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="21" column="69" lean-forward="false" selection-start-line="21" selection-start-column="69" selection-end-line="21" selection-end-column="69" />
-          <folding>
-            <element signature="e#48#409#0" expanded="true" />
-            <marker date="1489980932640" expanded="true" signature="606:667" ph="SELECT \&quot;Shu... ShuttleActivity" />
-            <marker date="1489980932640" expanded="true" signature="1365:1420" ph="SELECT * FRO... Assignment" />
-            <marker date="1489980932640" expanded="true" signature="1913:1983" ph="SELECT * FRO... Assignment" />
-            <marker date="1489980932640" expanded="true" signature="1913:2005" ph="SELECT * FRO... Assignment" />
-            <marker date="1489980932640" expanded="true" signature="1913:2009" ph="SELECT * FRO... Assignment" />
-            <marker date="1489980932640" expanded="true" signature="1913:2018" ph="SELECT * FRO... Assignment" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/AssignmentEntity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/Assignment.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/AssignmentStop.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapAssignment.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="1" lean-forward="false" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapAssignmentStop.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapShuttle.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="33" lean-forward="false" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="37" column="38" lean-forward="false" selection-start-line="37" selection-start-column="38" selection-end-line="37" selection-end-column="38" />
-          <folding>
-            <element signature="e#47#301#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapEntity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapShuttleEntity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapAssignStopEntity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapAssignmentEntity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="11" lean-forward="false" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/AssignmentService.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="47" lean-forward="false" selection-start-line="6" selection-start-column="47" selection-end-line="6" selection-end-column="47" />
-          <folding>
-            <element signature="e#42#116#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2369,12 +2217,188 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/AssignmentService.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="47" lean-forward="false" selection-start-line="6" selection-start-column="47" selection-end-line="6" selection-end-column="47" />
+          <folding>
+            <element signature="e#42#116#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapShuttleEntity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="31" lean-forward="false" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapEntity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapAssignStopEntity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="32" lean-forward="false" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
+          <folding>
+            <element signature="e#52#106#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/MapAssignmentEntity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="11" lean-forward="false" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/AssignmentStopEntity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="32" lean-forward="false" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
+          <folding>
+            <element signature="e#52#106#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/AssignmentEntity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/Assignment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/AssignmentStop.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="32" lean-forward="false" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
+          <folding>
+            <element signature="e#45#99#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/Map.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="4" lean-forward="false" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapAssignment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="1" lean-forward="false" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapAssignmentStop.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="32" lean-forward="false" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
+          <folding>
+            <element signature="e#45#99#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/MapShuttle.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="35" lean-forward="false" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="35" column="48" lean-forward="false" selection-start-line="35" selection-start-column="48" selection-end-line="35" selection-end-column="48" />
+          <folding>
+            <element signature="e#48#368#0" expanded="true" />
+            <marker date="1490039635007" expanded="true" signature="611:639" ph="SELECT * FRO... Assignment" />
+            <marker date="1490039635007" expanded="true" signature="611:725" ph="SELECT * FRO... Assignment" />
+            <marker date="1490039635007" expanded="true" signature="1351:1456" ph="SELECT * FRO... Assignment" />
+            <marker date="1490039635007" expanded="true" signature="2480:2505" ph="INSERT INTO " />
+            <marker date="1490039635007" expanded="true" signature="2480:2507" ph="INSERT INTO \&quot;Assignments\&quot;... " />
+            <marker date="1490039635007" expanded="true" signature="2480:2514" ph="INSERT INTO \&quot;Assignments\&quot;... " />
+            <marker date="1490039635007" expanded="true" signature="2480:2515" ph="INSERT INTO \&quot;Assignments\&quot;... " />
+            <marker date="1490039635007" expanded="true" signature="2480:2656" ph="INSERT INTO \&quot;Assignments\&quot;... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/MapPgRepository.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="48" lean-forward="false" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
+          <folding>
+            <element signature="e#48#409#0" expanded="true" />
+            <marker date="1490039635276" expanded="true" signature="606:667" ph="SELECT \&quot;Shu... ShuttleActivity" />
+            <marker date="1490039635276" expanded="true" signature="1373:1428" ph="SELECT * FRO... Assignment" />
+            <marker date="1490039635276" expanded="true" signature="1921:1991" ph="SELECT * FRO... Assignment" />
+            <marker date="1490039635276" expanded="true" signature="1921:2013" ph="SELECT * FRO... Assignment" />
+            <marker date="1490039635276" expanded="true" signature="1921:2017" ph="SELECT * FRO... Assignment" />
+            <marker date="1490039635276" expanded="true" signature="1921:2026" ph="SELECT * FRO... Assignment" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/AssignmentRepository.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="86" lean-forward="false" selection-start-line="10" selection-start-column="86" selection-end-line="10" selection-end-column="86" />
+          <folding>
+            <element signature="e#45#203#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/MapRepository.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="10" lean-forward="false" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/MapServiceImpl.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="901">
+        <state relative-caret-position="803">
           <caret line="56" column="29" lean-forward="true" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
           <folding>
             <element signature="e#47#326#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="37" column="38" lean-forward="false" selection-start-line="37" selection-start-column="38" selection-end-line="37" selection-end-column="38" />
+          <folding>
+            <element signature="e#47#301#0" expanded="true" />
           </folding>
         </state>
       </provider>

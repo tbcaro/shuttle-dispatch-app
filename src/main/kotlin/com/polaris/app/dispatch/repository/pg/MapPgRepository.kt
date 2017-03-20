@@ -17,8 +17,8 @@ class MapPgRepository(val db: JdbcTemplate): MapRepository{
                         resultSet.getInt("Shuttle.ID"),
                         resultSet.getString("Shuttle.Name"),
                         resultSet.getInt("Shuttle.IconColor"),
-                        resultSet.getString("ShuttleActivity.Latitude"),
-                        resultSet.getString("ShuttleActivity.Longitude"),
+                        resultSet.getBigDecimal("ShuttleActivity.Latitude"),
+                        resultSet.getBigDecimal("ShuttleActivity.Longitude"),
                         resultSet.getString("ShuttleActivity.Status")
                 )
                 }
@@ -48,12 +48,12 @@ class MapPgRepository(val db: JdbcTemplate): MapRepository{
                     resultSet, rowNum -> MapAssignStopEntity(
                         resultSet.getString("AssignmentStops.Name"),
                         resultSet.getString("AssignmentStops.Address"),
-                        resultSet.getString("AssignmentStops.Latitude"),
-                        resultSet.getString("AssignmentStops.Longitude"),
-                        resultSet.getTime("AssignmentStops.TimeArrival"),
-                        resultSet.getTime("AssignmentStops.TimeDepart"),
-                        resultSet.getTime("AssignmentStops.EstArrival"),
-                        resultSet.getTime("AssignmentStops.EstDepart")
+                        resultSet.getBigDecimal("AssignmentStops.Latitude"),
+                        resultSet.getBigDecimal("AssignmentStops.Longitude"),
+                        resultSet.getTimestamp("AssignmentStops.TimeArrival").toLocalDateTime().toLocalTime(),
+                        resultSet.getTimestamp("AssignmentStops.TimeDepart").toLocalDateTime().toLocalTime(),
+                        resultSet.getTimestamp("AssignmentStops.EstArrival").toLocalDateTime().toLocalTime(),
+                        resultSet.getTimestamp("AssignmentStops.EstDepart").toLocalDateTime().toLocalTime()
                 )
                 }
 
