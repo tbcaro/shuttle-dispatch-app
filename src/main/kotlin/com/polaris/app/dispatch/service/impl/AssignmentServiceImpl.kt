@@ -1,9 +1,13 @@
 package com.polaris.app.dispatch.service.impl
 
+import com.google.common.collect.HashMultimap
+import com.google.common.collect.Multimap
+import com.polaris.app.dispatch.controller.adapter.enums.AssignmentFieldTags
 import com.polaris.app.dispatch.repository.AssignmentRepository
 import com.polaris.app.dispatch.service.AssignmentService
 import com.polaris.app.dispatch.service.bo.Assignment
 import com.polaris.app.dispatch.service.bo.AssignmentStop
+import com.polaris.app.dispatch.service.exception.ValidationException
 import java.sql.Time
 
 class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): AssignmentService{
@@ -41,6 +45,16 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
     }
 
     override fun addAssignment(newAssignment: Assignment) {
+        val errors: Multimap<AssignmentFieldTags, String> = HashMultimap.create()
+
+        if(true) {
+            errors[AssignmentFieldTags.START_TIME].add("This start time sucks!")
+
+        }
+
+        if(!errors.isEmpty) {
+            throw ValidationException<AssignmentFieldTags>(errors)
+        }
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
