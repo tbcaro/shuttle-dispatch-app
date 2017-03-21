@@ -118,6 +118,17 @@ function AssignmentApp(options) {
     }
   };
 
+  self.addAssignmentStop = function() {
+    if (self.assignmentForm != null) {
+      var stopId = self.assignmentForm.elements.stopSelector.val();
+      if (stopId == 0) { // TBC : Intentional '==' to compare string to int
+        // TBC : Load custom stop info from map
+      } else {
+        self.assignmentForm.addSavedStopForm(stopId);
+      }
+    }
+  };
+
   var bindEventHandlers = function() {
     elements.btnPrevDay.on('click', function() {
       var day = moment(self.selectedDate);
@@ -137,6 +148,14 @@ function AssignmentApp(options) {
 
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-cancel', function() {
       self.removeAssignmentForm();
+    });
+
+    elements.assignmentCardContainer.on('click', '.assignment-form .btn-save', function() {
+      // TBC : Submit assignment-form data
+    });
+
+    elements.assignmentCardContainer.on('click', '.assignment-form .btn-add-stop', function() {
+      self.addAssignmentStop();
     });
   };
 
@@ -234,13 +253,14 @@ function Assignment(data) {
   return self;
 }
 
-function AssignmentForm(selectOptions, data) {
+function AssignmentForm(selectOptions) {
   var self = this;
   var templateId = '#assignment-form-card-template';
 
   self.elements = { };
   self.data = { };
   self.assignmentStopForms =[];
+  self.selectOptions = selectOptions || { };
 
   self.initialize = function() {
     self.elements.form = $(templateId).find('.assignment-form').clone();
@@ -274,11 +294,33 @@ function AssignmentForm(selectOptions, data) {
   };
 
   self.show = function() {
-    self.elements.card.show();
+    self.elements.form.show();
   };
 
   self.hide = function() {
-    self.elements.card.hide();
+    self.elements.form.hide();
+  };
+
+  self.loadSavedRoute = function(routeId) {
+    self.elements.scheduleFormTableBody.empty();
+    self.assignmentStopForms = [];
+
+    var routeDetails = self.selectOptions.routeOptions[routeId];
+    routeDetails.stops.forEach(function(stopDetails) {
+      self.addStopForm(stopDetails);
+    });
+  };
+
+  self.addSavedStopForm = function(stopId) {
+    self.addStopForm(self.selectOptions.stopOptions[stopId]);
+  };
+
+  self.addStopForm = function(stopDetails) {
+    var stopOrder = self.assignmentStopForms.length + 1;
+    var stopForm = new AssignmentStopForm(stopDetails, stopOrder);
+    stopForm.show();
+    self.elements.scheduleFormTableBody.append(stopForm.elements.form);
+    self.assignmentStopForms.push(stopForm);
   };
 
   var populateOptions = function() {
@@ -326,15 +368,66 @@ function AssignmentForm(selectOptions, data) {
   return self;
 }
 
-function AssignmentStopForm() {
+function AssignmentStopForm(data, order) {
   var self = this;
   var templateId = '#assignment-stop-form-template';
 
   self.elements = { };
   self.data = { };
+  self.order = order || 0;
 
   self.initialize = function() {
     self.elements.form = $(templateId).find('.assignment-stop-form').clone();
+    self.elements.btnMoveUp = self.elements.form.find('.fa-arrow-up');
+    self.elements.btnMoveDown = self.elements.form.find('.fa-arrow-down');
+    self.elements.stopOrder = self.elements.form.find('.field-stop-order');
+    self.elements.name = self.elements.form.find('.field-stop-name');
+    self.elements.address = self.elements.form.find('.field-stop-address');
+    self.elements.estArriveTime = self.elements.form.find('.field-est-arrive');
+    //self.elements.estWaitTime = self.elements.form.find('.field-est-wait');
+    self.elements.estDepartTime = self.elements.form.find('.field-est-depart');
+
+    self.elements.estArriveTime.timepicker({
+                                 'scrollDefault': 'now',
+                                 'timeFormat': 'g:i A'
+                               });
+
+    // self.elements.estArriveTime.timepicker({
+    //                              'scrollDefault': 'now',
+    //                              'timeFormat': 'g:i A'
+    //                            });
+
+    self.elements.estDepartTime.timepicker({
+                                 'scrollDefault': 'now',
+                                 'timeFormat': 'g:i A'
+                               });
+
+    self.update(data);
+  };
+
+  self.update = function(data) {
+    self.setData(data);
+    self.bindData();
+  };
+
+  self.setData = function(data) {
+    self.data.id = data.id;
+    self.data.name = data.name;
+    self.data.address = data.address;
+  };
+
+  self.bindData = function() {
+    self.elements.stopOrder.val(self.order);
+    self.elements.name.html(self.data.name);
+    self.elements.address.html(self.data.address);
+  };
+
+  self.show = function() {
+    self.elements.form.show();
+  };
+
+  self.hide = function() {
+    self.elements.form.hide();
   };
 
   self.initialize();
