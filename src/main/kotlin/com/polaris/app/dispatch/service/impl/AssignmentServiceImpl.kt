@@ -3,12 +3,14 @@ package com.polaris.app.dispatch.service.impl
 import com.google.common.collect.HashMultimap
 import com.google.common.collect.Multimap
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentFieldTags
+import com.polaris.app.dispatch.controller.adapter.enums.AssignmentStopFieldTags
 import com.polaris.app.dispatch.repository.AssignmentRepository
 import com.polaris.app.dispatch.service.AssignmentService
 import com.polaris.app.dispatch.service.bo.Assignment
 import com.polaris.app.dispatch.service.bo.AssignmentStop
-import com.polaris.app.dispatch.service.exception.ValidationException
+import com.polaris.app.dispatch.service.exception.AssignmentValidationException
 import java.sql.Time
+import java.util.*
 
 class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): AssignmentService{
     override fun retrieveAssignments(windowStart: Time, windowEnd: Time): List<Assignment> {
@@ -46,14 +48,20 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
 
     override fun addAssignment(newAssignment: Assignment) {
         val errors: Multimap<AssignmentFieldTags, String> = HashMultimap.create()
+        val stopErrors: MutableMap<Int, Multimap<AssignmentStopFieldTags, String>> = HashMap()
 
         if(true) {
             errors[AssignmentFieldTags.START_TIME].add("This start time sucks!")
+            stopErrors.put(0, HashMultimap.create<AssignmentStopFieldTags, String>())
+
+            // TBC : Tyler, the '!!' means that I am asserting that stopErrors[0] is not null because in the statement above I
+            // created a multimap at that index.
+            stopErrors[0]!![AssignmentStopFieldTags.TEST_ASSIGNMENT_STOP_FIELD].add("example assignment stop error")
 
         }
 
-        if(!errors.isEmpty) {
-            throw ValidationException<AssignmentFieldTags>(errors)
+        if(!errors.isEmpty || stopErrors.isNotEmpty()) {
+            throw AssignmentValidationException(errors, stopErrors)
         }
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
