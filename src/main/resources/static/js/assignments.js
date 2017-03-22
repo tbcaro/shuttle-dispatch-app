@@ -122,7 +122,7 @@ function AssignmentApp(options) {
     if (self.assignmentForm != null) {
       var stopId = self.assignmentForm.elements.stopSelector.val();
       if (stopId == 0) { // TBC : Intentional '==' to compare string to int
-        // TBC : Load custom stop info from map
+        // TBC : TODO : Load custom stop info from map
       } else {
         self.assignmentForm.addSavedStopForm(stopId);
       }
@@ -152,10 +152,30 @@ function AssignmentApp(options) {
 
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-save', function() {
       // TBC : Submit assignment-form data
+      console.log('save clicked');
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-add-stop', function() {
       self.addAssignmentStop();
+    });
+
+    elements.assignmentCardContainer.on('click', '.assignment-form .assignment-stop-form .btn-move-up', function() {
+      console.log('move up clicked');
+    });
+
+    elements.assignmentCardContainer.on('click', '.assignment-form .assignment-stop-form .btn-move-down', function() {
+      console.log('move down clicked');
+    });
+
+    elements.assignmentCardContainer.on('click', '.assignment-form .assignment-stop-form .btn-remove', function() {
+      var formElement = $(this).closest('.assignment-stop-form');
+      var index = formElement.data('index');
+      self.assignmentForm.assignmentStopForms.splice(index,1);
+      self.assignmentForm.bindAssignmentStopData();
+    });
+
+    elements.assignmentCardContainer.on('change', '.assignment-form .assignment-stop-form .field-stop-order', function() {
+      console.log('order changed');
     });
   };
 
@@ -291,6 +311,17 @@ function AssignmentForm(selectOptions) {
 
   self.bindData = function() {
 
+    self.bindAssignmentStopData();
+  };
+
+  self.bindAssignmentStopData = function() {
+    self.elements.scheduleFormTableBody.empty();
+
+    self.assignmentStopForms.forEach(function(stopForm, index) {
+      stopForm.setIndex(index);
+      stopForm.bindData();
+      self.elements.scheduleFormTableBody.append(stopForm.elements.form);
+    });
   };
 
   self.show = function() {
@@ -316,11 +347,11 @@ function AssignmentForm(selectOptions) {
   };
 
   self.addStopForm = function(stopDetails) {
-    var stopOrder = self.assignmentStopForms.length + 1;
-    var stopForm = new AssignmentStopForm(stopDetails, stopOrder);
+    var stopIndex = self.assignmentStopForms.length;
+    var stopForm = new AssignmentStopForm(stopDetails, stopIndex);
     stopForm.show();
     self.elements.scheduleFormTableBody.append(stopForm.elements.form);
-    self.assignmentStopForms.push(stopForm);
+    self.assignmentStopForms[stopForm.data.index] = stopForm;
   };
 
   var populateOptions = function() {
@@ -368,24 +399,24 @@ function AssignmentForm(selectOptions) {
   return self;
 }
 
-function AssignmentStopForm(data, order) {
+function AssignmentStopForm(data, index) {
   var self = this;
   var templateId = '#assignment-stop-form-template';
 
   self.elements = { };
   self.data = { };
-  self.order = order || 0;
 
   self.initialize = function() {
     self.elements.form = $(templateId).find('.assignment-stop-form').clone();
-    self.elements.btnMoveUp = self.elements.form.find('.fa-arrow-up');
-    self.elements.btnMoveDown = self.elements.form.find('.fa-arrow-down');
+    self.elements.btnMoveUp = self.elements.form.find('.btn-move-up');
+    self.elements.btnMoveDown = self.elements.form.find('.btn-move-down');
     self.elements.stopOrder = self.elements.form.find('.field-stop-order');
     self.elements.name = self.elements.form.find('.field-stop-name');
     self.elements.address = self.elements.form.find('.field-stop-address');
     self.elements.estArriveTime = self.elements.form.find('.field-est-arrive');
     //self.elements.estWaitTime = self.elements.form.find('.field-est-wait');
     self.elements.estDepartTime = self.elements.form.find('.field-est-depart');
+    self.elements.btnRemove = self.elements.form.find('.btn-remove');
 
     self.elements.estArriveTime.timepicker({
                                  'scrollDefault': 'now',
@@ -402,12 +433,17 @@ function AssignmentStopForm(data, order) {
                                  'timeFormat': 'g:i A'
                                });
 
+    self.setIndex(index);
     self.update(data);
   };
 
   self.update = function(data) {
     self.setData(data);
     self.bindData();
+  };
+
+  self.setIndex = function(index) {
+    self.data.index = index;
   };
 
   self.setData = function(data) {
@@ -417,7 +453,8 @@ function AssignmentStopForm(data, order) {
   };
 
   self.bindData = function() {
-    self.elements.stopOrder.val(self.order);
+    self.elements.form.data('index', self.data.index);
+    self.elements.stopOrder.val(self.data.index + 1);
     self.elements.name.html(self.data.name);
     self.elements.address.html(self.data.address);
   };
