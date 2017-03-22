@@ -24,7 +24,7 @@
 #assignment-panel .schedule-form {
   background: #f8f8f8;
   font-size: 10pt;
-  height: 100px;
+  height: 200px;
   overflow-y: auto;
   overflow-x: hidden;
 }

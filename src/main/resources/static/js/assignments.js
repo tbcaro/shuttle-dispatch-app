@@ -146,6 +146,14 @@ function AssignmentApp(options) {
       self.loadNewAssignmentForm();
     });
 
+    elements.assignmentCardContainer.on('click', '.assignment-card .btn-edit', function() {
+      console.log('edit clicked');
+    });
+
+    elements.assignmentCardContainer.on('click', '.assignment-card .btn-archive', function() {
+      console.log('archive clicked');
+    });
+
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-cancel', function() {
       self.removeAssignmentForm();
     });
@@ -160,11 +168,27 @@ function AssignmentApp(options) {
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-form .assignment-stop-form .btn-move-up', function() {
-      console.log('move up clicked');
+      var formElement = $(this).closest('.assignment-stop-form');
+      var index = formElement.data('index');
+
+      if (index - 1 >= 0) {
+        var tempForm = self.assignmentForm.assignmentStopForms.splice(index, 1)[0];
+        self.assignmentForm.assignmentStopForms.splice(index - 1, 0, tempForm);
+      }
+
+      self.assignmentForm.bindAssignmentStopData();
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-form .assignment-stop-form .btn-move-down', function() {
-      console.log('move down clicked');
+      var formElement = $(this).closest('.assignment-stop-form');
+      var index = formElement.data('index');
+
+      if (index + 1 <= self.assignmentForm.assignmentStopForms.length - 1) {
+        var tempForm = self.assignmentForm.assignmentStopForms.splice(index, 1)[0];
+        self.assignmentForm.assignmentStopForms.splice(index + 1, 0, tempForm);
+      }
+
+      self.assignmentForm.bindAssignmentStopData();
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-form .assignment-stop-form .btn-remove', function() {
@@ -175,7 +199,20 @@ function AssignmentApp(options) {
     });
 
     elements.assignmentCardContainer.on('change', '.assignment-form .assignment-stop-form .field-stop-order', function() {
-      console.log('order changed');
+      try {
+        var formElement = $(this).closest('.assignment-stop-form');
+        var curIndex = formElement.data('index');
+        var newIndex = Number.parseInt(formElement.find('.field-stop-order').val()) - 1;
+
+        if (newIndex >= 0 && newIndex <= self.assignmentForm.assignmentStopForms.length - 1) {
+          var tempForm = self.assignmentForm.assignmentStopForms.splice(curIndex,1)[0];
+          self.assignmentForm.assignmentStopForms.splice(newIndex, 0, tempForm);
+        }
+
+        self.assignmentForm.bindAssignmentStopData();
+      } catch (ex) {
+        console.log(ex);
+      }
     });
   };
 
@@ -450,6 +487,13 @@ function AssignmentStopForm(data, index) {
     self.data.id = data.id;
     self.data.name = data.name;
     self.data.address = data.address;
+    self.data.estArriveTime = data.estArriveTime;
+    self.data.estDepartTime = data.estDepartTime;
+  };
+
+  self.getData = function() {
+    self.data.estArriveTime = self.elements.estArriveTime.val();
+    self.data.estDepartTime = self.elements.estDepartTime.val();
   };
 
   self.bindData = function() {
@@ -457,6 +501,24 @@ function AssignmentStopForm(data, index) {
     self.elements.stopOrder.val(self.data.index + 1);
     self.elements.name.html(self.data.name);
     self.elements.address.html(self.data.address);
+
+    if(self.data.estArriveTime != null) {
+      self.elements.estArriveTime.val(self.data.estArriveTime);
+    }
+
+    if(self.data.estDepartTime != null) {
+      self.elements.estDepartTime.val(self.data.estDepartTime);
+    }
+
+    self.elements.estArriveTime.timepicker({
+                                             'scrollDefault': 'now',
+                                             'timeFormat': 'g:i A'
+                                           });
+
+    self.elements.estDepartTime.timepicker({
+                                             'scrollDefault': 'now',
+                                             'timeFormat': 'g:i A'
+                                           });
   };
 
   self.show = function() {
