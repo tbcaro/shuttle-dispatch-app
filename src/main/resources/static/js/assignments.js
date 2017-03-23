@@ -13,6 +13,7 @@ function AssignmentApp(options) {
   self.selectedDate = moment();
   self.assignmentCards = { };
   self.assignmentForm = null;
+  self.editingAssignmentId = null;
 
   self.initialize = function() {
     // TBC : Setup elements
@@ -92,21 +93,26 @@ function AssignmentApp(options) {
     });
   };
 
-  self.loadNewAssignmentForm = function() {
+  self.loadNewAssignmentForm = function(assignmentData) {
     axios.get('/test/api/assignment/formOptions')
         .then(function(response){
           console.log(response);
-          self.addAssignmentForm(response.data);
+          self.addAssignmentForm(response.data, assignmentData);
         })
         .catch(function(error){
           console.log(error);
         });
   };
 
-  self.addAssignmentForm = function(options) {
+  self.addAssignmentForm = function(options, assignmentData) {
     self.removeAssignmentForm();
 
     self.assignmentForm = new AssignmentForm(options);
+
+    if (assignmentData != null) {
+      self.assignmentForm.update(assignmentData);
+    }
+
     elements.assignmentCardContainer.prepend(self.assignmentForm.elements.form);
     self.assignmentForm.elements.shuttleSelector[0].focus(); // TBC : Set focus to the element
   };
@@ -147,7 +153,12 @@ function AssignmentApp(options) {
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-card .btn-edit', function() {
-      console.log('edit clicked');
+      var assignmentId = $(this).closest('.assignment-card').data('assignmentId');
+      var assignmentCard = self.assignmentCards[assignmentId];
+
+      self.editingAssignmentId = assignmentId;
+      assignmentCard.hide();
+      self.loadNewAssignmentForm(assignmentCard.getData());
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-card .btn-archive', function() {
@@ -156,6 +167,11 @@ function AssignmentApp(options) {
 
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-cancel', function() {
       self.removeAssignmentForm();
+
+      if (self.editingAssignmentId != null) {
+        self.assignmentCards[self.editingAssignmentId].show();
+        self.editingAssignmentId = null;
+      }
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-save', function() {
@@ -246,15 +262,31 @@ function Assignment(data) {
   };
 
   self.setData = function(data) {
+    self.data.shuttleId = data.shuttleId;
     self.data.shuttleName = data.shuttleName;
+    self.data.driverId = data.driverId;
     self.data.driverName = data.driverName;
+    self.data.routeId = data.routeId;
     self.data.routeName = data.routeName;
     self.data.startTime = data.startTime;
     self.data.assignmentReport = data.assignmentReport;
   };
 
+  self.getData = function() {
+    return {
+      shuttleId: self.data.shuttleId,
+      shuttleName: self.data.shuttleName,
+      driverId: self.data.driverId,
+      driverName: self.data.driverName,
+      routeId: self.data.routeId,
+      routeName: self.data.routeName,
+      startTime: self.data.startTime,
+      assignmentReport: self.data.assignmentReport
+    }
+  };
+
   self.bindData = function() {
-    self.elements.card.data('assingmentId', self.data.assignmentReport.assignmentId);
+    self.elements.card.data('assignmentId', self.data.assignmentReport.assignmentId);
     self.elements.shuttleName.html(self.data.shuttleName);
     self.elements.driverName.html(self.data.driverName);
     self.elements.routeName.html(self.data.routeName);
@@ -313,6 +345,7 @@ function Assignment(data) {
 function AssignmentForm(selectOptions) {
   var self = this;
   var templateId = '#assignment-form-card-template';
+  var timeUtils = new TimeUtils();
 
   self.elements = { };
   self.data = { };
@@ -343,10 +376,18 @@ function AssignmentForm(selectOptions) {
   };
 
   self.setData = function(data) {
-
+    self.data.selectedShuttleId = data.shuttleId;
+    self.data.selectedDriverId = data.driverId;
+    self.data.selectedRouteId = data.routeId;
+    self.data.selectedStartTime = data.startTime;
+    self.data.assignmentStopsData = data.assignmentStopsData;
   };
 
   self.bindData = function() {
+    self.elements.shuttleSelector.val(self.data.selectedShuttleId);
+    self.elements.driverSelector.val(self.data.selectedDriverId);
+    self.elements.routeSelector.val(self.data.selectedRouteId);
+    self.elements.startTimeSelector.val(timeUtils.formatTime(self.data.selectedStartTime));
 
     self.bindAssignmentStopData();
   };
@@ -492,8 +533,10 @@ function AssignmentStopForm(data, index) {
   };
 
   self.getData = function() {
-    self.data.estArriveTime = self.elements.estArriveTime.val();
-    self.data.estDepartTime = self.elements.estDepartTime.val();
+    return {
+      estArriveTime: self.elements.estArriveTime.val(),
+      estDepartTime: self.elements.estDepartTime.val()
+    };
   };
 
   self.bindData = function() {
