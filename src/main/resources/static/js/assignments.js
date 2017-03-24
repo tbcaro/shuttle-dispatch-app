@@ -380,7 +380,11 @@ function AssignmentForm(selectOptions) {
     self.data.selectedDriverId = data.driverId;
     self.data.selectedRouteId = data.routeId;
     self.data.selectedStartTime = data.startTime;
-    self.data.assignmentStopsData = data.assignmentStopsData;
+
+    data.assignmentReport.assignmentStops.forEach(function(stopData) {
+      var form = new AssignmentStopForm(stopData, stopData.order);
+      self.assignmentStopForms[form.data.index] = form;
+    });
   };
 
   self.bindData = function() {
@@ -480,6 +484,7 @@ function AssignmentForm(selectOptions) {
 function AssignmentStopForm(data, index) {
   var self = this;
   var templateId = '#assignment-stop-form-template';
+  var timeUtils = new TimeUtils();
 
   self.elements = { };
   self.data = { };
@@ -525,7 +530,6 @@ function AssignmentStopForm(data, index) {
   };
 
   self.setData = function(data) {
-    self.data.id = data.id;
     self.data.name = data.name;
     self.data.address = data.address;
     self.data.estArriveTime = data.estArriveTime;
@@ -546,11 +550,11 @@ function AssignmentStopForm(data, index) {
     self.elements.address.html(self.data.address);
 
     if(self.data.estArriveTime != null) {
-      self.elements.estArriveTime.val(self.data.estArriveTime);
+      self.elements.estArriveTime.val(timeUtils.formatTime(self.data.estArriveTime));
     }
 
     if(self.data.estDepartTime != null) {
-      self.elements.estDepartTime.val(self.data.estDepartTime);
+      self.elements.estDepartTime.val(timeUtils.formatTime(self.data.estDepartTime));
     }
 
     self.elements.estArriveTime.timepicker({
