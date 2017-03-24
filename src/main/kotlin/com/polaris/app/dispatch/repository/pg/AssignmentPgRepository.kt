@@ -9,9 +9,9 @@ import java.sql.Time
 
 @Component
 class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
-    override fun findAssignments(windowStart: Time, windowEnd: Time): List<AssignmentEntity> {
+    override fun findAssignments(service: Int, windowStart: Time, windowEnd: Time): List<AssignmentEntity> {
         val AssignmentEntities = db.query(
-                "SELECT * FROM \"Assignment\" WHERE \"Assignment.TimeStamp\" > windowStart AND \"Assignment.TimeStamp\" < windowEnd",
+                "SELECT * FROM \"Assignment\" WHERE \"Assignment.TimeStamp\" > windowStart AND \"Assignment.TimeStamp\" < windowEnd AND \"Assignment.serviceid\" = service",
                 {
                     resultSet, rowNum -> AssignmentEntity(
                         resultSet.getInt("SerialID"),
@@ -44,9 +44,9 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
         return AssignmentStopEntities
     }
 
-    override fun addAssignments(AssignmentEntities: List<AssignmentEntity>) {
+    override fun addAssignment(service: Int, Assignment: AssignmentEntity) {
         db.update(
-                "INSERT INTO \"Assignments\" VALUES (AssignmentEntity.AssignmentID, AssignmentEntity.StartTime, AssignmentEntity.RouteName, AssignmentEntity.ShuttleID, AssignmentEntity.DriverID"
+                "INSERT INTO \"Assignments\" (\"assignmentid\", \"serviceid\", \"driverid\",\"shuttleid\", \"routeid\", \"routename\")VALUES (Assignment.AssignmentID, service, Assignment.DriverID, Assignment.ShuttleID, Assignment.RouteID, Assignment.RouteName)"
         )
     }
 

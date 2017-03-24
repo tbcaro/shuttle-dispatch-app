@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component
 
 @Component
 class MapPgRepository(val db: JdbcTemplate): MapRepository{
-    override fun findActiveShuttles(): List<MapShuttleEntity> {
+    override fun findActiveShuttles(service: Int): List<MapShuttleEntity> {
         val MapShuttleEntities = db.query(
-                "SELECT * FROM \"ShuttleActivity\" LEFT OUTER JOIN \"Shuttle\"",
+                "SELECT * FROM \"ShuttleActivity\" LEFT OUTER JOIN \"Shuttle\" WHERE \"Shuttle.serviceid\" = service",
                 {
                     resultSet, rowNum -> MapShuttleEntity(
                         resultSet.getInt("Shuttle.ID"),
