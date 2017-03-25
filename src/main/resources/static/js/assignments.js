@@ -183,6 +183,15 @@ function AssignmentApp(options) {
       self.addAssignmentStop();
     });
 
+    elements.assignmentCardContainer.on('change', '.assignment-form .field-route-select', function() {
+      try {
+        var routeId = $(this).val();
+        self.assignmentForm.loadSavedRoute(routeId);
+      } catch (ex) {
+        console.log(ex);
+      }
+    });
+
     elements.assignmentCardContainer.on('click', '.assignment-form .assignment-stop-form .btn-move-up', function() {
       var formElement = $(this).closest('.assignment-stop-form');
       var index = formElement.data('index');
