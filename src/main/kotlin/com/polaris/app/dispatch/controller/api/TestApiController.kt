@@ -5,9 +5,11 @@ import com.polaris.app.dispatch.controller.adapter.*
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentState
 import com.polaris.app.dispatch.controller.adapter.enums.ShuttleState
 import org.springframework.format.annotation.DateTimeFormat
+import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.math.BigDecimal
@@ -261,19 +263,8 @@ class TestApiController {
         return ResponseEntity(options, HttpStatus.OK)
     }
 
-    @RequestMapping("/assignment/create")
+    @RequestMapping("/assignment/save", method = arrayOf(RequestMethod.POST))
     fun createAssignment(
-            form: AssignmentFormAdapter
-    ) : ResponseEntity<Int> {
-        val id = 0
-
-        // TBC : Throw exception if invalid
-
-        return ResponseEntity(id, HttpStatus.OK)
-    }
-
-    @RequestMapping("/assignment/update")
-    fun updateAssignment(
             form: AssignmentFormAdapter
     ) : ResponseEntity<Int> {
         val id = 0

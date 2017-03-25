@@ -104,6 +104,18 @@ function AssignmentApp(options) {
         });
   };
 
+  self.saveAssignment = function() {
+    axios.post('/test/api/assignment/save',
+               { form: self.assignmentForm.getFormData() }
+    )
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(errors) {
+          console.log(errors);
+        })
+  };
+
   self.addAssignmentForm = function(options, assignmentData) {
     self.removeAssignmentForm();
 
@@ -176,7 +188,7 @@ function AssignmentApp(options) {
 
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-save', function() {
       // TBC : Submit assignment-form data
-      console.log('save clicked');
+      self.saveAssignment();
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-add-stop', function() {
@@ -283,6 +295,7 @@ function Assignment(data) {
 
   self.getData = function() {
     return {
+      assignmentId: self.data.assignmentReport.assignmentId,
       shuttleId: self.data.shuttleId,
       shuttleName: self.data.shuttleName,
       driverId: self.data.driverId,
@@ -385,6 +398,7 @@ function AssignmentForm(selectOptions) {
   };
 
   self.setData = function(data) {
+    self.data.assignmentId = data.assignmentId;
     self.data.selectedShuttleId = data.shuttleId;
     self.data.selectedDriverId = data.driverId;
     self.data.selectedRouteId = data.routeId;
@@ -396,7 +410,33 @@ function AssignmentForm(selectOptions) {
     });
   };
 
+  self.getFormData = function() {
+    var formData = {
+      assignmentId: { },
+      shuttleId: { },
+      driverId: { },
+      routeId: { },
+      startTime: { },
+      assignmentStops: { }
+    };
+    var assignmentStopData = [];
+
+    self.assignmentStopForms.forEach(function(stopForm) {
+      assignmentStopData.push(stopForm.getFormData());
+    });
+
+    formData.assignmentId.value = self.elements.form.data('assignmentId');
+    formData.shuttleId.value = self.elements.shuttleSelector.val();
+    formData.driverId.value = self.elements.driverSelector.val();
+    formData.routeId.value = self.elements.routeSelector.val();
+    formData.startTime.value = self.elements.startTimeSelector.val();
+    formData.assignmentStops.value = assignmentStopData;
+
+    return formData;
+  };
+
   self.bindData = function() {
+    self.elements.form.data('assignmentId', self.data.assignmentId);
     self.elements.shuttleSelector.val(self.data.selectedShuttleId);
     self.elements.driverSelector.val(self.data.selectedDriverId);
     self.elements.routeSelector.val(self.data.selectedRouteId);
@@ -539,20 +579,35 @@ function AssignmentStopForm(data, index) {
   };
 
   self.setData = function(data) {
+    self.data.stopId = data.stopId;
     self.data.name = data.name;
     self.data.address = data.address;
     self.data.estArriveTime = data.estArriveTime;
     self.data.estDepartTime = data.estDepartTime;
   };
 
-  self.getData = function() {
-    return {
-      estArriveTime: self.elements.estArriveTime.val(),
-      estDepartTime: self.elements.estDepartTime.val()
+  self.getFormData = function() {
+    var formData = {
+      stopId: { },
+      index: { },
+      name: { },
+      address: { },
+      estArriveTime: { },
+      estDepartTime: { }
     };
+
+    formData.stopId.value = self.elements.form.data('stopId');
+    formData.index.value = self.elements.form.data('index');
+    formData.name.value = self.elements.name.html();
+    formData.address.value = self.elements.address.html();
+    formData.estArriveTime.value = self.elements.estArriveTime.val();
+    formData.estDepartTime.value = self.elements.estDepartTime.val();
+
+    return formData;
   };
 
   self.bindData = function() {
+    self.elements.form.data('stopId', self.data.stopId);
     self.elements.form.data('index', self.data.index);
     self.elements.stopOrder.val(self.data.index + 1);
     self.elements.name.html(self.data.name);

@@ -6,19 +6,24 @@ import com.polaris.app.dispatch.service.bo.AssignmentStop
 import java.time.LocalTime
 
 
-class AssignmentFormAdapter {
-    var startTime: LocalTime?
-    var routeName: String
-    var driverID: Int
-    var shuttleID: Int
-    var stops: List<AssignmentStop>
+class AssignmentFormAdapter : FormAdapter {
+    override var hasErrors: Boolean
+
+    var assignmentId: Field<Int?>
+    var shuttleId: Field<Int>
+    var driverId: Field<Int>
+    var routeId: Field<Int>
+    var startTime: Field<LocalTime>?
+    var assignmentStops: Field<List<AssignmentStopFormAdapter>>
 
     constructor() {
+        this.hasErrors = false;
+        this.assignmentId = Field<Int?>(0)
+        this.shuttleId = Field<Int>(0)
+        this.driverId = Field<Int>(0)
+        this.routeId = Field<Int>(0)
         this.startTime = null
-        this.routeName = ""
-        this.driverID = 0
-        this.shuttleID = 0
-        this.stops = arrayListOf()
+        this.assignmentStops = Field<List<AssignmentStopFormAdapter>>(arrayListOf<AssignmentStopFormAdapter>())
     }
 
     fun mapErrors(errors: Multimap<AssignmentFieldTags, String>) {
