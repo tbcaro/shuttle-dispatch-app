@@ -9,7 +9,7 @@ import com.polaris.app.dispatch.service.bo.MapShuttle
 class MapServiceImpl(val MapRepository: MapRepository): MapService{
     override fun retrieveShuttle(): List<MapShuttle> {
         val mapShuttles = arrayListOf<MapShuttle>()
-        val mapShuttleEntities = this.MapRepository.findActiveShuttles()
+        val mapShuttleEntities = this.MapRepository.findActiveShuttles(0)
 
         mapShuttleEntities.forEach {
             val mapShuttle = MapShuttle(

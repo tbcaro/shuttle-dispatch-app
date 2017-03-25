@@ -15,7 +15,7 @@ import java.util.*
 class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): AssignmentService{
     override fun retrieveAssignments(windowStart: Time, windowEnd: Time): List<Assignment> {
         val assignments = arrayListOf<Assignment>()
-        val assignmentEntities = this.AssignmentRepository.findAssignments(windowStart, windowEnd)
+        val assignmentEntities = this.AssignmentRepository.findAssignments(0, windowStart, windowEnd)
 
         assignmentEntities.forEach{
             val assignmentStops = arrayListOf<AssignmentStop>()
