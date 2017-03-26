@@ -2,6 +2,10 @@ package com.polaris.app.dispatch.controller.adapter
 
 import com.google.common.collect.Multimap
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentFieldTags
+import com.polaris.app.dispatch.controller.adapter.form.FormField
+import com.polaris.app.dispatch.controller.adapter.form.FormAdapter
+import com.polaris.app.dispatch.controller.adapter.form.FormInt
+import com.polaris.app.dispatch.controller.adapter.form.FormTime
 import com.polaris.app.dispatch.service.bo.AssignmentStop
 import java.time.LocalTime
 
@@ -9,21 +13,21 @@ import java.time.LocalTime
 class AssignmentFormAdapter : FormAdapter {
     override var hasErrors: Boolean
 
-    var assignmentId: Field<Int?>
-    var shuttleId: Field<Int>
-    var driverId: Field<Int>
-    var routeId: Field<Int>
-    var startTime: Field<LocalTime>?
-    var assignmentStops: Field<List<AssignmentStopFormAdapter>>
+    var assignmentId: FormInt
+    var shuttleId: FormInt
+    var driverId: FormInt
+    var routeId: FormInt
+//    var startTime: FormTime
+    var assignmentStopForms: List<AssignmentStopFormAdapter>
 
     constructor() {
-        this.hasErrors = false;
-        this.assignmentId = Field<Int?>(0)
-        this.shuttleId = Field<Int>(0)
-        this.driverId = Field<Int>(0)
-        this.routeId = Field<Int>(0)
-        this.startTime = null
-        this.assignmentStops = Field<List<AssignmentStopFormAdapter>>(arrayListOf<AssignmentStopFormAdapter>())
+        this.hasErrors = false
+        this.assignmentId = FormInt(0)
+        this.shuttleId = FormInt(0)
+        this.driverId = FormInt(0)
+        this.routeId = FormInt(0)
+//        this.startTime = FormTime(null)
+        this.assignmentStopForms = arrayListOf<AssignmentStopFormAdapter>()
     }
 
     fun mapErrors(errors: Multimap<AssignmentFieldTags, String>) {

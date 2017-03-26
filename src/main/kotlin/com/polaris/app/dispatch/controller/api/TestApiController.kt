@@ -8,10 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalTime
@@ -112,6 +109,7 @@ class TestApiController {
     ) : ResponseEntity<AssignmentListAdapter> {
         val stops = arrayListOf<AssignmentStopAdapter>()
         val stop1 = AssignmentStopAdapter()
+        stop1.stopId = 1
         stop1.name = "Stop 1"
         stop1.order = 0
         stop1.address = "123 Baseball Stadium Road"
@@ -121,6 +119,7 @@ class TestApiController {
         stop1.estDepartTime = LocalTime.of(12, 0)
 
         val stop2 = AssignmentStopAdapter()
+        stop2.stopId = 2
         stop2.name = "Stop 2"
         stop2.order = 1
         stop2.address = "123 Baseball Stadium Road"
@@ -130,6 +129,7 @@ class TestApiController {
         stop2.estDepartTime = LocalTime.of(12+2, 30)
 
         val stop3 = AssignmentStopAdapter()
+        stop3.stopId = 3
         stop3.name = "Stop 3"
         stop3.order = 2
         stop3.address = "123 Baseball Stadium Road"
@@ -265,7 +265,7 @@ class TestApiController {
 
     @RequestMapping("/assignment/save", method = arrayOf(RequestMethod.POST))
     fun createAssignment(
-            form: AssignmentFormAdapter
+            @RequestBody form: AssignmentFormAdapter?
     ) : ResponseEntity<Int> {
         val id = 0
 

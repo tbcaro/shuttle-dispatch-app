@@ -1,26 +1,27 @@
 package com.polaris.app.dispatch.controller.adapter
 
+import com.polaris.app.dispatch.controller.adapter.form.*
 import java.time.LocalTime
 
 
 class AssignmentStopFormAdapter : FormAdapter {
     override var hasErrors: Boolean
 
-    var stopId: Field<Int?>
-    var index: Field<Int>
-    var name: Field<String>
-    var address: Field<String>
-    var estArriveTime: Field<LocalTime>?
-    var estDepartTime: Field<LocalTime>?
+    var stopId: FormInt
+    var index: FormInt
+    var name: FormString
+    var address: FormString
+//    var estArriveTime: FormTime
+//    var estDepartTime: FormTime
 
     constructor() {
         this.hasErrors = false
 
-        this.stopId = Field<Int?>(null)
-        this.index = Field<Int>(0)
-        this.name = Field<String>("")
-        this.address = Field<String>("")
-        this.estArriveTime = null
-        this.estDepartTime = null
+        this.stopId = FormInt(null)
+        this.index = FormInt(0)
+        this.name = FormString("")
+        this.address = FormString("")
+//        this.estArriveTime = FormTime(null)
+//        this.estDepartTime = FormTime(null)
     }
 }

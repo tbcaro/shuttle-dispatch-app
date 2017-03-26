@@ -106,7 +106,7 @@ function AssignmentApp(options) {
 
   self.saveAssignment = function() {
     axios.post('/test/api/assignment/save',
-               { form: self.assignmentForm.getFormData() }
+               self.assignmentForm.getFormData()
     )
         .then(function(response) {
           console.log(response);
@@ -417,7 +417,7 @@ function AssignmentForm(selectOptions) {
       driverId: { },
       routeId: { },
       startTime: { },
-      assignmentStops: { }
+      assignmentStopForms: { }
     };
     var assignmentStopData = [];
 
@@ -429,8 +429,8 @@ function AssignmentForm(selectOptions) {
     formData.shuttleId.value = self.elements.shuttleSelector.val();
     formData.driverId.value = self.elements.driverSelector.val();
     formData.routeId.value = self.elements.routeSelector.val();
-    formData.startTime.value = self.elements.startTimeSelector.val();
-    formData.assignmentStops.value = assignmentStopData;
+    // formData.startTime.value = self.elements.startTimeSelector.val();
+    formData.assignmentStopForms = assignmentStopData;
 
     return formData;
   };
