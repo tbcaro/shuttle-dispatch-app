@@ -44,6 +44,11 @@ dependencies {
     compile("org.springframework.boot:spring-boot-devtools")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
 
+    // Jackson date parsing dependency
+    compile("com.fasterxml.jackson.module:jackson-module-parameter-names")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.6")
+
     // JUnit
     testCompile "junit:junit:4.12"
 

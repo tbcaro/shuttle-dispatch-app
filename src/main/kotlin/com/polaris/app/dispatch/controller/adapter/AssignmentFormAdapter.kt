@@ -1,12 +1,11 @@
 package com.polaris.app.dispatch.controller.adapter
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.google.common.collect.Multimap
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentFieldTags
-import com.polaris.app.dispatch.controller.adapter.form.FormField
-import com.polaris.app.dispatch.controller.adapter.form.FormAdapter
-import com.polaris.app.dispatch.controller.adapter.form.FormInt
-import com.polaris.app.dispatch.controller.adapter.form.FormTime
+import com.polaris.app.dispatch.controller.adapter.form.*
 import com.polaris.app.dispatch.service.bo.AssignmentStop
+import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalTime
 
 
@@ -17,7 +16,7 @@ class AssignmentFormAdapter : FormAdapter {
     var shuttleId: FormInt
     var driverId: FormInt
     var routeId: FormInt
-//    var startTime: FormTime
+    var startTime: FormDateTime
     var assignmentStopForms: List<AssignmentStopFormAdapter>
 
     constructor() {
@@ -26,7 +25,7 @@ class AssignmentFormAdapter : FormAdapter {
         this.shuttleId = FormInt(0)
         this.driverId = FormInt(0)
         this.routeId = FormInt(0)
-//        this.startTime = FormTime(null)
+        this.startTime = FormDateTime(null)
         this.assignmentStopForms = arrayListOf<AssignmentStopFormAdapter>()
     }
 

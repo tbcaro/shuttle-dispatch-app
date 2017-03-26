@@ -265,12 +265,18 @@ class TestApiController {
 
     @RequestMapping("/assignment/save", method = arrayOf(RequestMethod.POST))
     fun createAssignment(
-            @RequestBody form: AssignmentFormAdapter?
+            @RequestBody form: AssignmentFormAdapter
     ) : ResponseEntity<Int> {
-        val id = 0
+        var assignmentId = 0
 
-        // TBC : Throw exception if invalid
+        if (form.assignmentId.value == null) {
+            // TBC : Do create
+            assignmentId = 2
+        } else {
+            // TBC : Do update
+            assignmentId = 1
+        }
 
-        return ResponseEntity(id, HttpStatus.OK)
+        return ResponseEntity(assignmentId, HttpStatus.OK)
     }
 }

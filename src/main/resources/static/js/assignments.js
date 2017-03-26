@@ -106,7 +106,7 @@ function AssignmentApp(options) {
 
   self.saveAssignment = function() {
     axios.post('/test/api/assignment/save',
-               self.assignmentForm.getFormData()
+               self.assignmentForm.getFormData(self.selectedDate)
     )
         .then(function(response) {
           console.log(response);
@@ -410,7 +410,7 @@ function AssignmentForm(selectOptions) {
     });
   };
 
-  self.getFormData = function() {
+  self.getFormData = function(selectedDate) {
     var formData = {
       assignmentId: { },
       shuttleId: { },
@@ -425,11 +425,17 @@ function AssignmentForm(selectOptions) {
       assignmentStopData.push(stopForm.getFormData());
     });
 
+    var startTime = moment.utc(
+        selectedDate.format('YYYY-MM-DD') + ' ' +
+        self.elements.startTimeSelector.val().toString()
+        , ["YYYY-MM-DD h:mm A", "YYYY-MM-DD hh:mm A"]
+        , true);
+
     formData.assignmentId.value = self.elements.form.data('assignmentId');
     formData.shuttleId.value = self.elements.shuttleSelector.val();
     formData.driverId.value = self.elements.driverSelector.val();
     formData.routeId.value = self.elements.routeSelector.val();
-    // formData.startTime.value = self.elements.startTimeSelector.val();
+    formData.startTime.value = startTime.toISOString();
     formData.assignmentStopForms = assignmentStopData;
 
     return formData;

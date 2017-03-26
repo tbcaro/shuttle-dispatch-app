@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
+import com.fasterxml.jackson.databind.ObjectMapper
+
+
 
 @SpringBootApplication
 open class Application {
@@ -21,6 +24,9 @@ open class Application {
 
 fun main(args: Array<String>) {
     SpringApplication.run(Application::class.java, *args)
+
+    val mapper = ObjectMapper()
+    mapper.findAndRegisterModules()
 }
 
 
