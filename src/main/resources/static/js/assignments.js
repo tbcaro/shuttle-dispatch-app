@@ -3,10 +3,7 @@ function AssignmentApp(options) {
   var self = this;
   var elements = { };
   var geoLocator = { };
-  var formTypes = {
-    CREATE: 'create',
-    EDIT: 'edit'
-  };
+  const GEOCODER_API_KEY = 'AIzaSyBZDbTJLMcIKnLDV1m9gNhZLu4vjKyeTQo';
 
   self.map = { };
   self.mapMarkers = { };
@@ -164,6 +161,25 @@ function AssignmentApp(options) {
     self.mapMarkers.stopMarker.setPosition(position);
   };
 
+  self.geoCodeAddress = function(address) {
+    axios.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=' + GEOCODER_API_KEY)
+        .then(function(response) {
+          var result = response.data.results[0];
+
+          self.updateStopMarker(result.geometry.location);
+          self.map.setCenter(result.geometry.location);
+          elements.txtBoxAddress.val(result.formatted_address);
+
+          var bounds = new google.maps.LatLngBounds();
+          bounds.extend(result.geometry.bounds.northeast);
+          bounds.extend(result.geometry.bounds.southwest);
+          self.map.fitBounds(bounds);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+  };
+
   var bindEventHandlers = function() {
     google.maps.event.addListener(self.map, 'click', function(event) {
       self.updateStopMarker(event.latLng);
@@ -179,6 +195,19 @@ function AssignmentApp(options) {
       var day = moment(self.selectedDate);
       day.add(1, 'd');
       self.fetchAssignments(day);
+    });
+
+    elements.txtBoxAddress.on('keyup', function(event) {
+      if (event.key == 'Enter') {
+        elements.btnSearchAddress.click();
+      }
+    });
+
+    elements.btnSearchAddress.on('click', function() {
+      var address = elements.txtBoxAddress.val();
+      if (address != null && address != '') {
+        self.geoCodeAddress(address);
+      }
     });
 
     elements.btnNewAssignment.on('click', function() {
