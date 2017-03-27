@@ -189,6 +189,10 @@ function AssignmentApp(options) {
       var assignmentId = $(this).closest('.assignment-card').data('assignmentId');
       var assignmentCard = self.assignmentCards[assignmentId];
 
+      if (self.editingAssignmentId != null) {
+        self.assignmentCards[self.editingAssignmentId].show();
+      }
+
       self.editingAssignmentId = assignmentId;
       assignmentCard.hide();
       self.loadNewAssignmentForm(assignmentCard.getData());
