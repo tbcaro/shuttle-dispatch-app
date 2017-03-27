@@ -11,6 +11,7 @@ function AssignmentApp(options) {
   self.assignmentCards = { };
   self.assignmentForm = null;
   self.editingAssignmentId = null;
+  self.formattedCurrentStopAddress = null;
 
   self.initialize = function() {
     // TBC : Setup elements
@@ -150,7 +151,18 @@ function AssignmentApp(options) {
     if (self.assignmentForm != null) {
       var stopId = self.assignmentForm.elements.stopSelector.val();
       if (stopId == 0) { // TBC : Intentional '==' to compare string to int
-        // TBC : TODO : Load custom stop info from map
+        var stopPosition = self.mapMarkers.stopMarker.getPosition();
+        var stopDetails = { };
+
+        stopDetails.stopId = 0;
+        stopDetails.name = 'Custom Stop';
+        self.formattedCurrentStopAddress != null ? stopDetails.address = self.formattedCurrentStopAddress : stopDetails.address = '';
+        stopDetails.latitude = stopPosition.lat();
+        stopDetails.longitude = stopPosition.lng();
+        stopDetails.estArriveTime = null;
+        stopDetails.estDepartTime = null;
+
+        self.assignmentForm.addStopForm(stopDetails);
       } else {
         self.assignmentForm.addSavedStopForm(stopId);
       }
@@ -168,6 +180,7 @@ function AssignmentApp(options) {
 
           self.updateStopMarker(result.geometry.location);
           self.map.setCenter(result.geometry.location);
+          self.formattedCurrentStopAddress = result.formatted_address;
           elements.txtBoxAddress.val(result.formatted_address);
 
           var bounds = new google.maps.LatLngBounds();
@@ -182,6 +195,7 @@ function AssignmentApp(options) {
 
   var bindEventHandlers = function() {
     google.maps.event.addListener(self.map, 'click', function(event) {
+      self.formattedCurrentStopAddress = null;
       self.updateStopMarker(event.latLng);
     });
 
@@ -646,6 +660,8 @@ function AssignmentStopForm(data, index) {
     self.data.stopId = data.stopId;
     self.data.name = data.name;
     self.data.address = data.address;
+    self.data.latitude = data.latitude;
+    self.data.longitude = data.longitude;
     self.data.estArriveTime = data.estArriveTime;
     self.data.estDepartTime = data.estDepartTime;
   };
@@ -656,6 +672,8 @@ function AssignmentStopForm(data, index) {
       index: { },
       name: { },
       address: { },
+      latitude: { },
+      longitude: { },
       estArriveTime: { },
       estDepartTime: { }
     };
@@ -664,6 +682,8 @@ function AssignmentStopForm(data, index) {
     formData.index.value = self.elements.form.data('index');
     formData.name.value = self.elements.name.html();
     formData.address.value = self.elements.address.html();
+    formData.latitude.value = self.data.latitude;
+    formData.longitude.value = self.data.longitude;
 
     var arriveTime = moment.utc(
         selectedDate.format('YYYY-MM-DD') + ' ' +
