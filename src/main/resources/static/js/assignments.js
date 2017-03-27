@@ -160,7 +160,15 @@ function AssignmentApp(options) {
     }
   };
 
+  self.updateStopMarker = function(position) {
+    self.mapMarkers.stopMarker.setPosition(position);
+  };
+
   var bindEventHandlers = function() {
+    google.maps.event.addListener(self.map, 'click', function(event) {
+      self.updateStopMarker(event.latLng);
+    });
+
     elements.btnPrevDay.on('click', function() {
       var day = moment(self.selectedDate);
       day.subtract(1, 'd');
