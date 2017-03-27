@@ -109,11 +109,24 @@ function AssignmentApp(options) {
                self.assignmentForm.getFormData(self.selectedDate)
     )
         .then(function(response) {
-          console.log(response);
+          self.fetchAssignments(self.selectedDate);
         })
-        .catch(function(errors) {
-          console.log(errors);
+        .catch(function(error) {
+          console.log(error);
+          alert(error.message());
+        });
+  };
+
+  self.archiveAssignment = function(assignmentId) {
+    axios.post('/test/api/assignment/archive',
+               { assignmentId: assignmentId }
+    )
+        .then(function(response) {
+          self.fetchAssignments(self.selectedDate);
         })
+        .catch(function(error) {
+          console.log(error);
+        });
   };
 
   self.addAssignmentForm = function(options, assignmentData) {
@@ -174,7 +187,11 @@ function AssignmentApp(options) {
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-card .btn-archive', function() {
-      console.log('archive clicked');
+      var assignmentId = $(this).closest('.assignment-card').data('assignmentId');
+      var assignmentCard = self.assignmentCards[assignmentId];
+
+      assignmentCard.hide();
+      self.archiveAssignment(assignmentId);
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-cancel', function() {

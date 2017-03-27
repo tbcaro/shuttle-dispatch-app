@@ -264,7 +264,7 @@ class TestApiController {
     }
 
     @RequestMapping("/assignment/save", method = arrayOf(RequestMethod.POST))
-    fun createAssignment(
+    fun saveAssignment(
             @RequestBody form: AssignmentFormAdapter
     ) : ResponseEntity<Int> {
         var assignmentId = 0
@@ -278,5 +278,12 @@ class TestApiController {
         }
 
         return ResponseEntity(assignmentId, HttpStatus.OK)
+    }
+
+    @RequestMapping("/assignment/archive", method = arrayOf(RequestMethod.POST))
+    fun archiveAssignment(
+            @RequestBody archiveAdapter: AssignmentArchiveAdapter
+    ) : ResponseEntity<Int> {
+        return ResponseEntity(archiveAdapter.assignmentId, HttpStatus.OK)
     }
 }
