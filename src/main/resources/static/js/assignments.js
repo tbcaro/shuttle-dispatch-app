@@ -49,7 +49,11 @@ function AssignmentApp(options) {
           });
     });
 
-    self.setSelectedDate(options.selectedDate);
+    self.selectedDate = moment([
+                                 options.selectedDate.year,
+                                 options.selectedDate.monthValue - 1,
+                                 options.selectedDate.dayOfMonth
+                               ]);
     self.fetchAssignments(self.selectedDate);
     bindEventHandlers();
   };
@@ -67,20 +71,16 @@ function AssignmentApp(options) {
         .then(function(response){
           console.log(response);
           self.updateAssignments(response.data.assignmentDetailAdapters);
-          self.setSelectedDate(response.data.selectedDate);
+          self.selectedDate = moment([
+                                       response.data.selectedDate[0],
+                                       response.data.selectedDate[1] - 1,
+                                       response.data.selectedDate[2]
+                                     ]);
           elements.btnSelectedDate.html(response.data.displayDate);
         })
         .catch(function(error){
           console.log(error);
         });
-  };
-
-  self.setSelectedDate = function(localDate) {
-    self.selectedDate = moment([
-          localDate.year,
-          localDate.monthValue - 1,
-          localDate.dayOfMonth
-        ]);
   };
 
   self.updateAssignments = function(assignmentAdapters) {
@@ -422,7 +422,7 @@ function AssignmentForm(selectOptions) {
     var assignmentStopData = [];
 
     self.assignmentStopForms.forEach(function(stopForm) {
-      assignmentStopData.push(stopForm.getFormData());
+      assignmentStopData.push(stopForm.getFormData(selectedDate));
     });
 
     var startTime = moment.utc(
@@ -435,7 +435,7 @@ function AssignmentForm(selectOptions) {
     formData.shuttleId.value = self.elements.shuttleSelector.val();
     formData.driverId.value = self.elements.driverSelector.val();
     formData.routeId.value = self.elements.routeSelector.val();
-    formData.startTime.value = startTime.toISOString();
+    startTime.isValid() ? formData.startTime.value = startTime.toISOString() : formData.startTime.value = null;
     formData.assignmentStopForms = assignmentStopData;
 
     return formData;
@@ -592,7 +592,7 @@ function AssignmentStopForm(data, index) {
     self.data.estDepartTime = data.estDepartTime;
   };
 
-  self.getFormData = function() {
+  self.getFormData = function(selectedDate) {
     var formData = {
       stopId: { },
       index: { },
@@ -606,8 +606,21 @@ function AssignmentStopForm(data, index) {
     formData.index.value = self.elements.form.data('index');
     formData.name.value = self.elements.name.html();
     formData.address.value = self.elements.address.html();
-    formData.estArriveTime.value = self.elements.estArriveTime.val();
-    formData.estDepartTime.value = self.elements.estDepartTime.val();
+
+    var arriveTime = moment.utc(
+        selectedDate.format('YYYY-MM-DD') + ' ' +
+        self.elements.estArriveTime.val().toString()
+        , ["YYYY-MM-DD h:mm A", "YYYY-MM-DD hh:mm A"]
+        , true);
+
+    var deparTime = moment.utc(
+        selectedDate.format('YYYY-MM-DD') + ' ' +
+        self.elements.estDepartTime.val().toString()
+        , ["YYYY-MM-DD h:mm A", "YYYY-MM-DD hh:mm A"]
+        , true);
+
+    arriveTime.isValid() ? formData.estArriveTime.value = arriveTime.toISOString() : formData.estArriveTime.value = null;
+    deparTime.isValid() ? formData.estDepartTime.value = deparTime.toISOString() : formData.estDepartTime.value = null;
 
     return formData;
   };

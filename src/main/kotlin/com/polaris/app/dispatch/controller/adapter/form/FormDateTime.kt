@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.format.datetime.joda.LocalDateTimeParser
 import java.io.Serializable
@@ -14,5 +15,6 @@ import java.time.LocalTime
 
 class FormDateTime(
         @JsonDeserialize(using = LocalDateTimeDeserializer::class)
+        @JsonSerialize(using = LocalDateTimeSerializer::class)
         value: LocalDateTime? = null
 ) : FormField<LocalDateTime?>(value), Serializable

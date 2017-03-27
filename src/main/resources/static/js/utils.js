@@ -1,35 +1,49 @@
 function TimeUtils() {
   var self = this;
 
+  self.localDateTimeToMoment = function(localDateTime) {
+
+  };
+
   self.formatTime = function(localTime) {
-    var min = 0;
-    var hr = 0;
-    var ampm = '';
-    var strBuilder = '';
-
     if (localTime == null) {
-      strBuilder = '--';
+      return "--";
     } else {
-      if (localTime.hour - 12 > 0) {
-        hr = localTime.hour - 12;
-        ampm = 'PM';
-      } else {
-        hr = localTime.hour;
-        ampm = 'AM';
-      }
-      strBuilder += hr.toString() + ":";
+      var startTime = moment.utc(
+          localTime[0] + ':' + localTime[1] + ':' + localTime[2],
+          'hh:mm:ss'
+      );
 
-      min = localTime.minute;
-      if (min < 10) {
-        strBuilder += '0' + min.toString();
-      } else {
-        strBuilder += min.toString();
-      }
-
-      strBuilder += ' ' + ampm.toString();
+      return startTime.format('h:mm A');
     }
-
-    return strBuilder;
+    // var min = 0;
+    // var hr = 0;
+    // var ampm = '';
+    // var strBuilder = '';
+    //
+    // if (localTime == null) {
+    //   strBuilder = '--';
+    // } else {
+    //   if (localTime.hour - 12 > 0) {
+    //     hr = localTime.hour - 12;
+    //     ampm = 'PM';
+    //   } else {
+    //     hr = localTime.hour;
+    //     ampm = 'AM';
+    //   }
+    //   strBuilder += hr.toString() + ":";
+    //
+    //   min = localTime.minute;
+    //   if (min < 10) {
+    //     strBuilder += '0' + min.toString();
+    //   } else {
+    //     strBuilder += min.toString();
+    //   }
+    //
+    //   strBuilder += ' ' + ampm.toString();
+    // }
+    //
+    // return strBuilder;
   };
 
   self.formatWait = function(waitMins) {

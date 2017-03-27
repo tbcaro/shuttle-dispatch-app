@@ -11,8 +11,8 @@ class AssignmentStopFormAdapter : FormAdapter {
     var index: FormInt
     var name: FormString
     var address: FormString
-//    var estArriveTime: FormTime
-//    var estDepartTime: FormTime
+    var estArriveTime: FormDateTime
+    var estDepartTime: FormDateTime
 
     constructor() {
         this.hasErrors = false
@@ -21,7 +21,7 @@ class AssignmentStopFormAdapter : FormAdapter {
         this.index = FormInt(0)
         this.name = FormString("")
         this.address = FormString("")
-//        this.estArriveTime = FormTime(null)
-//        this.estDepartTime = FormTime(null)
+        this.estArriveTime = FormDateTime(null)
+        this.estDepartTime = FormDateTime(null)
     }
 }
