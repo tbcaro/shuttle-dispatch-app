@@ -9,10 +9,17 @@ function TimeUtils() {
     if (localTime == null) {
       return "--";
     } else {
-      var startTime = moment.utc(
-          localTime[0] + ':' + localTime[1] + ':' + localTime[2],
-          'hh:mm:ss'
-      );
+      if (localTime.length === 2) {
+        var startTime = moment.utc(
+            localTime[0] + ':' + localTime[1],
+            'hh:mm'
+        );
+      } else {
+        var startTime = moment.utc(
+            localTime[0] + ':' + localTime[1] + ':' + localTime[2],
+            'hh:mm:ss'
+        );
+      }
 
       return startTime.format('h:mm A');
     }

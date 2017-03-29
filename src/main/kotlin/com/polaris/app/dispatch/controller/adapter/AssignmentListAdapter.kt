@@ -4,7 +4,7 @@ import com.polaris.app.dispatch.DisplayDateFormatter
 import java.time.LocalDate
 
 
-class   AssignmentListAdapter {
+class AssignmentListAdapter {
     var selectedDate = LocalDate.now()
     var assignmentDetailAdapters = arrayListOf<AssignmentDetailsAdapter>()
     val displayDate: String by lazy {
