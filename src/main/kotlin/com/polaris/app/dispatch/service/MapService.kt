@@ -5,5 +5,5 @@ import com.polaris.app.dispatch.service.bo.MapAssignment
 
 interface MapService{
     fun retrieveShuttle(service: Int): List<MapShuttle>
-    fun retrieveAssignmentData(mapShuttles: List<MapShuttle>): List<MapAssignment>
+    fun retrieveAssignmentData(mapShuttle: MapShuttle): MapAssignment?
 }

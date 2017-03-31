@@ -6,11 +6,13 @@ data class MapShuttle(
         val shuttleID: Int,
         val shuttleName: String,
         val shuttleIconColor: String,
-        val shuttleAssignmentID: Int,
+        val shuttleAssignmentID: Int?,
         val shuttleLat: BigDecimal,
         val shuttleLong: BigDecimal,
         val shuttleStatus: String,
         val shuttleDriverID: Int,
         val shuttleDriverFName: String,
-        val shuttleDriverLName: String
+        val shuttleDriverLName: String,
+        val currentStopIndex: Int,
+        val heading: BigDecimal
 )

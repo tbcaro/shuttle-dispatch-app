@@ -10,5 +10,7 @@ data class MapShuttleEntity(
     val shuttleLat: BigDecimal,//Used for display
     val shuttleLong: BigDecimal,//Used for display
     val shuttleStatus: String,//Displayed
-    val shuttleDriverID: Int//Used to find further data
+    val shuttleDriverID: Int,//Used to find further data
+    val currentStopIndex: Int,
+    val heading: BigDecimal
 )

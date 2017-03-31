@@ -27,6 +27,51 @@ class MapApiController(private val authService: AuthenticationService, private v
 
             val shuttleActivities = mapService.retrieveShuttle(userContext.serviceId)
 
+            shuttleActivities.forEach {
+                val activityDetailsAdapter = ShuttleActivityDetailsAdapter()
+                activityDetailsAdapter.activityId = it.shuttleID
+                activityDetailsAdapter.shuttleName = it.shuttleName
+                activityDetailsAdapter.shuttleColorHex = it.shuttleIconColor
+                activityDetailsAdapter.shuttleLatitude = it.shuttleLat
+                activityDetailsAdapter.shuttleLongitude = it.shuttleLong
+                activityDetailsAdapter.shuttleHeading = it.heading
+                activityDetailsAdapter.driverName = "${it.shuttleDriverFName} ${it.shuttleDriverLName}"
+                activityDetailsAdapter.shuttleStatus = ShuttleState.valueOf(it.shuttleStatus)
+
+                val activity = it
+                val assignment = mapService.retrieveAssignmentData(it)
+                assignment?.let {
+                    val assignmentReport = AssignmentReport()
+
+                    assignmentReport.assignmentId = it.assignmentID
+                    assignmentReport.currentStop = activity.currentStopIndex
+
+                    val stopAdapters = arrayListOf<AssignmentStopAdapter>()
+                    it.stops.forEach {
+                        val adapter = AssignmentStopAdapter()
+
+                        adapter.assingmentStopId = it.assignmentStopId
+                        adapter.stopId = it.stopId ?: 0
+                        adapter.order = it.index
+                        adapter.name = it.stopName
+                        adapter.address = it.stopAddress
+                        adapter.lat = it.stopLat
+                        adapter.long = it.stopLong
+                        adapter.estArriveTime = it.stopArriveEst.toLocalTime()
+                        adapter.estDepartTime = it.stopDepartEst.toLocalTime()
+                        adapter.actualArriveTime = it.stopArrive.toLocalTime()
+                        adapter.actualDepartTime = it.stopDepart.toLocalTime()
+
+                        stopAdapters.add(adapter)
+                    }
+                    assignmentReport.assignmentStops = stopAdapters
+
+                    activityDetailsAdapter.assignmentReport = assignmentReport
+                }
+
+                listOfDetails.add(activityDetailsAdapter)
+            }
+
             return ResponseEntity(listOfDetails, HttpStatus.OK)
         } else {
             return ResponseEntity(HttpStatus.UNAUTHORIZED)

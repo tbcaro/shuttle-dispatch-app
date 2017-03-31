@@ -4,6 +4,9 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 
 data class MapAssignmentStop(
+        val assignmentStopId: Int,
+        val stopId: Int?,
+        val index: Int,
         val stopName: String,
         val stopAddress: String,
         val stopLat: BigDecimal,

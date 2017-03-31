@@ -8,7 +8,7 @@ import com.polaris.app.dispatch.service.bo.MapShuttle
 
 interface MapRepository{
     fun findActiveShuttles(service: Int): List<MapShuttleEntity>
-    fun findShuttleDriver(shuttle: MapShuttleEntity): MapDriverEntity
+    fun findShuttleDriver(shuttle: MapShuttleEntity): List<MapDriverEntity>
     fun findActiveAssignmentInfo(shuttle: MapShuttle): List<MapAssignStopEntity>
     //fun findAssignStops(AssignID: Int): List<MapAssignStopEntity>
 }

@@ -12,59 +12,64 @@ import org.springframework.stereotype.Component
 @Component
 class MapPgRepository(val db: JdbcTemplate): MapRepository{
     override fun findActiveShuttles(service: Int): List<MapShuttleEntity> {
-        val MapShuttleEntities = db.query(
+        val mapShuttleEntities = db.query(
                 "SELECT * FROM shuttle_activity INNER JOIN shuttle ON (shuttle_activity.shuttleid = shuttle.\"ID\") WHERE shuttle.serviceid = ?;",
                 arrayOf(service),
                 {
                     resultSet, rowNum -> MapShuttleEntity(
-                        resultSet.getInt("shuttle.\"ID\""),
-                        resultSet.getString("shuttle.\"Name\""),
-                        resultSet.getString("shuttle.iconcolor"),
-                        resultSet.getInt("shuttle_activity.assignmentid"),
-                        resultSet.getBigDecimal("shuttle_activity.latitude"),
-                        resultSet.getBigDecimal("shuttle_activity.longitude"),
-                        resultSet.getString("shuttle_activity.status"),
-                        resultSet.getInt("shuttle_activity.driverid")
+                        resultSet.getInt("shuttleid"),
+                        resultSet.getString("Name"),
+                        resultSet.getString("iconcolor"),
+                        resultSet.getInt("assignmentid"),
+                        resultSet.getBigDecimal("latitude"),
+                        resultSet.getBigDecimal("longitude"),
+                        resultSet.getString("status"),
+                        resultSet.getInt("driverid"),
+                        resultSet.getInt("index"),
+                        resultSet.getBigDecimal("heading")
                 )
                 }
 
         )
-        return MapShuttleEntities
+        return mapShuttleEntities
     }
 
-    override fun findShuttleDriver(shuttle: MapShuttleEntity): MapDriverEntity {
-        val MapDriverEntities = db.query(
-                "SELECT fname, lname FROM \"user\" WHERE \"ID\" = ?;",
+    override fun findShuttleDriver(shuttle: MapShuttleEntity): List<MapDriverEntity> {
+        val mapDriverEntities = db.query(
+                "SELECT \"ID\", fname, lname FROM \"user\" WHERE \"ID\" = ?;",
                 arrayOf(shuttle.shuttleDriverID),
                 {
                     resultSet, rowNum -> MapDriverEntity(
-                        resultSet.getInt("\"user\".\"ID\""),
-                        resultSet.getString("\"user\".fname"),
-                        resultSet.getString("\"user\".lname")
+                        resultSet.getInt("ID"),
+                        resultSet.getString("fname"),
+                        resultSet.getString("lname")
                 )
                 }
         )
-        return MapDriverEntities[0]//Only one record should be returned since we are searching based on a unique ID
+        return mapDriverEntities
     }
 
     override fun findActiveAssignmentInfo(shuttle: MapShuttle): List<MapAssignStopEntity> {
-        val MapAssignStopEntities = db.query(
+        val mapAssignStopEntities = db.query(
                 "SELECT * FROM assignment_stop INNER JOIN stop ON (assignment_stop.stopid = stop.\"ID\") WHERE assignment_stop.assignmentid = ?;",
                 arrayOf(shuttle.shuttleAssignmentID),
                 {
                     resultSet, rowNum -> MapAssignStopEntity(
-                        resultSet.getString("stop.\"Name\""),
-                        resultSet.getString("assignment_stop.address"),
-                        resultSet.getBigDecimal("assignment_stop.latitude"),
-                        resultSet.getBigDecimal("assignment_stop.longitude"),
-                        resultSet.getTimestamp("assignment_stop.timeofarrival").toLocalDateTime(),
-                        resultSet.getTimestamp("assignment_stop.timeofdeparture").toLocalDateTime(),
-                        resultSet.getTimestamp("assignment_stop.estimatedtimeofarrival").toLocalDateTime(),
-                        resultSet.getTimestamp("assignment_stop.estimatedtimeofdeparture").toLocalDateTime()
+                        resultSet.getInt("assignment_stop_id"),
+                        resultSet.getInt("stopid"),
+                        resultSet.getInt("index"),
+                        resultSet.getString("Name"),
+                        resultSet.getString("address"),
+                        resultSet.getBigDecimal("latitude"),
+                        resultSet.getBigDecimal("longitude"),
+                        resultSet.getTimestamp("timeofarrival").toLocalDateTime(),
+                        resultSet.getTimestamp("timeofdeparture").toLocalDateTime(),
+                        resultSet.getTimestamp("estimatedtimeofarrival").toLocalDateTime(),
+                        resultSet.getTimestamp("estimatedtimeofdeparture").toLocalDateTime()
                 )
                 }
         )
-        return MapAssignStopEntities
+        return mapAssignStopEntities
     }
 
     /*override fun findAssignStops(AssignID: Int): List<MapAssignStopEntity> {
