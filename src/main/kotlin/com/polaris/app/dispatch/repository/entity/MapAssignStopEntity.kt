@@ -1,15 +1,15 @@
 package com.polaris.app.dispatch.repository.entity
 
 import java.math.BigDecimal
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 data class MapAssignStopEntity(
-        val stopName: String,
-        val stopAddress: String,
-        val stopLat: BigDecimal,
-        val stopLong: BigDecimal,
-        val stopArrive: LocalTime,
-        val stopDepart: LocalTime,
-        val stopArriveEst: LocalTime,
-        val stopDepartEst: LocalTime
+        val stopName: String,//Displayed
+        val stopAddress: String,//Displayed
+        val stopLat: BigDecimal,//May not be necessary
+        val stopLong: BigDecimal,//May not be necessary
+        val stopArrive: LocalDateTime,//May not be necessary
+        val stopDepart: LocalDateTime,//Displayed when applicable
+        val stopArriveEst: LocalDateTime,//Displayed
+        val stopDepartEst: LocalDateTime//Used to determine EWT
 )
