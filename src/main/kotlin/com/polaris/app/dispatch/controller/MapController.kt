@@ -1,19 +1,25 @@
 package com.polaris.app.dispatch.controller
 
+import com.polaris.app.dispatch.controller.exception.AuthenticationException
+import com.polaris.app.dispatch.service.AuthenticationService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
+import javax.servlet.http.HttpServletRequest
 
 @Controller
-class MapController {
+class MapController(private val authService: AuthenticationService) {
 
     @RequestMapping("/map")
-    fun map(model: Model) : String {
+    fun map(model: Model, http: HttpServletRequest) : String {
+        if (authService.isAuthenticated(http)) {
+            val userContext = authService.getUserContext(http)
+            model.addAttribute("title", "Map")
+            model.addAttribute("username", userContext.username)
 
-        model.addAttribute("title", "Map")
-        model.addAttribute("username", "tcaro")
-        model.addAttribute("serviceCode", "test-service-code")
-
-        return "map"
+            return "map"
+        } else {
+            throw AuthenticationException()
+        }
     }
 }
