@@ -3,10 +3,7 @@ function AssignmentApp(options) {
   var self = this;
   var elements = { };
   var geoLocator = { };
-  var formTypes = {
-    CREATE: 'create',
-    EDIT: 'edit'
-  };
+  const GEOCODER_API_KEY = 'AIzaSyBZDbTJLMcIKnLDV1m9gNhZLu4vjKyeTQo';
 
   self.map = { };
   self.mapMarkers = { };
@@ -14,6 +11,7 @@ function AssignmentApp(options) {
   self.assignmentCards = { };
   self.assignmentForm = null;
   self.editingAssignmentId = null;
+  self.formattedCurrentStopAddress = null;
 
   self.initialize = function() {
     // TBC : Setup elements
@@ -49,7 +47,11 @@ function AssignmentApp(options) {
           });
     });
 
-    self.setSelectedDate(options.selectedDate);
+    self.selectedDate = moment([
+                                 options.selectedDate.year,
+                                 options.selectedDate.monthValue - 1,
+                                 options.selectedDate.dayOfMonth
+                               ]);
     self.fetchAssignments(self.selectedDate);
     bindEventHandlers();
   };
@@ -67,20 +69,16 @@ function AssignmentApp(options) {
         .then(function(response){
           console.log(response);
           self.updateAssignments(response.data.assignmentDetailAdapters);
-          self.setSelectedDate(response.data.selectedDate);
+          self.selectedDate = moment([
+                                       response.data.selectedDate[0],
+                                       response.data.selectedDate[1] - 1,
+                                       response.data.selectedDate[2]
+                                     ]);
           elements.btnSelectedDate.html(response.data.displayDate);
         })
         .catch(function(error){
           console.log(error);
         });
-  };
-
-  self.setSelectedDate = function(localDate) {
-    self.selectedDate = moment([
-          localDate.year,
-          localDate.monthValue - 1,
-          localDate.dayOfMonth
-        ]);
   };
 
   self.updateAssignments = function(assignmentAdapters) {
@@ -100,6 +98,31 @@ function AssignmentApp(options) {
           self.addAssignmentForm(response.data, assignmentData);
         })
         .catch(function(error){
+          console.log(error);
+        });
+  };
+
+  self.saveAssignment = function() {
+    axios.post('/test/api/assignment/save',
+               self.assignmentForm.getFormData(self.selectedDate)
+    )
+        .then(function(response) {
+          self.fetchAssignments(self.selectedDate);
+        })
+        .catch(function(error) {
+          console.log(error);
+          alert(error.message());
+        });
+  };
+
+  self.archiveAssignment = function(assignmentId) {
+    axios.post('/test/api/assignment/archive',
+               { assignmentId: assignmentId }
+    )
+        .then(function(response) {
+          self.fetchAssignments(self.selectedDate);
+        })
+        .catch(function(error) {
           console.log(error);
         });
   };
@@ -128,14 +151,54 @@ function AssignmentApp(options) {
     if (self.assignmentForm != null) {
       var stopId = self.assignmentForm.elements.stopSelector.val();
       if (stopId == 0) { // TBC : Intentional '==' to compare string to int
-        // TBC : TODO : Load custom stop info from map
+        var stopPosition = self.mapMarkers.stopMarker.getPosition();
+        var stopDetails = { };
+
+        stopDetails.stopId = 0;
+        stopDetails.name = 'Custom Stop';
+        self.formattedCurrentStopAddress != null ? stopDetails.address = self.formattedCurrentStopAddress : stopDetails.address = '';
+        stopDetails.latitude = stopPosition.lat();
+        stopDetails.longitude = stopPosition.lng();
+        stopDetails.estArriveTime = null;
+        stopDetails.estDepartTime = null;
+
+        self.assignmentForm.addStopForm(stopDetails);
       } else {
         self.assignmentForm.addSavedStopForm(stopId);
       }
     }
   };
 
+  self.updateStopMarker = function(position) {
+    self.mapMarkers.stopMarker.setPosition(position);
+  };
+
+  self.geoCodeAddress = function(address) {
+    axios.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=' + GEOCODER_API_KEY)
+        .then(function(response) {
+          var result = response.data.results[0];
+
+          self.updateStopMarker(result.geometry.location);
+          self.map.setCenter(result.geometry.location);
+          self.formattedCurrentStopAddress = result.formatted_address;
+          elements.txtBoxAddress.val(result.formatted_address);
+
+          var bounds = new google.maps.LatLngBounds();
+          bounds.extend(result.geometry.bounds.northeast);
+          bounds.extend(result.geometry.bounds.southwest);
+          self.map.fitBounds(bounds);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+  };
+
   var bindEventHandlers = function() {
+    google.maps.event.addListener(self.map, 'click', function(event) {
+      self.formattedCurrentStopAddress = null;
+      self.updateStopMarker(event.latLng);
+    });
+
     elements.btnPrevDay.on('click', function() {
       var day = moment(self.selectedDate);
       day.subtract(1, 'd');
@@ -148,6 +211,19 @@ function AssignmentApp(options) {
       self.fetchAssignments(day);
     });
 
+    elements.txtBoxAddress.on('keyup', function(event) {
+      if (event.key == 'Enter') {
+        elements.btnSearchAddress.click();
+      }
+    });
+
+    elements.btnSearchAddress.on('click', function() {
+      var address = elements.txtBoxAddress.val();
+      if (address != null && address != '') {
+        self.geoCodeAddress(address);
+      }
+    });
+
     elements.btnNewAssignment.on('click', function() {
       self.loadNewAssignmentForm();
     });
@@ -156,13 +232,21 @@ function AssignmentApp(options) {
       var assignmentId = $(this).closest('.assignment-card').data('assignmentId');
       var assignmentCard = self.assignmentCards[assignmentId];
 
+      if (self.editingAssignmentId != null) {
+        self.assignmentCards[self.editingAssignmentId].show();
+      }
+
       self.editingAssignmentId = assignmentId;
       assignmentCard.hide();
       self.loadNewAssignmentForm(assignmentCard.getData());
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-card .btn-archive', function() {
-      console.log('archive clicked');
+      var assignmentId = $(this).closest('.assignment-card').data('assignmentId');
+      var assignmentCard = self.assignmentCards[assignmentId];
+
+      assignmentCard.hide();
+      self.archiveAssignment(assignmentId);
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-cancel', function() {
@@ -176,11 +260,20 @@ function AssignmentApp(options) {
 
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-save', function() {
       // TBC : Submit assignment-form data
-      console.log('save clicked');
+      self.saveAssignment();
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-add-stop', function() {
       self.addAssignmentStop();
+    });
+
+    elements.assignmentCardContainer.on('change', '.assignment-form .field-route-select', function() {
+      try {
+        var routeId = $(this).val();
+        self.assignmentForm.loadSavedRoute(routeId);
+      } catch (ex) {
+        console.log(ex);
+      }
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-form .assignment-stop-form .btn-move-up', function() {
@@ -274,6 +367,7 @@ function Assignment(data) {
 
   self.getData = function() {
     return {
+      assignmentId: self.data.assignmentReport.assignmentId,
       shuttleId: self.data.shuttleId,
       shuttleName: self.data.shuttleName,
       driverId: self.data.driverId,
@@ -376,6 +470,7 @@ function AssignmentForm(selectOptions) {
   };
 
   self.setData = function(data) {
+    self.data.assignmentId = data.assignmentId;
     self.data.selectedShuttleId = data.shuttleId;
     self.data.selectedDriverId = data.driverId;
     self.data.selectedRouteId = data.routeId;
@@ -387,7 +482,39 @@ function AssignmentForm(selectOptions) {
     });
   };
 
+  self.getFormData = function(selectedDate) {
+    var formData = {
+      assignmentId: { },
+      shuttleId: { },
+      driverId: { },
+      routeId: { },
+      startTime: { },
+      assignmentStopForms: { }
+    };
+    var assignmentStopData = [];
+
+    self.assignmentStopForms.forEach(function(stopForm) {
+      assignmentStopData.push(stopForm.getFormData(selectedDate));
+    });
+
+    var startTime = moment.utc(
+        selectedDate.format('YYYY-MM-DD') + ' ' +
+        self.elements.startTimeSelector.val().toString()
+        , ["YYYY-MM-DD h:mm A", "YYYY-MM-DD hh:mm A"]
+        , true);
+
+    formData.assignmentId.value = self.elements.form.data('assignmentId');
+    formData.shuttleId.value = self.elements.shuttleSelector.val();
+    formData.driverId.value = self.elements.driverSelector.val();
+    formData.routeId.value = self.elements.routeSelector.val();
+    startTime.isValid() ? formData.startTime.value = startTime.toISOString() : formData.startTime.value = null;
+    formData.assignmentStopForms = assignmentStopData;
+
+    return formData;
+  };
+
   self.bindData = function() {
+    self.elements.form.data('assignmentId', self.data.assignmentId);
     self.elements.shuttleSelector.val(self.data.selectedShuttleId);
     self.elements.driverSelector.val(self.data.selectedDriverId);
     self.elements.routeSelector.val(self.data.selectedRouteId);
@@ -530,20 +657,54 @@ function AssignmentStopForm(data, index) {
   };
 
   self.setData = function(data) {
+    self.data.stopId = data.stopId;
     self.data.name = data.name;
     self.data.address = data.address;
+    self.data.latitude = data.latitude;
+    self.data.longitude = data.longitude;
     self.data.estArriveTime = data.estArriveTime;
     self.data.estDepartTime = data.estDepartTime;
   };
 
-  self.getData = function() {
-    return {
-      estArriveTime: self.elements.estArriveTime.val(),
-      estDepartTime: self.elements.estDepartTime.val()
+  self.getFormData = function(selectedDate) {
+    var formData = {
+      stopId: { },
+      index: { },
+      name: { },
+      address: { },
+      latitude: { },
+      longitude: { },
+      estArriveTime: { },
+      estDepartTime: { }
     };
+
+    formData.stopId.value = self.elements.form.data('stopId');
+    formData.index.value = self.elements.form.data('index');
+    formData.name.value = self.elements.name.html();
+    formData.address.value = self.elements.address.html();
+    formData.latitude.value = self.data.latitude;
+    formData.longitude.value = self.data.longitude;
+
+    var arriveTime = moment.utc(
+        selectedDate.format('YYYY-MM-DD') + ' ' +
+        self.elements.estArriveTime.val().toString()
+        , ["YYYY-MM-DD h:mm A", "YYYY-MM-DD hh:mm A"]
+        , true);
+
+    var deparTime = moment.utc(
+        selectedDate.format('YYYY-MM-DD') + ' ' +
+        self.elements.estDepartTime.val().toString()
+        , ["YYYY-MM-DD h:mm A", "YYYY-MM-DD hh:mm A"]
+        , true);
+
+    arriveTime.isValid() ? formData.estArriveTime.value = arriveTime.toISOString() : formData.estArriveTime.value = null;
+    deparTime.isValid() ? formData.estDepartTime.value = deparTime.toISOString() : formData.estDepartTime.value = null;
+
+    return formData;
   };
 
   self.bindData = function() {
+    self.elements.form.data('stopId', self.data.stopId);
     self.elements.form.data('index', self.data.index);
     self.elements.stopOrder.val(self.data.index + 1);
     self.elements.name.html(self.data.name);
