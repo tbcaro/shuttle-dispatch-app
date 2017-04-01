@@ -12,7 +12,7 @@ class UserPgRepository(val db: JdbcTemplate) : UserRepository {
         var sql = "SELECT u.\"ID\", u.serviceid, u.fname, u.lname, u.username, u.usertype "
         sql += "FROM \"user\" AS u "
         sql += "INNER JOIN service AS s ON (s.serviceid = u.serviceid) "
-        sql += "WHERE u.username = ? AND u.\"Password\" = ? AND s.servicecode = ?"
+        sql += "WHERE u.username = ? AND u.\"Password\" = ? AND s.servicecode = ? AND s.isactive = true"
 
         val UserEntities = db.query(
                 sql,
