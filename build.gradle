@@ -53,5 +53,5 @@ dependencies {
     testCompile "junit:junit:4.12"
 
     // Runtime Postgres Driver
-    runtime('org.postgresql:postgresql')
+    compile('org.postgresql:postgresql')
 }
