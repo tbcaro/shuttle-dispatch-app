@@ -2,46 +2,77 @@ package com.polaris.app.dispatch.repository.pg
 
 import com.polaris.app.dispatch.repository.MapRepository
 import com.polaris.app.dispatch.repository.entity.MapShuttleEntity
-import com.polaris.app.dispatch.repository.entity.MapAssignmentEntity
+//import com.polaris.app.dispatch.repository.entity.MapAssignmentEntity
 import com.polaris.app.dispatch.repository.entity.MapAssignStopEntity
+import com.polaris.app.dispatch.repository.entity.MapDriverEntity
+import com.polaris.app.dispatch.service.bo.MapShuttle
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Component
 
 @Component
 class MapPgRepository(val db: JdbcTemplate): MapRepository{
     override fun findActiveShuttles(service: Int): List<MapShuttleEntity> {
-        val MapShuttleEntities = db.query(
-                "SELECT * FROM \"ShuttleActivity\" LEFT OUTER JOIN \"Shuttle\" WHERE \"Shuttle.serviceid\" = service",
+        val mapShuttleEntities = db.query(
+                "SELECT * FROM shuttle_activity INNER JOIN shuttle ON (shuttle_activity.shuttleid = shuttle.\"ID\") WHERE shuttle.serviceid = ?;",
+                arrayOf(service),
                 {
                     resultSet, rowNum -> MapShuttleEntity(
-                        resultSet.getInt("Shuttle.ID"),
-                        resultSet.getString("Shuttle.Name"),
-                        resultSet.getInt("Shuttle.IconColor"),
-                        resultSet.getBigDecimal("ShuttleActivity.Latitude"),
-                        resultSet.getBigDecimal("ShuttleActivity.Longitude"),
-                        resultSet.getString("ShuttleActivity.Status")
+                        resultSet.getInt("shuttleid"),
+                        resultSet.getString("Name"),
+                        resultSet.getString("iconcolor"),
+                        resultSet.getInt("assignmentid"),
+                        resultSet.getBigDecimal("latitude"),
+                        resultSet.getBigDecimal("longitude"),
+                        resultSet.getString("status"),
+                        resultSet.getInt("driverid"),
+                        resultSet.getInt("index"),
+                        resultSet.getBigDecimal("heading")
                 )
                 }
 
         )
-        return MapShuttleEntities
+        return mapShuttleEntities
     }
 
-    override fun findActiveAssignments(): List<MapAssignmentEntity> {
-        val MapAssignmentEntities = db.query(
-                "SELECT * FROM \"Assignment\" LEFT OUTER JOIN \"Driver\"",
+    override fun findShuttleDriver(shuttle: MapShuttleEntity): List<MapDriverEntity> {
+        val mapDriverEntities = db.query(
+                "SELECT \"ID\", fname, lname FROM \"user\" WHERE \"ID\" = ?;",
+                arrayOf(shuttle.shuttleDriverID),
                 {
-                    resultSet, rowNum -> MapAssignmentEntity(
-                        resultSet.getInt("Assignment.SerialID"),
-                        resultSet.getInt("Driver.ID"),
-                        resultSet.getString("Driver.Name")
+                    resultSet, rowNum -> MapDriverEntity(
+                        resultSet.getInt("ID"),
+                        resultSet.getString("fname"),
+                        resultSet.getString("lname")
                 )
                 }
         )
-        return MapAssignmentEntities
+        return mapDriverEntities
     }
 
-    override fun findAssignStops(AssignID: Int): List<MapAssignStopEntity> {
+    override fun findActiveAssignmentInfo(shuttle: MapShuttle): List<MapAssignStopEntity> {
+        val mapAssignStopEntities = db.query(
+                "SELECT * FROM assignment_stop INNER JOIN stop ON (assignment_stop.stopid = stop.\"ID\") WHERE assignment_stop.assignmentid = ?;",
+                arrayOf(shuttle.shuttleAssignmentID),
+                {
+                    resultSet, rowNum -> MapAssignStopEntity(
+                        resultSet.getInt("assignment_stop_id"),
+                        resultSet.getInt("stopid"),
+                        resultSet.getInt("index"),
+                        resultSet.getString("Name"),
+                        resultSet.getString("address"),
+                        resultSet.getBigDecimal("latitude"),
+                        resultSet.getBigDecimal("longitude"),
+                        resultSet.getTimestamp("timeofarrival").toLocalDateTime(),
+                        resultSet.getTimestamp("timeofdeparture").toLocalDateTime(),
+                        resultSet.getTimestamp("estimatedtimeofarrival").toLocalDateTime(),
+                        resultSet.getTimestamp("estimatedtimeofdeparture").toLocalDateTime()
+                )
+                }
+        )
+        return mapAssignStopEntities
+    }
+
+    /*override fun findAssignStops(AssignID: Int): List<MapAssignStopEntity> {
         val AssignmentStopEntities = db.query(
                 "SELECT * FROM \"Assignment\" LEFT OUTER JOIN \"AssignmentStops\" WHERE \"Assignment.SerialID\" = AssignID",
                 {
@@ -59,5 +90,5 @@ class MapPgRepository(val db: JdbcTemplate): MapRepository{
 
         )
         return AssignmentStopEntities
-    }
+    }*/
 }

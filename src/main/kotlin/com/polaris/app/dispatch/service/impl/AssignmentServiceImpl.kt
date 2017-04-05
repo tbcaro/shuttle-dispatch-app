@@ -5,17 +5,17 @@ import com.google.common.collect.Multimap
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentFieldTags
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentStopFieldTags
 import com.polaris.app.dispatch.repository.AssignmentRepository
+import com.polaris.app.dispatch.repository.entity.AssignmentStopEntity
 import com.polaris.app.dispatch.service.AssignmentService
-import com.polaris.app.dispatch.service.bo.Assignment
-import com.polaris.app.dispatch.service.bo.AssignmentStop
+import com.polaris.app.dispatch.service.bo.*
 import com.polaris.app.dispatch.service.exception.AssignmentValidationException
-import java.sql.Time
+import java.time.LocalDate
 import java.util.*
 
 class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): AssignmentService{
-    override fun retrieveAssignments(windowStart: Time, windowEnd: Time): List<Assignment> {
+    override fun retrieveAssignments(service: Int, startDate: LocalDate): List<Assignment> {
         val assignments = arrayListOf<Assignment>()
-        val assignmentEntities = this.AssignmentRepository.findAssignments(0, windowStart, windowEnd)
+        val assignmentEntities = this.AssignmentRepository.findAssignments(service, startDate)
 
         assignmentEntities.forEach{
             val assignmentStops = arrayListOf<AssignmentStop>()
@@ -36,9 +36,13 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
             val assignment = Assignment(
                     assignmentID = it.assignmentID,
                     startTime = it.startTime,
+                    routeID = it.routeID,
                     routeName = it.routeName,
                     driverID = it.driverID,
+                    driverFName = it.driverFName,
+                    driverLName = it.driverLName,
                     shuttleID = it.shuttleID,
+                    shuttleName = it.shuttleName,
                     stops = assignmentStops
             )
             assignments.add(assignment)
@@ -46,8 +50,97 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
         return assignments
     }
 
-    override fun addAssignment(newAssignment: Assignment) {
+
+    override fun shuttleDrop(service: Int): List<AssignmentShuttle> {
+        val shuttleDrops = arrayListOf<AssignmentShuttle>()
+        val shuttleDropEntities = this.AssignmentRepository.findDropShuttles(service)
+
+        shuttleDropEntities.forEach{
+            val shuttle = AssignmentShuttle(
+                    shuttleID = it.shuttleID,
+                    shuttleName = it.shuttleName
+            )
+            shuttleDrops.add(shuttle)
+        }
+        return shuttleDrops
+    }
+
+    override fun driverDrop(service: Int): List<AssignmentDriver> {
+        val driverDrops = arrayListOf<AssignmentDriver>()
+        val driverDropEntities = this.AssignmentRepository.findDropDrivers(service)
+
+        driverDropEntities.forEach{
+            val driver = AssignmentDriver(
+                    driverID = it.driverID,
+                    driverFName = it.driverFName,
+                    driverLName = it.driverLName
+            )
+            driverDrops.add(driver)
+        }
+        return driverDrops
+    }
+
+    override fun routeDrop(service: Int): List<AssignmentRoute> {
+        val routeDrops = arrayListOf<AssignmentRoute>()
+        val routeDropEntities = this.AssignmentRepository.findDropRoutes(service)
+
+        routeDropEntities.forEach {
+            val route = AssignmentRoute(
+                    routeID = it.routeID,
+                    routeName = it.routeName
+            )
+            routeDrops.add(route)
+        }
+        return routeDrops
+    }
+
+    override fun stopDrop(service: Int): List<AssignmentStopDrop> {
+        val stopDrops = arrayListOf<AssignmentStopDrop>()
+        val stopDropEntities = this.AssignmentRepository.findDropStops(service)
+
+        stopDropEntities.forEach{
+            val stop = AssignmentStopDrop(
+                    stopID = it.stopID,
+                    stopName = it.stopName,
+                    address = it.address,
+                    latitude = it.latitude,
+                    longitude = it.longitude
+            )
+            stopDrops.add(stop)
+        }
+        return stopDrops
+    }
+
+    override fun retrieveRouteStops(routeid: Int): List<AssignmentRouteStop> {
+        val routeStops = arrayListOf<AssignmentRouteStop>()
+        val routeStopEntities = this.AssignmentRepository.findDropRouteStops(routeid)
+
+        routeStopEntities.forEach{
+            val routeStop = AssignmentRouteStop(
+                    stopID = it.stopID,
+                    stopName = it.stopName,
+                    index = it.index,
+                    address = it.address,
+                    latitude = it.latitude,
+                    longitude = it.longitude
+            )
+            routeStops.add(routeStop)
+        }
+        return routeStops
+    }
+
+    override fun addAssignment(newAssignment: NewAssignment) {
         val errors: Multimap<AssignmentFieldTags, String> = HashMultimap.create()
+        val stopErrors: MutableMap<Int, Multimap<AssignmentStopFieldTags,String>> = HashMap()
+
+        this.AssignmentRepository.startTransaction()
+        val assignmentid = this.AssignmentRepository.addAssignment(newAssignment)
+        this.AssignmentRepository.addAssignmentStops(assignmentid, newAssignment.stops)
+        this.AssignmentRepository.endTransaction()
+
+        //Implement error checking
+
+        /*val errors: Multimap<AssignmentFieldTags, String> = HashMultimap.create()
         val stopErrors: MutableMap<Int, Multimap<AssignmentStopFieldTags, String>> = HashMap()
 
         if(true) {
@@ -63,6 +156,10 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
         if(!errors.isEmpty || stopErrors.isNotEmpty()) {
             throw AssignmentValidationException(errors, stopErrors)
         }
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.*/
+    }
+
+    override fun archiveAssignment(assignmentid: Int) {
+        this.AssignmentRepository.archiveAssignment(assignmentid)
     }
 }

@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component
 class StopPgRepository(val db: JdbcTemplate): StopRepository {
     override fun findStops(service: Int): List<StopEntity> {
         val StopEntities = db.query(
-                "SELECT * FROM \"Stop\" WHERE \"ServiceID\" = service",
+                "SELECT * FROM stop WHERE serviceid = ?",
+                arrayOf(service),
                 {
                     resultSet, rowNum -> StopEntity(
                         resultSet.getString("Name"),
@@ -24,7 +25,8 @@ class StopPgRepository(val db: JdbcTemplate): StopRepository {
 
     override fun addStop(service: Int, stop: StopEntity) {
         db.update(
-                "INSERT INTO \"Stop\" (\"serviceid\", \"Name\", \"address\", \"latitude\", \"longitude\", \"isarchived\") VALUES (service, stop.Name, stop.Address, stop.Latitude, stop.Longitude, false)"
+                "INSERT INTO stop (serviceid, \"Name\", address, latitude, longitude, isarchived) VALUES (?, ?, ?, ?, ?, false)",
+                        arrayOf(service, stop.stopName, stop.stopAddress, stop.stopLat, stop.stopLong)
         )
     }
 

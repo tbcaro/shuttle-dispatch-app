@@ -7,13 +7,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
   <div th:replace="fragments/styles"></div>
+  <style>
+    .btn-submit {
+      width: 100%;
+      padding: 25px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <h1 class="text-center">Login Page</h1>
-  <form action="/login" class="text-center p-5">
-    <button type="submit" class="btn btn-primary">Login</button>
+<div class="container">
+  <h1 class="text-center">Dispatch Login</h1>
+  <div class="row">
+    <div class="col-12">
+      <div th:if="${success} != null">
+        <div th:text="${success}" class="alert alert-success"></div>
+      </div>
+      <div th:if="${error} != null">
+        <div th:text="${error}" class="alert alert-danger"></div>
+      </div>
+    </div>
+  </div>
+  <form action="/login" method="post">
+    <div class="row">
+      <div class="col-6 offset-3">
+        <label>Service Code:</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 offset-3">
+        <input type="text" name="servicecode" class="form-control"/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 offset-3">
+        <label>Username:</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 offset-3">
+        <input type="text" name="username" class="form-control"/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 offset-3">
+        <label>Password:</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 offset-3">
+        <input type="password" name="password" class="form-control"/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 offset-3 mt-4 text-center">
+        <button type="submit" class="btn btn-primary btn-submit">
+          Login
+        </button>
+      </div>
+    </div>
   </form>
-
-  <div th:replace="fragments/scripts"></div>
+</div>
+<div th:replace="fragments/scripts"></div>
 </body>
 </html>

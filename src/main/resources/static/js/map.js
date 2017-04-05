@@ -3,7 +3,6 @@ function MapApp(options) {
   var self = this;
   var elements = { };
   var geoLocator = { };
-  var serviceCode = options.serviceCode;
   var intervalId = 0;
   var initialLoad = true;
   var selectedActivityCardId = null;
@@ -79,7 +78,7 @@ function MapApp(options) {
   };
 
   self.loadShuttleActivities = function() {
-    axios.get('/test/api/fetchAllShuttleActivity?serviceCode=' + serviceCode)
+    axios.get('/api/fetchAllShuttleActivity')
         .then(function (response) {
           self.updateShuttleCards(response.data);
           self.updateShuttleMapMarkers();

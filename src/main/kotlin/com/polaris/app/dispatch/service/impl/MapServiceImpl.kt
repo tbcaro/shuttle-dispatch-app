@@ -7,30 +7,73 @@ import com.polaris.app.dispatch.service.bo.MapAssignmentStop
 import com.polaris.app.dispatch.service.bo.MapShuttle
 
 class MapServiceImpl(val MapRepository: MapRepository): MapService{
-    override fun retrieveShuttle(): List<MapShuttle> {
+    override fun retrieveShuttle(service: Int): List<MapShuttle> {
         val mapShuttles = arrayListOf<MapShuttle>()
-        val mapShuttleEntities = this.MapRepository.findActiveShuttles(0)
+        val mapShuttleEntities = this.MapRepository.findActiveShuttles(service)
 
         mapShuttleEntities.forEach {
-            val mapShuttle = MapShuttle(
-                    ShuttleID = it.ShuttleID,
-                    ShuttleIconColor = it.ShuttleIconColor,
-                    ShuttleLat = it.ShuttleLat,
-                    ShuttleLong = it.ShuttleLong,
-                    ShuttleName = it.ShuttleName,
-                    ShuttleStatus = it.ShuttleStatus
+            val mapShuttleDriverEntities = this.MapRepository.findShuttleDriver(it)
+
+            var mapShuttle = MapShuttle(
+                    shuttleID = it.shuttleID,
+                    shuttleName = it.shuttleName,
+                    shuttleIconColor = it.shuttleIconColor,
+                    shuttleAssignmentID = it.shuttleAssignmentID,
+                    shuttleLat = it.shuttleLat,
+                    shuttleLong = it.shuttleLong,
+                    shuttleStatus = it.shuttleStatus,
+                    shuttleDriverID = it.shuttleDriverID,
+                    heading = it.heading,
+                    currentStopIndex = it.currentStopIndex,
+                    shuttleDriverFName = "",
+                    shuttleDriverLName = ""
             )
+            if (mapShuttleDriverEntities.isNotEmpty()) {
+                val driver = mapShuttleDriverEntities[0]
+                mapShuttle = mapShuttle.copy(shuttleDriverFName = driver.driverFName, shuttleDriverLName = driver.driverLName)
+            }
             mapShuttles.add(mapShuttle)
         }
         return mapShuttles
     }
 
-    override fun retrieveAssignments(): List<MapAssignment> {
-        val mapAssignments = arrayListOf<MapAssignment>()
-        val mapAssignmentEntities = this.MapRepository.findActiveAssignments()
+    override fun retrieveAssignmentData(mapShuttle: MapShuttle): MapAssignment? {
+        val mapAssignmentStops = arrayListOf<MapAssignmentStop>()
+
+        if (mapShuttle.shuttleAssignmentID != null) {
+            val mapAssignmentEntities = this.MapRepository.findActiveAssignmentInfo(mapShuttle)
+            mapAssignmentEntities.forEach{
+                val mapAssignmentStop = MapAssignmentStop(
+                        assignmentStopId = it.assignmentStopId,
+                        stopId = it.stopId,
+                        index = it.index,
+                        stopName = it.stopName,
+                        stopAddress = it.stopAddress,
+                        stopLat = it.stopLat,
+                        stopLong = it.stopLong,
+                        stopArrive = it.stopArrive,
+                        stopDepart = it.stopDepart,
+                        stopArriveEst = it.stopArriveEst,
+                        stopDepartEst = it.stopDepartEst
+                )
+                mapAssignmentStops.add(mapAssignmentStop)
+            }
+            return MapAssignment(
+                    assignmentID = mapShuttle.shuttleAssignmentID,
+                    driverID = mapShuttle.shuttleDriverID,
+                    driverFName = mapShuttle.shuttleDriverFName,
+                    driverLName = mapShuttle.shuttleDriverLName,
+                    shuttleID = mapShuttle.shuttleID,
+                    shuttleName = mapShuttle.shuttleName,
+                    stops = mapAssignmentStops
+            )
+        } else {
+            return null
+        }
+
         //val mapAssignmentStopEntities = this.MapRepository.findAssignStops()
 
-        mapAssignmentEntities.forEach {
+        /*mapAssignmentEntities.forEach {
             val mapAssignmentStops = arrayListOf<MapAssignmentStop>()
             val mapAssignmentStopEntities = this.MapRepository.findAssignStops(it.AssignmentID)
             mapAssignmentStopEntities.forEach{
@@ -53,7 +96,6 @@ class MapServiceImpl(val MapRepository: MapRepository): MapService{
                     Stops = mapAssignmentStops
             )
             mapAssignments.add(mapAssignment)
-        }
-        return mapAssignments
+        }*/
     }
 }
