@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component
 class MapPgRepository(val db: JdbcTemplate): MapRepository{
     override fun findActiveShuttles(service: Int): List<MapShuttleEntity> {
         val mapShuttleEntities = db.query(
-                "SELECT * FROM shuttle_activity INNER JOIN shuttle ON (shuttle_activity.shuttleid = shuttle.\"ID\") WHERE shuttle.serviceid = ?;",
+                "SELECT * FROM shuttle_activity INNER JOIN shuttle ON (shuttle_activity.shuttleid = shuttle.\"ID\") WHERE shuttle.serviceid = ?",
                 arrayOf(service),
                 {
                     resultSet, rowNum -> MapShuttleEntity(
@@ -36,7 +36,7 @@ class MapPgRepository(val db: JdbcTemplate): MapRepository{
 
     override fun findShuttleDriver(shuttle: MapShuttleEntity): List<MapDriverEntity> {
         val mapDriverEntities = db.query(
-                "SELECT \"ID\", fname, lname FROM \"user\" WHERE \"ID\" = ?;",
+                "SELECT \"ID\", fname, lname FROM \"user\" WHERE \"ID\" = ?",
                 arrayOf(shuttle.shuttleDriverID),
                 {
                     resultSet, rowNum -> MapDriverEntity(

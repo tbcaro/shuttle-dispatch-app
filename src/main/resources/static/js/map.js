@@ -62,16 +62,25 @@ function MapApp(options) {
   self.fitMapToBounds = function() {
     var bounds = new google.maps.LatLngBounds();
 
-    // TBC : Extend bounds to user position
-    if (self.mapMarkers.hasOwnProperty('userMarker') && self.mapMarkers.userMarker.length > 0) {
-      bounds.extend(self.mapMarkers.userMarker.getPosition());
-    }
-
     // TBC : Extend bounds to shuttle positions
     if (self.mapMarkers.hasOwnProperty('busMarkers') && self.mapMarkers.busMarkers.length > 0) {
       self.mapMarkers.busMarkers.forEach(function(marker) {
         bounds.extend(marker.getPosition());
       });
+    } else {
+
+      // TBC : Extend bounds to user position
+      if (self.mapMarkers.hasOwnProperty('userMarker')) {
+        var userPosition = self.mapMarkers.userMarker.getPosition();
+        bounds.extend({
+                        lat: userPosition.lat - .0005,
+                        lng: userPosition.lng - .0005
+                      });
+        bounds.extend({
+                        lat: userPosition.lat + .0005,
+                        lng: userPosition.lng + .0005
+                      });
+      }
     }
 
     self.map.fitBounds(bounds);
