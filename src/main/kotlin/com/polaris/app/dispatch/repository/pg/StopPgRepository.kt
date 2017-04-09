@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 class StopPgRepository(val db: JdbcTemplate): StopRepository {
     override fun findStops(service: Int): List<StopEntity> {
         val StopEntities = db.query(
-                "SELECT * FROM stop WHERE serviceid = ?",
+                "SELECT * FROM stop WHERE serviceid = ? AND isarchived = false",
                 arrayOf(service),
                 {
                     resultSet, rowNum -> StopEntity(

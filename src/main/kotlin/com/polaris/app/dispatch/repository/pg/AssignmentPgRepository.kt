@@ -13,7 +13,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
     override fun findAssignments(service: Int, date: LocalDate): List<AssignmentEntity> {
         val AssignmentEntities = db.query(
                 //Double check script to ensure database data is correct. At this time, database updates have not taken effect.
-                "SELECT assignment.assignmentid, assignment.serviceid, assignment.startdate, assignment.starttime, assignment.routeid, assignment.routename, assignment.driverID, \"user\".fname, \"user\".lname, assignment.shuttleid, shuttle.\"ID\" FROM assignment INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") WHERE assignment.serviceid = ? AND startdate = ?;",
+                "SELECT assignment.assignmentid, assignment.serviceid, assignment.startdate, assignment.starttime, assignment.routeid, assignment.routename, assignment.driverID, \"user\".fname, \"user\".lname, assignment.shuttleid, shuttle.\"ID\" FROM assignment INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") WHERE assignment.serviceid = ? AND startdate = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
                 arrayOf(service, date),
                 {
                     resultSet, rowNum -> AssignmentEntity(
@@ -137,13 +137,13 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
     }
 
     override fun addAssignment(a: NewAssignment): Int {
-        db.update(
-                "INSERT INTO assignment (serviceid, driverid, shuttleid, routeid, startdate, starttime, routename) VALUES (?, ?, ?, ?, ?, ?, ?);",
+        db.update(//TSH 4/2/2017: Added status and isarchived fields to query to properly assign them when creating a record
+                "INSERT INTO assignment (serviceid, driverid, shuttleid, routeid, startdate, starttime, routename, status, isarchived) VALUES (?, ?, ?, ?, ?, ?, ?, 'SCHEDULED', false);",
                 arrayOf(a.serviceID, a.driverID, a.shuttleID, a.routeID, a.startDate, a.startTime, a.routeName)
         )
 
         val assignmentid = db.query(//Should only return the newly added assignment's assignmentid
-                "SELECT assignmentid FROM assignment WHERE serviceid = ? AND driverid = ? AND startdate = ? AND starttime = ?;",
+                "SELECT assignmentid FROM assignment WHERE serviceid = ? AND driverid = ? AND startdate = ? AND starttime = ? AND isarchived = false;",
                 arrayOf(a.serviceID, a.driverID, a.startDate, a.startTime),
                 {
                     resultSet, rowNum -> AssignmentIDEntity(
