@@ -2,6 +2,7 @@ package com.polaris.app.dispatch.repository.pg
 
 import com.polaris.app.dispatch.repository.StopRepository
 import com.polaris.app.dispatch.repository.entity.StopEntity
+import com.polaris.app.dispatch.repository.entity.UpdateStopEntity
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Component
 
@@ -30,4 +31,17 @@ class StopPgRepository(val db: JdbcTemplate): StopRepository {
         )
     }
 
+    override fun updateStop(s: UpdateStopEntity) {
+        db.update(
+                "UPDATE stop SET \"Name\" = ? AND address = ? AND latitude = ? AND longitude = ? WHERE \"ID\" = ?;",
+                arrayOf(s.stopName, s.stopAddress, s.stopLat, s.stopLong, s.stopID)
+        )
+    }
+
+    override fun archiveStop(stopID: Int) {
+        db.update(
+                "UPDATE stop SET isarchived = true WHERE \"ID\" = ?",
+                arrayOf(stopID)
+        )
+    }
 }

@@ -15,6 +15,7 @@ interface AssignmentRepository {
     fun findDropRouteStops(routeID: Int): List<AssignmentRouteStopEntity>
     fun addAssignment(a: NewAssignment): Int//Returns the newly created assignmentID
     fun addAssignmentStops(assignmentID: Int, assignmentStop: List<NewAssignmentStop>)
+    fun updateAssignment(assignmentID: Int, ua: NewAssignment)
     fun archiveAssignment(assignmentID: Int)
     fun startTransaction()
     fun endTransaction()
