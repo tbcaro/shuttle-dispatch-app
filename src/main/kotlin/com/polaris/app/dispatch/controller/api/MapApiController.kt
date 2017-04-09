@@ -73,8 +73,8 @@ class MapApiController(private val authService: AuthenticationService, private v
                 listOfDetails.add(activityDetailsAdapter)
             }
 
-            println("\"/fetchAllShuttleActivity\" called at ${LocalDateTime.now()}")
-            println("${listOfDetails.size} activities found")
+//            println("\"/fetchAllShuttleActivity\" called at ${LocalDateTime.now()}")
+//            println("${listOfDetails.size} activities found")
             return ResponseEntity(listOfDetails, HttpStatus.OK)
         } else {
             return ResponseEntity(HttpStatus.UNAUTHORIZED)
