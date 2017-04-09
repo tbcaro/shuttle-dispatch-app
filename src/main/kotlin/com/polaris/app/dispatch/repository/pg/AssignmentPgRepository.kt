@@ -164,6 +164,10 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
         }
     }
 
+    override fun updateAssignment(assignmentID: Int, ua: NewAssignment) {
+
+    }
+
     override fun archiveAssignment(assignmentID: Int) {
         db.update(
                 "UPDATE assignment SET isarchived = true WHERE assignmentid = ?;",
