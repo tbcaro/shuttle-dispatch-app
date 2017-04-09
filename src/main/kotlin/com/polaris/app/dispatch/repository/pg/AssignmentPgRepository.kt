@@ -6,6 +6,7 @@ import com.polaris.app.dispatch.service.bo.NewAssignment
 import com.polaris.app.dispatch.service.bo.NewAssignmentStop
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Component
+import java.sql.Date
 import java.time.LocalDate
 
 @Component
@@ -14,20 +15,20 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
         val AssignmentEntities = db.query(
                 //Double check script to ensure database data is correct. At this time, database updates have not taken effect.
                 "SELECT assignment.assignmentid, assignment.serviceid, assignment.startdate, assignment.starttime, assignment.routeid, assignment.routename, assignment.driverID, \"user\".fname, \"user\".lname, assignment.shuttleid, shuttle.\"ID\" FROM assignment INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") WHERE assignment.serviceid = ? AND startdate = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
-                arrayOf(service, date),
+                arrayOf(service, Date.valueOf(date)),
                 {
                     resultSet, rowNum -> AssignmentEntity(
-                        resultSet.getInt("assignment.assignmentid"),
-                        resultSet.getInt("assignment.serviceid"),
-                        resultSet.getTimestamp("assignment.startdate").toLocalDateTime().toLocalDate(),
-                        resultSet.getTimestamp("assignment.starttime").toLocalDateTime().toLocalTime(),
-                        resultSet.getInt("assignment.routeid"),
-                        resultSet.getString("assignment.routename"),
-                        resultSet.getInt("assignment.driverID"),
-                        resultSet.getString("\"user\".fname"),
-                        resultSet.getString("\"user\".lname"),
-                        resultSet.getInt("assignment.shuttleid"),
-                        resultSet.getString("shuttle.\"ID\"")
+                        resultSet.getInt("assignmentid"),
+                        resultSet.getInt("serviceid"),
+                        resultSet.getTimestamp("startdate").toLocalDateTime().toLocalDate(),
+                        resultSet.getTimestamp("starttime").toLocalDateTime().toLocalTime(),
+                        resultSet.getInt("routeid"),
+                        resultSet.getString("routename"),
+                        resultSet.getInt("driverID"),
+                        resultSet.getString("fname"),
+                        resultSet.getString("lname"),
+                        resultSet.getInt("shuttleid"),
+                        resultSet.getString("ID")
                     )
                 }
         )
