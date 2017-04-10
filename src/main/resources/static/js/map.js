@@ -67,23 +67,25 @@ function MapApp(options) {
       self.mapMarkers.busMarkers.forEach(function(marker) {
         bounds.extend(marker.getPosition());
       });
+
+      self.map.fitBounds(bounds);
     } else {
 
       // TBC : Extend bounds to user position
       if (self.mapMarkers.hasOwnProperty('userMarker')) {
         var userPosition = self.mapMarkers.userMarker.getPosition();
         bounds.extend({
-                        lat: userPosition.lat - .0005,
-                        lng: userPosition.lng - .0005
+                        lat: userPosition.lat() - .0005,
+                        lng: userPosition.lng() - .0005
                       });
         bounds.extend({
-                        lat: userPosition.lat + .0005,
-                        lng: userPosition.lng + .0005
+                        lat: userPosition.lat() + .0005,
+                        lng: userPosition.lng() + .0005
                       });
+
+        self.map.fitBounds(bounds);
       }
     }
-
-    self.map.fitBounds(bounds);
   };
 
   self.loadShuttleActivities = function() {
@@ -98,7 +100,7 @@ function MapApp(options) {
         })
         .catch(function (error) {
           console.log(error);
-          clearInterval(intervalId);
+          // clearInterval(intervalId);
         });
   };
 
