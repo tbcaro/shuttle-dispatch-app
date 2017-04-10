@@ -103,7 +103,7 @@ function AssignmentApp(options) {
   };
 
   self.saveAssignment = function() {
-    axios.post('/test/api/assignment/save',
+    axios.post('/api/assignment/save',
                self.assignmentForm.getFormData(self.selectedDate)
     )
         .then(function(response) {

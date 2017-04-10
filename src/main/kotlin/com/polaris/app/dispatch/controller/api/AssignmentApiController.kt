@@ -4,6 +4,7 @@ import com.polaris.app.dispatch.controller.adapter.*
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentState
 import com.polaris.app.dispatch.service.AssignmentService
 import com.polaris.app.dispatch.service.AuthenticationService
+import com.polaris.app.dispatch.service.exception.AssignmentValidationException
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -136,19 +137,29 @@ class AssignmentApiController(private val authService: AuthenticationService, pr
 
     @RequestMapping("/assignment/save", method = arrayOf(RequestMethod.POST))
     fun saveAssignment(
+            http: HttpServletRequest,
             @RequestBody form: AssignmentFormAdapter
     ) : ResponseEntity<Int> {
-        var assignmentId = 0
+        if (authService.isAuthenticated(http)) {
+            val userContext = authService.getUserContext(http)
+            var assignmentId = 0
 
-        if (form.assignmentId.value == null) {
-            // TBC : Do create
-            assignmentId = 2
+            if (form.assignmentId.value == null) {
+                // TBC : Do create
+                try {
+                    assignmentId = assignmentService.addAssignment(form.toNewAssignment(userContext.serviceId))
+                } catch (ex: AssignmentValidationException) {
+
+                }
+            } else {
+                // TBC : Do update
+                assignmentId = 1
+            }
+
+            return ResponseEntity(assignmentId, HttpStatus.OK)
         } else {
-            // TBC : Do update
-            assignmentId = 1
+            return ResponseEntity(HttpStatus.UNAUTHORIZED)
         }
-
-        return ResponseEntity(assignmentId, HttpStatus.OK)
     }
 
     @RequestMapping("/assignment/archive", method = arrayOf(RequestMethod.POST))
