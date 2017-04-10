@@ -1,5 +1,6 @@
 package com.polaris.app.dispatch.repository.entity
 
+import com.polaris.app.dispatch.controller.adapter.enums.AssignmentState
 import java.time.LocalTime
 import java.time.LocalDate
 
@@ -14,5 +15,6 @@ data class AssignmentEntity(
         val driverFName: String,
         val driverLName: String,
         val shuttleID: Int,
-        val shuttleName: String
+        val shuttleName: String,
+        val status: AssignmentState
 )

@@ -1,6 +1,7 @@
 package com.polaris.app.dispatch.repository
 
 import com.polaris.app.dispatch.repository.entity.*
+import com.polaris.app.dispatch.service.bo.AssignmentUpdate
 import com.polaris.app.dispatch.service.bo.NewAssignment
 import com.polaris.app.dispatch.service.bo.NewAssignmentStop
 import java.time.LocalDate
@@ -15,7 +16,10 @@ interface AssignmentRepository {
     fun findDropRouteStops(routeID: Int): List<AssignmentRouteStopEntity>
     fun addAssignment(a: NewAssignment): Int//Returns the newly created assignmentID
     fun addAssignmentStops(assignmentID: Int, assignmentStop: List<NewAssignmentStop>)
-    fun updateAssignment(assignmentID: Int, ua: NewAssignment)
+    fun updateAssignment(ua: AssignmentUpdate)
+    fun checkAssignment(assignmentID: Int): AssignmentEntity
+    fun checkIndex(assignmentID: Int): Int
+    fun removeAssignmentStops(assignmentID: Int, index: Int)
     fun archiveAssignment(assignmentID: Int)
     fun startTransaction()
     fun endTransaction()

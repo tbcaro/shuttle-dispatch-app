@@ -1,7 +1,9 @@
 package com.polaris.app.dispatch.repository.pg
 
+import com.polaris.app.dispatch.controller.adapter.enums.AssignmentState
 import com.polaris.app.dispatch.repository.AssignmentRepository
 import com.polaris.app.dispatch.repository.entity.*
+import com.polaris.app.dispatch.service.bo.AssignmentUpdate
 import com.polaris.app.dispatch.service.bo.NewAssignment
 import com.polaris.app.dispatch.service.bo.NewAssignmentStop
 import org.springframework.jdbc.core.JdbcTemplate
@@ -17,17 +19,18 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                 arrayOf(service, date),
                 {
                     resultSet, rowNum -> AssignmentEntity(
-                        resultSet.getInt("assignment.assignmentid"),
-                        resultSet.getInt("assignment.serviceid"),
-                        resultSet.getTimestamp("assignment.startdate").toLocalDateTime().toLocalDate(),
-                        resultSet.getTimestamp("assignment.starttime").toLocalDateTime().toLocalTime(),
-                        resultSet.getInt("assignment.routeid"),
-                        resultSet.getString("assignment.routename"),
-                        resultSet.getInt("assignment.driverID"),
-                        resultSet.getString("\"user\".fname"),
-                        resultSet.getString("\"user\".lname"),
-                        resultSet.getInt("assignment.shuttleid"),
-                        resultSet.getString("shuttle.\"ID\"")
+                        resultSet.getInt("assignmentid"),
+                        resultSet.getInt("serviceid"),
+                        resultSet.getTimestamp("startdate").toLocalDateTime().toLocalDate(),
+                        resultSet.getTimestamp("starttime").toLocalDateTime().toLocalTime(),
+                        resultSet.getInt("routeid"),
+                        resultSet.getString("routename"),
+                        resultSet.getInt("driverID"),
+                        resultSet.getString("fname"),
+                        resultSet.getString("lname"),
+                        resultSet.getInt("shuttleid"),
+                        resultSet.getString("ID"),
+                        status = AssignmentState.valueOf(resultSet.getString("status"))
                     )
                 }
         )
@@ -40,18 +43,18 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                 arrayOf(assignID),
                 {
                     resultSet, rowNum -> AssignmentStopEntity(
-                        resultSet.getInt("assignment_stop.assignment_stop_id"),
-                        resultSet.getInt("assignment_stop.assignmentid"),
-                        resultSet.getInt("assignment_stop.stopid"),
-                        resultSet.getString("stop.\"Name\""),
-                        resultSet.getInt("assignment_stop.\"Index\""),
-                        resultSet.getString("assignment_stop.address"),
-                        resultSet.getBigDecimal("assignment_stop.latitude"),
-                        resultSet.getBigDecimal("assignment_stop.longitude"),
-                        resultSet.getTimestamp("assignment_stop.timeofarrival").toLocalDateTime(),
-                        resultSet.getTimestamp("assignment_stop.timeofdeparture").toLocalDateTime(),
-                        resultSet.getTimestamp("assignment_stop.estimatedtimeofarrival").toLocalDateTime(),
-                        resultSet.getTimestamp("assignment_stop.estimatedtimeofdeparture").toLocalDateTime()
+                        resultSet.getInt("assignment_stop_id"),
+                        resultSet.getInt("assignmentid"),
+                        resultSet.getInt("stopid"),
+                        resultSet.getString("Name"),
+                        resultSet.getInt("Index"),
+                        resultSet.getString("address"),
+                        resultSet.getBigDecimal("latitude"),
+                        resultSet.getBigDecimal("longitude"),
+                        resultSet.getTimestamp("timeofarrival").toLocalDateTime(),
+                        resultSet.getTimestamp("timeofdeparture").toLocalDateTime(),
+                        resultSet.getTimestamp("estimatedtimeofarrival").toLocalDateTime(),
+                        resultSet.getTimestamp("estimatedtimeofdeparture").toLocalDateTime()
                     )
                 }
         )
@@ -78,9 +81,9 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                 arrayOf(service),
                 {
                     resultSet, rowNum -> AssignmentDriverEntity(
-                        resultSet.getInt("\"user\".\"ID\""),
-                        resultSet.getString(" \"user\".fname"),
-                        resultSet.getString("\"user\".lname")
+                        resultSet.getInt("ID"),
+                        resultSet.getString("fname"),
+                        resultSet.getString("lname")
                     )
                 }
         )
@@ -93,8 +96,8 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                 arrayOf(service),
                 {
                     resultSet, rowNum -> AssignmentRouteEntity(
-                        resultSet.getInt("\"ID\""),
-                        resultSet.getString("\"Name\"")
+                        resultSet.getInt("ID"),
+                        resultSet.getString("Name")
                     )
                 }
         )
@@ -124,12 +127,12 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                 arrayOf(routeID),
                 {
                     resultSet, rowNum -> AssignmentRouteStopEntity(
-                        resultSet.getInt("stop.\"ID\""),
-                        resultSet.getString("stop.\"Name\""),
-                        resultSet.getInt("route_stop.\"Index\""),
-                        resultSet.getString("stop.address"),
-                        resultSet.getBigDecimal("stop.latitude"),
-                        resultSet.getBigDecimal("stop.longitude")
+                        resultSet.getInt("ID"),
+                        resultSet.getString("Name"),
+                        resultSet.getInt("Index"),
+                        resultSet.getString("address"),
+                        resultSet.getBigDecimal("latitude"),
+                        resultSet.getBigDecimal("longitude")
                 )
                 }
         )
@@ -158,14 +161,59 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
     override fun addAssignmentStops(assignmentID: Int, assignmentStop: List<NewAssignmentStop>) {
         assignmentStop.forEach {
             db.update(
-                    "INSERT INTO assignment_stop (assignmentid, estimatedtimeofarrival, estimatedtimeofdeparture, stopid, \"Index\", address, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?, ?);",
-                    arrayOf(assignmentID, it.stopArriveEst, it.stopDepartEst, it.stopID, it.stopAddress, it.stopLat, it.stopLong)
+                    "INSERT INTO assignment_stop (assignmentid, estimatedtimeofarrival, estimatedtimeofdeparture, stopid, \"Index\", address, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
+                    arrayOf(assignmentID, it.stopArriveEst, it.stopDepartEst, it.stopID, it.stopIndex, it.stopAddress, it.stopLat, it.stopLong)
             )
         }
     }
 
-    override fun updateAssignment(assignmentID: Int, ua: NewAssignment) {
+    override fun updateAssignment(ua: AssignmentUpdate) {
+        db.update(
+                "UPDATE assignment SET driverid = ? AND shuttleid = ? AND routeid = ? AND starttime = ? AND startdate = ? AND routename = ? WHERE assignmentid = ?;",
+                arrayOf(ua.driverID, ua.shuttleID, ua.routeID, ua.startTime, ua.startDate, ua.routeName, ua.assignmentID)
+        )
+    }
 
+    override fun checkAssignment(assignmentID: Int): AssignmentEntity {
+        val assignment = db.query(
+                "SELECT assignment.assignmentid, assignment.serviceid, assignment.startdate, assignment.starttime, assignment.routeid, assignment.routename, assignment.driverID, \"user\".fname, \"user\".lname, assignment.shuttleid, shuttle.\"ID\" FROM assignment INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") WHERE assignment.assignmentid = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
+                arrayOf(assignmentID),
+                {
+                    resultSet, rowNum -> AssignmentEntity(
+                        resultSet.getInt("assignmentid"),
+                        resultSet.getInt("serviceid"),
+                        resultSet.getTimestamp("startdate").toLocalDateTime().toLocalDate(),
+                        resultSet.getTimestamp("starttime").toLocalDateTime().toLocalTime(),
+                        resultSet.getInt("routeid"),
+                        resultSet.getString("routename"),
+                        resultSet.getInt("driverID"),
+                        resultSet.getString("fname"),
+                        resultSet.getString("lname"),
+                        resultSet.getInt("shuttleid"),
+                        resultSet.getString("ID"),
+                        status = AssignmentState.valueOf(resultSet.getString("status"))
+                )
+                }
+        )
+        return assignment[0]
+    }
+
+    override fun checkIndex(assignmentID: Int): Int {
+        val index = db.query(
+                "SELECT \"Index\" FROM shuttle_activity WHERE assignmentid = ?;",
+                arrayOf(assignmentID),{
+                    resultSet, rowNum -> IndexEntity(
+                        resultSet.getInt("Index")
+                    )
+                }
+        )
+        return index[0].index
+    }
+
+    override fun removeAssignmentStops(assignmentID: Int, index: Int) {
+        db.update(
+                "DELETE FROM assignment_stop WHERE assignmentid = ? AND \"Index\" > ?"
+        )
     }
 
     override fun archiveAssignment(assignmentID: Int) {

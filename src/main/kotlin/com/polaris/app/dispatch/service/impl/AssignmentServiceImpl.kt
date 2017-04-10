@@ -3,6 +3,7 @@ package com.polaris.app.dispatch.service.impl
 import com.google.common.collect.HashMultimap
 import com.google.common.collect.Multimap
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentFieldTags
+import com.polaris.app.dispatch.controller.adapter.enums.AssignmentState
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentStopFieldTags
 import com.polaris.app.dispatch.repository.AssignmentRepository
 import com.polaris.app.dispatch.repository.entity.AssignmentStopEntity
@@ -161,5 +162,26 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
 
     override fun archiveAssignment(assignmentid: Int) {
         this.AssignmentRepository.archiveAssignment(assignmentid)
+    }
+
+    override fun updateAssignment(updatedAssignment: AssignmentUpdate): Boolean {
+        val currentAssignment = this.AssignmentRepository.checkAssignment(updatedAssignment.assignmentID)
+        if (currentAssignment.status == AssignmentState.IN_PROGRESS){
+            //INCOMPLETE
+
+
+
+            return true
+        }
+        else if (currentAssignment.status == AssignmentState.COMPLETED){
+            return false
+        }
+        else/*UNFINISHED OR SCHEDULED*/{
+            this.AssignmentRepository.startTransaction()
+            this.AssignmentRepository.updateAssignment(updatedAssignment)
+            this.AssignmentRepository.removeAssignmentStops(updatedAssignment.assignmentID, 0)
+            this.AssignmentRepository.addAssignmentStops(updatedAssignment.assignmentID, updatedAssignment.stops)
+            return true
+        }
     }
 }
