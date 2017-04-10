@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.math.BigDecimal
+import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.servlet.http.HttpServletRequest
 
@@ -72,6 +73,8 @@ class MapApiController(private val authService: AuthenticationService, private v
                 listOfDetails.add(activityDetailsAdapter)
             }
 
+//            println("\"/fetchAllShuttleActivity\" called at ${LocalDateTime.now()}")
+//            println("${listOfDetails.size} activities found")
             return ResponseEntity(listOfDetails, HttpStatus.OK)
         } else {
             return ResponseEntity(HttpStatus.UNAUTHORIZED)

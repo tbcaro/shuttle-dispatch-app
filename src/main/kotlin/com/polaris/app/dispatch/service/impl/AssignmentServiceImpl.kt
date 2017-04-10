@@ -10,6 +10,8 @@ import com.polaris.app.dispatch.repository.entity.AssignmentStopEntity
 import com.polaris.app.dispatch.service.AssignmentService
 import com.polaris.app.dispatch.service.bo.*
 import com.polaris.app.dispatch.service.exception.AssignmentValidationException
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
 import java.util.*
 
@@ -23,6 +25,7 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
             val assignmentStopEntities = this.AssignmentRepository.findAssignmentStops(it.assignmentID)
             assignmentStopEntities.forEach{
                 val assignmentStop = AssignmentStop(
+                        stopId = it.stopID,
                         stopName = it.stopName,
                         stopAddress = it.stopAddress,
                         stopLat = it.stopLat,

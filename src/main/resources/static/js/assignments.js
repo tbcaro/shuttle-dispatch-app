@@ -65,7 +65,7 @@ function AssignmentApp(options) {
   };
 
   self.fetchAssignments = function(date) {
-    axios.get('/test/api/fetchAllAssignments?date=' + date.toISOString())
+    axios.get('/api/fetchAllAssignments?date=' + date.toISOString())
         .then(function(response){
           console.log(response);
           self.updateAssignments(response.data.assignmentDetailAdapters);

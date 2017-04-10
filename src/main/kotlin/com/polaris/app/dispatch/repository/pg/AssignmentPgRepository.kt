@@ -8,6 +8,7 @@ import com.polaris.app.dispatch.service.bo.NewAssignment
 import com.polaris.app.dispatch.service.bo.NewAssignmentStop
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Component
+import java.sql.Date
 import java.time.LocalDate
 
 @Component
@@ -16,7 +17,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
         val AssignmentEntities = db.query(
                 //Double check script to ensure database data is correct. At this time, database updates have not taken effect.
                 "SELECT assignment.assignmentid, assignment.serviceid, assignment.startdate, assignment.starttime, assignment.routeid, assignment.routename, assignment.driverID, \"user\".fname, \"user\".lname, assignment.shuttleid, shuttle.\"ID\" FROM assignment INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") WHERE assignment.serviceid = ? AND startdate = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
-                arrayOf(service, date),
+                arrayOf(service, Date.valueOf(date)),
                 {
                     resultSet, rowNum -> AssignmentEntity(
                         resultSet.getInt("assignmentid"),

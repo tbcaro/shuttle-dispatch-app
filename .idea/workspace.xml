@@ -2,18 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9cc5aafe-c424-4683-8311-5fab29655c9b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/IndexEntity.kt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/StatusEntity.kt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/AssignmentUpdate.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/AssignmentRepository.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/AssignmentRepository.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/AssignmentEntity.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/AssignmentEntity.kt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/api/AssignmentApiController.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application.properties" afterPath="$PROJECT_DIR$/application.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/Application.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/Application.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/AssignmentDetailsAdapter.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/AssignmentDetailsAdapter.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/api/MapApiController.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/api/MapApiController.kt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/AssignmentService.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/AssignmentService.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/AssignmentStop.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/AssignmentStop.kt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../passenger-app/src/main/kotlin/com/polaris/app/passenger/repository/pg/MapPgRepository.kt" afterPath="$PROJECT_DIR$/../passenger-app/src/main/kotlin/com/polaris/app/passenger/repository/pg/MapPgRepository.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../passenger-app/src/main/kotlin/com/polaris/app/passenger/repository/pg/ShuttlePgRepository.kt" afterPath="$PROJECT_DIR$/../passenger-app/src/main/kotlin/com/polaris/app/passenger/repository/pg/ShuttlePgRepository.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/pg/LoginPgRepository.kt" afterPath="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/pg/LoginPgRepository.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/js/assignments.js" afterPath="$PROJECT_DIR$/src/main/resources/static/js/assignments.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/js/map.js" afterPath="$PROJECT_DIR$/src/main/resources/static/js/map.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -285,11 +283,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AssignmentServiceImpl.kt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AssignmentServiceImpl.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="262">
-              <caret line="173" column="23" lean-forward="false" selection-start-line="173" selection-start-column="23" selection-end-line="173" selection-end-column="23" />
+              <caret line="176" column="23" lean-forward="false" selection-start-line="176" selection-start-column="23" selection-end-line="176" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -299,7 +297,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/AssignmentUpdate.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
-              <caret line="10" column="25" lean-forward="true" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+              <caret line="10" column="25" lean-forward="false" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
               <folding>
                 <element signature="e#45#98#0" expanded="true" />
               </folding>
@@ -311,7 +309,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/NewAssignment.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
-              <caret line="13" column="42" lean-forward="true" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
+              <caret line="13" column="42" lean-forward="false" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -329,32 +327,30 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AssignmentPgRepository.kt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AssignmentPgRepository.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-469">
-              <caret line="172" column="120" lean-forward="false" selection-start-line="172" selection-start-column="120" selection-end-line="172" selection-end-column="120" />
+            <state relative-caret-position="255">
+              <caret line="33" column="87" lean-forward="false" selection-start-line="33" selection-start-column="87" selection-end-line="33" selection-end-column="87" />
               <folding>
-                <element signature="e#48#539#0" expanded="true" />
-                <marker date="1491853485256" expanded="true" signature="905:1324" ph="SELECT assig... assignment" />
-                <marker date="1491853485256" expanded="true" signature="905:1379" ph="SELECT assig... assignment" />
-                <marker date="1491853485256" expanded="true" signature="905:1389" ph="SELECT assig... assignment" />
-                <marker date="1491853485256" expanded="true" signature="2513:2623" ph="SELECT * FRO... assignment_stop" />
-                <marker date="1491853485256" expanded="true" signature="3783:3867" ph="SELECT * FRO... shuttle" />
-                <marker date="1491853485256" expanded="true" signature="4314:4521" ph="SELECT \&quot;use... user" />
-                <marker date="1491853485256" expanded="true" signature="5010:5072" ph="SELECT * FRO... route" />
-                <marker date="1491853485256" expanded="true" signature="5505:5566" ph="SELECT * FRO... stop" />
-                <marker date="1491853485256" expanded="true" signature="6199:6294" ph="SELECT * FRO... route_stop" />
-                <marker date="1491853485256" expanded="true" signature="7029:7195" ph="INSERT INTO assignment... " />
-                <marker date="1491853485256" expanded="true" signature="7438:7546" ph="SELECT assig... assignment" />
-                <marker date="1491853485256" expanded="true" signature="7438:7569" ph="SELECT assig... assignment" />
-                <marker date="1491853485256" expanded="true" signature="8062:8235" ph="INSERT INTO assignment_stop... " />
-                <marker date="1491853485256" expanded="true" signature="8508:8653" ph="UPDATE assig... " />
-                <marker date="1491853485256" expanded="true" signature="8920:8927" ph="SELECT statu... assignment" />
-                <marker date="1491853485256" expanded="true" signature="8920:9389" ph="SELECT assig... assignment" />
-                <marker date="1491853485256" expanded="true" signature="10458:10519" ph="SELECT \&quot;Ind... shuttle_activity" />
-                <marker date="1491853485256" expanded="true" signature="10862:10930" ph="DELETE FROM " />
-                <marker date="1491853485256" expanded="true" signature="11041:11103" ph="UPDATE assig... " />
+                <element signature="e#48#560#0" expanded="true" />
+                <marker date="1491855669442" expanded="true" signature="926:1410" ph="SELECT assig... assignment" />
+                <marker date="1491855669442" expanded="true" signature="2548:2658" ph="SELECT * FRO... assignment_stop" />
+                <marker date="1491855669442" expanded="true" signature="3818:3902" ph="SELECT * FRO... shuttle" />
+                <marker date="1491855669442" expanded="true" signature="4349:4556" ph="SELECT \&quot;use... user" />
+                <marker date="1491855669442" expanded="true" signature="5045:5107" ph="SELECT * FRO... route" />
+                <marker date="1491855669442" expanded="true" signature="5540:5601" ph="SELECT * FRO... stop" />
+                <marker date="1491855669442" expanded="true" signature="6234:6329" ph="SELECT * FRO... route_stop" />
+                <marker date="1491855669442" expanded="true" signature="7064:7230" ph="INSERT INTO assignment... " />
+                <marker date="1491855669442" expanded="true" signature="7473:7581" ph="SELECT assig... assignment" />
+                <marker date="1491855669442" expanded="true" signature="7473:7604" ph="SELECT assig... assignment" />
+                <marker date="1491855669442" expanded="true" signature="8097:8270" ph="INSERT INTO assignment_stop... " />
+                <marker date="1491855669442" expanded="true" signature="8543:8688" ph="UPDATE assig... " />
+                <marker date="1491855669442" expanded="true" signature="8955:8962" ph="SELECT statu... assignment" />
+                <marker date="1491855669442" expanded="true" signature="8955:9424" ph="SELECT assig... assignment" />
+                <marker date="1491855669442" expanded="true" signature="10493:10554" ph="SELECT \&quot;Ind... shuttle_activity" />
+                <marker date="1491855669442" expanded="true" signature="10897:10965" ph="DELETE FROM " />
+                <marker date="1491855669442" expanded="true" signature="11076:11138" ph="UPDATE assig... " />
               </folding>
             </state>
           </provider>
@@ -1450,10 +1446,10 @@
         <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/pg/LoginPgRepository.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/AssignmentUpdate.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/StatusEntity.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/AssignmentRepository.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/AssignmentService.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt" />
       </list>
     </option>
   </component>
@@ -2205,12 +2201,12 @@
       <workItem from="1491141148236" duration="28000" />
       <workItem from="1491141450178" duration="25780000" />
       <workItem from="1491404689766" duration="9147000" />
-      <workItem from="1491579664612" duration="34670000" />
+      <workItem from="1491579664612" duration="34990000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="150839000" />
+    <option name="totallyTimeSpent" value="151159000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -2689,7 +2685,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/NewAssignment.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
-          <caret line="13" column="42" lean-forward="true" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
+          <caret line="13" column="42" lean-forward="false" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
           <folding />
         </state>
       </provider>
@@ -2697,7 +2693,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/AssignmentUpdate.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
-          <caret line="10" column="25" lean-forward="true" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+          <caret line="10" column="25" lean-forward="false" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
           <folding>
             <element signature="e#45#98#0" expanded="true" />
           </folding>
@@ -2717,35 +2713,6 @@
         <state relative-caret-position="272">
           <caret line="18" column="35" lean-forward="false" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-469">
-          <caret line="172" column="120" lean-forward="false" selection-start-line="172" selection-start-column="120" selection-end-line="172" selection-end-column="120" />
-          <folding>
-            <element signature="e#48#539#0" expanded="true" />
-            <marker date="1491853485256" expanded="true" signature="905:1324" ph="SELECT assig... assignment" />
-            <marker date="1491853485256" expanded="true" signature="905:1379" ph="SELECT assig... assignment" />
-            <marker date="1491853485256" expanded="true" signature="905:1389" ph="SELECT assig... assignment" />
-            <marker date="1491853485256" expanded="true" signature="2513:2623" ph="SELECT * FRO... assignment_stop" />
-            <marker date="1491853485256" expanded="true" signature="3783:3867" ph="SELECT * FRO... shuttle" />
-            <marker date="1491853485256" expanded="true" signature="4314:4521" ph="SELECT \&quot;use... user" />
-            <marker date="1491853485256" expanded="true" signature="5010:5072" ph="SELECT * FRO... route" />
-            <marker date="1491853485256" expanded="true" signature="5505:5566" ph="SELECT * FRO... stop" />
-            <marker date="1491853485256" expanded="true" signature="6199:6294" ph="SELECT * FRO... route_stop" />
-            <marker date="1491853485256" expanded="true" signature="7029:7195" ph="INSERT INTO assignment... " />
-            <marker date="1491853485256" expanded="true" signature="7438:7546" ph="SELECT assig... assignment" />
-            <marker date="1491853485256" expanded="true" signature="7438:7569" ph="SELECT assig... assignment" />
-            <marker date="1491853485256" expanded="true" signature="8062:8235" ph="INSERT INTO assignment_stop... " />
-            <marker date="1491853485256" expanded="true" signature="8508:8653" ph="UPDATE assig... " />
-            <marker date="1491853485256" expanded="true" signature="8920:8927" ph="SELECT statu... assignment" />
-            <marker date="1491853485256" expanded="true" signature="8920:9389" ph="SELECT assig... assignment" />
-            <marker date="1491853485256" expanded="true" signature="10458:10519" ph="SELECT \&quot;Ind... shuttle_activity" />
-            <marker date="1491853485256" expanded="true" signature="10862:10930" ph="DELETE FROM " />
-            <marker date="1491853485256" expanded="true" signature="11041:11103" ph="UPDATE assig... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2770,8 +2737,35 @@
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="262">
-          <caret line="173" column="23" lean-forward="false" selection-start-line="173" selection-start-column="23" selection-end-line="173" selection-end-column="23" />
+          <caret line="176" column="23" lean-forward="false" selection-start-line="176" selection-start-column="23" selection-end-line="176" selection-end-column="23" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="33" column="87" lean-forward="false" selection-start-line="33" selection-start-column="87" selection-end-line="33" selection-end-column="87" />
+          <folding>
+            <element signature="e#48#560#0" expanded="true" />
+            <marker date="1491855669442" expanded="true" signature="926:1410" ph="SELECT assig... assignment" />
+            <marker date="1491855669442" expanded="true" signature="2548:2658" ph="SELECT * FRO... assignment_stop" />
+            <marker date="1491855669442" expanded="true" signature="3818:3902" ph="SELECT * FRO... shuttle" />
+            <marker date="1491855669442" expanded="true" signature="4349:4556" ph="SELECT \&quot;use... user" />
+            <marker date="1491855669442" expanded="true" signature="5045:5107" ph="SELECT * FRO... route" />
+            <marker date="1491855669442" expanded="true" signature="5540:5601" ph="SELECT * FRO... stop" />
+            <marker date="1491855669442" expanded="true" signature="6234:6329" ph="SELECT * FRO... route_stop" />
+            <marker date="1491855669442" expanded="true" signature="7064:7230" ph="INSERT INTO assignment... " />
+            <marker date="1491855669442" expanded="true" signature="7473:7581" ph="SELECT assig... assignment" />
+            <marker date="1491855669442" expanded="true" signature="7473:7604" ph="SELECT assig... assignment" />
+            <marker date="1491855669442" expanded="true" signature="8097:8270" ph="INSERT INTO assignment_stop... " />
+            <marker date="1491855669442" expanded="true" signature="8543:8688" ph="UPDATE assig... " />
+            <marker date="1491855669442" expanded="true" signature="8955:8962" ph="SELECT statu... assignment" />
+            <marker date="1491855669442" expanded="true" signature="8955:9424" ph="SELECT assig... assignment" />
+            <marker date="1491855669442" expanded="true" signature="10493:10554" ph="SELECT \&quot;Ind... shuttle_activity" />
+            <marker date="1491855669442" expanded="true" signature="10897:10965" ph="DELETE FROM " />
+            <marker date="1491855669442" expanded="true" signature="11076:11138" ph="UPDATE assig... " />
+          </folding>
         </state>
       </provider>
     </entry>
