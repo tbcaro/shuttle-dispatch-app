@@ -92,7 +92,7 @@ function AssignmentApp(options) {
   };
 
   self.loadNewAssignmentForm = function(assignmentData) {
-    axios.get('/test/api/assignment/formOptions')
+    axios.get('/api/assignment/formOptions')
         .then(function(response){
           console.log(response);
           self.addAssignmentForm(response.data, assignmentData);

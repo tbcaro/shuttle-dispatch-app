@@ -74,63 +74,64 @@ class AssignmentApiController(private val authService: AuthenticationService, pr
     }
 
     @RequestMapping("/assignment/formOptions")
-    fun assignmentForm() : ResponseEntity<AssignmentFormOptionsAdapter> {
-        val options = AssignmentFormOptionsAdapter()
+    fun assignmentForm(http: HttpServletRequest) : ResponseEntity<AssignmentFormOptionsAdapter> {
+        if (authService.isAuthenticated(http)) {
+            val userContext = authService.getUserContext(http)
+            val options = AssignmentFormOptionsAdapter()
 
-        // TBC : Populate options for form and return
-        options.shuttleOptions.put(1, "Shuttle 1A")
-        options.shuttleOptions.put(2, "Shuttle 2A")
-        options.shuttleOptions.put(3, "Shuttle 3A")
+            val shuttles = assignmentService.shuttleDrop(userContext.serviceId)
+            val drivers = assignmentService.driverDrop(userContext.serviceId)
+            val routes = assignmentService.routeDrop(userContext.serviceId)
+            val stops = assignmentService.stopDrop(userContext.serviceId)
 
-        options.driverOptions.put(1, "Travis Caro")
-        options.driverOptions.put(2, "Tyler Holben")
-        options.driverOptions.put(3, "Zach Kruise")
+            shuttles.forEach {
+                options.shuttleOptions.put(it.shuttleID, it.shuttleName)
+            }
 
-        val stop1 = StopDetailsAdapter()
-        stop1.stopId = 1
-        stop1.name = "Stop 1"
-        stop1.address = "123 Stop 1 Address"
-        stop1.lat = BigDecimal("41.192382")
-        stop1.long = BigDecimal("-79.391694")
+            drivers.forEach {
+                options.driverOptions.put(it.driverID, "${it.driverFName} ${it.driverLName}")
+            }
 
-        val stop2 = StopDetailsAdapter()
-        stop2.stopId = 2
-        stop2.name = "Stop 2"
-        stop2.address = "123 Stop 2 Address"
-        stop2.lat = BigDecimal("41.188791")
-        stop2.long = BigDecimal("-79.394937")
+            routes.forEach {
+                val routeStops = assignmentService.retrieveRouteStops(it.routeID)
+                val routeDetails = RouteDetailsAdapter()
 
-        val stop3 = StopDetailsAdapter()
-        stop3.stopId = 3
-        stop3.name = "Stop 3"
-        stop3.address = "123 Stop 3 Address"
-        stop3.lat = BigDecimal("41.207504")
-        stop3.long = BigDecimal("-79.397200")
+                routeDetails.name = it.routeName
+                routeDetails.routeId = it.routeID
 
-        options.stopOptions.put(stop1.stopId, stop1)
-        options.stopOptions.put(stop2.stopId, stop2)
-        options.stopOptions.put(stop3.stopId, stop3)
+                val stopDetailsAdapters = arrayListOf<StopDetailsAdapter>()
+                routeStops.forEach {
+                    val stopDetails = StopDetailsAdapter()
 
-        val route1 = RouteDetailsAdapter()
-        route1.routeId = 1
-        route1.name = "Trav's Route"
-        route1.stops = arrayListOf(stop1, stop2)
+                    stopDetails.name = it.stopName
+                    stopDetails.address = it.address
+                    stopDetails.stopId = it.stopID
+                    stopDetails.lat = it.latitude
+                    stopDetails.long = it.longitude
 
-        val route2 = RouteDetailsAdapter()
-        route2.routeId = 2
-        route2.name = "Tyler's Route"
-        route2.stops = arrayListOf(stop2, stop3)
+                    stopDetailsAdapters.add(stopDetails)
+                }
 
-        val route3 = RouteDetailsAdapter()
-        route3.routeId = 3
-        route3.name = "Zach's Route"
-        route3.stops = arrayListOf(stop2, stop3, stop1)
+                routeDetails.stops = stopDetailsAdapters
+                options.routeOptions.put(it.routeID, routeDetails)
+            }
 
-        options.routeOptions.put(route1.routeId, route1)
-        options.routeOptions.put(route2.routeId, route2)
-        options.routeOptions.put(route3.routeId, route3)
+            stops.forEach {
+                val stopDetails = StopDetailsAdapter()
 
-        return ResponseEntity(options, HttpStatus.OK)
+                stopDetails.name = it.stopName
+                stopDetails.address = it.address
+                stopDetails.stopId = it.stopID
+                stopDetails.lat = it.latitude
+                stopDetails.long = it.longitude
+
+                options.stopOptions.put(it.stopID, stopDetails)
+            }
+
+            return ResponseEntity(options, HttpStatus.OK)
+        } else {
+            return ResponseEntity(HttpStatus.UNAUTHORIZED)
+        }
     }
 
     @RequestMapping("/assignment/save", method = arrayOf(RequestMethod.POST))

@@ -16,7 +16,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
     override fun findAssignments(service: Int, date: LocalDate): List<AssignmentEntity> {
         val AssignmentEntities = db.query(
                 //Double check script to ensure database data is correct. At this time, database updates have not taken effect.
-                "SELECT assignment.assignmentid, assignment.serviceid, assignment.startdate, assignment.starttime, assignment.routeid, assignment.routename, assignment.driverID, \"user\".fname, \"user\".lname, assignment.shuttleid, shuttle.\"ID\" FROM assignment INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") WHERE assignment.serviceid = ? AND startdate = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
+                "SELECT assignment.assignmentid, assignment.serviceid, assignment.startdate, assignment.starttime, assignment.routeid, assignment.routename, assignment.driverID, assignment.status, \"user\".fname, \"user\".lname, assignment.shuttleid, shuttle.\"ID\" FROM assignment INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") WHERE assignment.serviceid = ? AND startdate = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
                 arrayOf(service, Date.valueOf(date)),
                 {
                     resultSet, rowNum -> AssignmentEntity(
@@ -31,7 +31,8 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                         resultSet.getString("lname"),
                         resultSet.getInt("shuttleid"),
                         resultSet.getString("ID"),
-                        status = AssignmentState.valueOf(resultSet.getString("status"))
+                        AssignmentState.valueOf(resultSet.getString("status"))
+//                        AssignmentState.valueOf(resultSet.getString("status"))
                     )
                 }
         )
@@ -68,8 +69,8 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                 arrayOf(service),
                 {
                     resultSet, rowNum -> AssignmentShuttleEntity(
-                        resultSet.getInt("\"ID\""),
-                        resultSet.getString("\"Name\"")
+                        resultSet.getInt("ID"),
+                        resultSet.getString("Name")
                     )
                 }
         )
@@ -111,8 +112,8 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                 arrayOf(service),
                 {
                     resultSet, rowNum -> AssignmentStopDropEntity(
-                        resultSet.getInt("\"ID\""),
-                        resultSet.getString("\"Name\""),
+                        resultSet.getInt("ID"),
+                        resultSet.getString("Name"),
                         resultSet.getString("address"),
                         resultSet.getBigDecimal("latitude"),
                         resultSet.getBigDecimal("longitude")
