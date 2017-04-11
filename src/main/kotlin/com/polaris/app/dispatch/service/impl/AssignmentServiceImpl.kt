@@ -133,7 +133,7 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
         return routeStops
     }
 
-    override fun addAssignment(newAssignment: NewAssignment) {
+    override fun addAssignment(newAssignment: NewAssignment): Int {
         val errors: Multimap<AssignmentFieldTags, String> = HashMultimap.create()
         val stopErrors: MutableMap<Int, Multimap<AssignmentStopFieldTags,String>> = HashMap()
 
@@ -141,6 +141,8 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
         val assignmentid = this.AssignmentRepository.addAssignment(newAssignment)
         this.AssignmentRepository.addAssignmentStops(assignmentid, newAssignment.stops)
         this.AssignmentRepository.endTransaction()
+
+        return assignmentid
 
         //Implement error checking
 

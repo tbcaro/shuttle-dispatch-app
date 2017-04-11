@@ -7,8 +7,11 @@ import com.polaris.app.dispatch.service.bo.AssignmentUpdate
 import com.polaris.app.dispatch.service.bo.NewAssignment
 import com.polaris.app.dispatch.service.bo.NewAssignmentStop
 import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils
 import org.springframework.stereotype.Component
 import java.sql.Date
+import java.sql.Time
+import java.sql.Types
 import java.time.LocalDate
 
 @Component
@@ -16,7 +19,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
     override fun findAssignments(service: Int, date: LocalDate): List<AssignmentEntity> {
         val AssignmentEntities = db.query(
                 //Double check script to ensure database data is correct. At this time, database updates have not taken effect.
-                "SELECT assignment.assignmentid, assignment.serviceid, assignment.startdate, assignment.starttime, assignment.routeid, assignment.routename, assignment.driverID, \"user\".fname, \"user\".lname, assignment.shuttleid, shuttle.\"ID\" FROM assignment INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") WHERE assignment.serviceid = ? AND startdate = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
+                "SELECT assignment.assignmentid, assignment.serviceid, assignment.startdate, assignment.starttime, assignment.routeid, assignment.routename, assignment.driverID, assignment.status, \"user\".fname, \"user\".lname, assignment.shuttleid, shuttle.\"ID\" FROM assignment INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") WHERE assignment.serviceid = ? AND startdate = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
                 arrayOf(service, Date.valueOf(date)),
                 {
                     resultSet, rowNum -> AssignmentEntity(
@@ -31,7 +34,8 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                         resultSet.getString("lname"),
                         resultSet.getInt("shuttleid"),
                         resultSet.getString("ID"),
-                        status = AssignmentState.valueOf(resultSet.getString("status"))
+                        AssignmentState.valueOf(resultSet.getString("status"))
+//                        AssignmentState.valueOf(resultSet.getString("status"))
                     )
                 }
         )
@@ -68,8 +72,8 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                 arrayOf(service),
                 {
                     resultSet, rowNum -> AssignmentShuttleEntity(
-                        resultSet.getInt("\"ID\""),
-                        resultSet.getString("\"Name\"")
+                        resultSet.getInt("ID"),
+                        resultSet.getString("Name")
                     )
                 }
         )
@@ -111,8 +115,8 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                 arrayOf(service),
                 {
                     resultSet, rowNum -> AssignmentStopDropEntity(
-                        resultSet.getInt("\"ID\""),
-                        resultSet.getString("\"Name\""),
+                        resultSet.getInt("ID"),
+                        resultSet.getString("Name"),
                         resultSet.getString("address"),
                         resultSet.getBigDecimal("latitude"),
                         resultSet.getBigDecimal("longitude")
@@ -141,22 +145,23 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
     }
 
     override fun addAssignment(a: NewAssignment): Int {
-        db.update(//TSH 4/2/2017: Added status and isarchived fields to query to properly assign them when creating a record
-                "INSERT INTO assignment (serviceid, driverid, shuttleid, routeid, startdate, starttime, routename, status, isarchived) VALUES (?, ?, ?, ?, ?, ?, ?, 'SCHEDULED', false);",
-                arrayOf(a.serviceID, a.driverID, a.shuttleID, a.routeID, a.startDate, a.startTime, a.routeName)
+        val assignmentId = db.update(//TSH 4/2/2017: Added status and isarchived fields to query to properly assign them when creating a record
+                "INSERT INTO assignment (serviceid, driverid, shuttleid, routeid, startdate, starttime, status, isarchived) VALUES (?, ?, ?, ?, ?, ?, CAST(? AS assignment_status), false)",
+                arrayOf(a.serviceID, a.driverID, a.shuttleID, a.routeID, Date.valueOf(a.startDate), Time.valueOf(a.startTime), "SCHEDULED")
+                //arrayOf(a.serviceID, a.driverID, a.shuttleID, a.routeID, a.startDate, a.startTime, a.routeName)
         )
 
-        val assignmentid = db.query(//Should only return the newly added assignment's assignmentid
-                "SELECT assignmentid FROM assignment WHERE serviceid = ? AND driverid = ? AND startdate = ? AND starttime = ? AND isarchived = false;",
-                arrayOf(a.serviceID, a.driverID, a.startDate, a.startTime),
-                {
-                    resultSet, rowNum -> AssignmentIDEntity(
-                        resultSet.getInt("assignmentid")
-                    )
-                }
-
-        )
-        return assignmentid[0].assignmentid
+//        val assignmentid = db.query(//Should only return the newly added assignment's assignmentid
+//                "SELECT assignmentid FROM assignment WHERE serviceid = ? AND driverid = ? AND startdate = ? AND starttime = ? AND isarchived = false;",
+//                arrayOf(a.serviceID, a.driverID, a.startDate, a.startTime),
+//                {
+//                    resultSet, rowNum -> AssignmentIDEntity(
+//                        resultSet.getInt("assignmentid")
+//                    )
+//                }
+//
+//        )
+        return assignmentId
     }
 
     override fun addAssignmentStops(assignmentID: Int, assignmentStop: List<NewAssignmentStop>) {
@@ -170,8 +175,9 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
 
     override fun updateAssignment(ua: AssignmentUpdate) {
         db.update(
-                "UPDATE assignment SET driverid = ? AND shuttleid = ? AND routeid = ? AND starttime = ? AND startdate = ? AND routename = ? WHERE assignmentid = ?;",
-                arrayOf(ua.driverID, ua.shuttleID, ua.routeID, ua.startTime, ua.startDate, ua.routeName, ua.assignmentID)
+                "UPDATE assignment SET driverid = ? AND shuttleid = ? AND routeid = ? AND starttime = ? AND startdate = ? WHERE assignmentid = ?;",
+                arrayOf(ua.driverID, ua.shuttleID, ua.routeID, ua.startTime, ua.startDate, ua.assignmentID)
+                //arrayOf(ua.driverID, ua.shuttleID, ua.routeID, ua.startTime, ua.startDate, ua.routeName, ua.assignmentID)
         )
     }
 
