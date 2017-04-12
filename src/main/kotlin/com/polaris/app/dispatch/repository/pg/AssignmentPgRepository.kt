@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component
 import java.sql.Date
 import java.sql.Time
 import java.sql.Types
+import java.text.DateFormat
 import java.time.LocalDate
 
 @Component
@@ -146,7 +147,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
 
     override fun addAssignment(a: NewAssignment): Int {
         val assignmentId = db.update(//TSH 4/2/2017: Added status and isarchived fields to query to properly assign them when creating a record
-                "INSERT INTO assignment (serviceid, driverid, shuttleid, routeid, startdate, starttime, status, isarchived) VALUES (?, ?, ?, ?, ?, ?, CAST(? AS assignment_status), false)",
+                "INSERT INTO assignment (serviceid, driverid, shuttleid, routeid, startdate, starttime, status, isarchived) VALUES (?, ?, ?, ?, ?, ?, CAST(? AS assignment_status), false);",
                 arrayOf(a.serviceID, a.driverID, a.shuttleID, a.routeID, Date.valueOf(a.startDate), Time.valueOf(a.startTime), "SCHEDULED")
                 //arrayOf(a.serviceID, a.driverID, a.shuttleID, a.routeID, a.startDate, a.startTime, a.routeName)
         )

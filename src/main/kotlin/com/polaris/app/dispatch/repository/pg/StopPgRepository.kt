@@ -27,21 +27,21 @@ class StopPgRepository(val db: JdbcTemplate): StopRepository {
     override fun addStop(service: Int, stop: StopEntity) {
         db.update(
                 "INSERT INTO stop (serviceid, \"Name\", address, latitude, longitude, isarchived) VALUES (?, ?, ?, ?, ?, false)",
-                        arrayOf(service, stop.stopName, stop.stopAddress, stop.stopLat, stop.stopLong)
+                        service, stop.stopName, stop.stopAddress, stop.stopLat, stop.stopLong
         )
     }
 
     override fun updateStop(s: UpdateStopEntity) {
         db.update(
                 "UPDATE stop SET \"Name\" = ? AND address = ? AND latitude = ? AND longitude = ? WHERE \"ID\" = ?;",
-                arrayOf(s.stopName, s.stopAddress, s.stopLat, s.stopLong, s.stopID)
+                s.stopName, s.stopAddress, s.stopLat, s.stopLong, s.stopID
         )
     }
 
     override fun archiveStop(stopID: Int) {
         db.update(
                 "UPDATE stop SET isarchived = true WHERE \"ID\" = ?",
-                arrayOf(stopID)
+                stopID
         )
     }
 }
