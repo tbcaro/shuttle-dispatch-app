@@ -73,7 +73,7 @@ class RoutePgRepository(val db: JdbcTemplate): RouteRepository {
 
     override fun updateAssignments(routeID: Int) {
         db.update(
-                "UPDATE assignment SET routeid = null AND routename = 'Custom Route' WHERE routeid = ?;",
+                "UPDATE assignment SET routeid = null, routename = 'Custom Route' WHERE routeid = ?;",
                 routeID
         )
     }

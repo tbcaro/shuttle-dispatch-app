@@ -33,7 +33,7 @@ class StopPgRepository(val db: JdbcTemplate): StopRepository {
 
     override fun updateStop(s: UpdateStopEntity) {
         db.update(
-                "UPDATE stop SET \"Name\" = ? AND address = ? AND latitude = ? AND longitude = ? WHERE \"ID\" = ?;",
+                "UPDATE stop SET \"Name\" = ?, address = ?, latitude = ?, longitude = ? WHERE \"ID\" = ?;",
                 s.stopName, s.stopAddress, s.stopLat, s.stopLong, s.stopID
         )
     }
