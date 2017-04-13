@@ -14,6 +14,7 @@ import java.sql.Date
 import java.sql.Time
 import java.sql.Timestamp
 import java.sql.Types
+import java.text.DateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -170,7 +171,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
 
     override fun addAssignment(a: NewAssignment): Int {
         val numRows = db.update(//TSH 4/2/2017: Added status and isarchived fields to query to properly assign them when creating a record
-                "INSERT INTO assignment (serviceid, driverid, shuttleid, routeid, startdate, starttime, status, isarchived) VALUES (?, ?, ?, ?, ?, ?, CAST(? AS assignment_status), false)",
+                "INSERT INTO assignment (serviceid, driverid, shuttleid, routeid, startdate, starttime, status, isarchived) VALUES (?, ?, ?, ?, ?, ?, CAST(? AS assignment_status), false);",
                 a.serviceID,
                 a.driverID,
                 a.shuttleID,
