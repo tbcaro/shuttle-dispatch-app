@@ -58,8 +58,8 @@ function RouteApp() {
       addStop();
     });
 
-    elements.routeCardContainer.on('click', '.route-form .stop-form .btn-move-up', function() {
-      var formElement = $(this).closest('.stop-form');
+    elements.routeCardContainer.on('click', '.route-form .route-stop-form .btn-move-up', function() {
+      var formElement = $(this).closest('.route-stop-form');
       var index = formElement.data('index');
 
       if (index - 1 >= 0) {
@@ -67,11 +67,11 @@ function RouteApp() {
         routeForm.stopForms.splice(index - 1, 0, tempForm);
       }
 
-      routeForm.bindAssignmentStopData();
+      routeForm.bindStopData();
     });
 
-    elements.routeCardContainer.on('click', '.route-form .stop-form .btn-move-down', function() {
-      var formElement = $(this).closest('.stop-form');
+    elements.routeCardContainer.on('click', '.route-form .route-stop-form .btn-move-down', function() {
+      var formElement = $(this).closest('.route-stop-form');
       var index = formElement.data('index');
 
       if (index + 1 <= routeForm.stopForms.length - 1) {
@@ -82,16 +82,16 @@ function RouteApp() {
       routeForm.bindStopData();
     });
 
-    elements.routeCardContainer.on('click', '.route-form .stop-form .btn-remove', function() {
-      var formElement = $(this).closest('.stop-form');
+    elements.routeCardContainer.on('click', '.route-form .route-stop-form .btn-remove', function() {
+      var formElement = $(this).closest('.route-stop-form');
       var index = formElement.data('index');
       routeForm.stopForms.splice(index,1);
-      routeForm.bindStopDate();
+      routeForm.bindStopData();
     });
 
-    elements.routeCardContainer.on('change', '.route-form .stop-form .field-stop-order', function() {
+    elements.routeCardContainer.on('change', '.route-form .route-stop-form .field-stop-order', function() {
       try {
-        var formElement = $(this).closest('.stop-form');
+        var formElement = $(this).closest('.route-stop-form');
         var curIndex = formElement.data('index');
         var newIndex = Number.parseInt(formElement.find('.field-stop-order').val()) - 1;
 
@@ -100,7 +100,7 @@ function RouteApp() {
           routeForm.stopForms.splice(newIndex, 0, tempForm);
         }
 
-        routeForm.bindStopDate();
+        routeForm.bindStopData();
       } catch (ex) {
         console.log(ex);
       }
@@ -184,7 +184,9 @@ function RouteApp() {
   var addStop = function() {
     if (routeForm != null) {
       var stopId = routeForm.elements.stopSelector.val();
-      routeForm.addSavedStopForm(stopId);
+      if (stopId != 0) {
+        routeForm.addSavedStopForm(stopId);
+      }
     }
   };
 
@@ -279,8 +281,7 @@ function Route(data) {
 
 function RouteForm(selectOptions) {
   var self = this;
-  var templateId = '#assignment-form-card-template';
-  var timeUtils = new TimeUtils();
+  var templateId = '#route-form-card-template';
 
   self.elements = { };
   self.data = { };
@@ -289,21 +290,13 @@ function RouteForm(selectOptions) {
 
   self.initialize = function() {
     self.elements.form = $(templateId).find('.route-form').clone();
-    self.elements.txtBoxRouteName = self.elements.form
-    // self.elements.shuttleSelector = self.elements.form.find('.field-shuttle-select');
-    // self.elements.driverSelector = self.elements.form.find('.field-driver-select');
-    // self.elements.routeSelector = self.elements.form.find('.field-route-select');
-    // self.elements.startTimeSelector = self.elements.form.find('.field-start-time');
+    self.elements.txtBoxRouteName = self.elements.form.find('.field-route-name');
     self.elements.stopSelector = self.elements.form.find('.field-stop-select');
     self.elements.scheduleForm = self.elements.form.find('.schedule-form');
     self.elements.scheduleFormTableBody = self.elements.scheduleForm.find('tbody');
 
     // TBC : Populate components with options
     populateOptions();
-    // self.elements.startTimeSelector.timepicker({
-    //                                              'scrollDefault': 'now',
-    //                                              'timeFormat': 'g:i A'
-    //                                            });
   };
 
   self.update = function(data) {
@@ -313,59 +306,41 @@ function RouteForm(selectOptions) {
 
   self.setData = function(data) {
     self.data.routeId = data.routeId;
-    // self.data.selectedShuttleId = data.shuttleId;
-    // self.data.selectedDriverId = data.driverId;
-    // self.data.selectedRouteId = data.routeId;
-    // self.data.selectedStartTime = data.startTime;
+    self.data.routeName = data.routeName;
 
-    data.assignmentReport.assignmentStops.forEach(function(stopData) {
-      var form = new AssignmentStopForm(stopData, stopData.order);
+    data.stops.forEach(function(stopData) {
+      var form = new RouteStopForm(stopData, stopData.index);
       self.stopForms[form.data.index] = form;
     });
   };
 
-  self.getFormData = function(selectedDate) {
+  self.getFormData = function() {
     var formData = {
       routeId: { },
-      shuttleId: { },
-      driverId: { },
-      routeId: { },
-      startTime: { },
-      stopForms: { }
+      routeName: { },
+      routeStopForms: { }
     };
-    var assignmentStopData = [];
+    var stopData = [];
 
     self.stopForms.forEach(function(stopForm) {
-      assignmentStopData.push(stopForm.getFormData(selectedDate));
+      stopData.push(stopForm.getFormData());
     });
 
-    var startTime = moment.utc(
-        selectedDate.format('YYYY-MM-DD') + ' ' +
-        self.elements.startTimeSelector.val().toString()
-        , ["YYYY-MM-DD h:mm A", "YYYY-MM-DD hh:mm A"]
-        , true);
-
     formData.routeId.value = self.elements.form.data('routeId');
-    formData.shuttleId.value = self.elements.shuttleSelector.val();
-    formData.driverId.value = self.elements.driverSelector.val();
-    formData.routeId.value = self.elements.routeSelector.val();
-    startTime.isValid() ? formData.startTime.value = startTime.toISOString() : formData.startTime.value = null;
-    formData.stopForms = assignmentStopData;
+    formData.routeName.value = self.elements.txtBoxRouteName.val();
+    formData.routeStopForms = stopData;
 
     return formData;
   };
 
   self.bindData = function() {
     self.elements.form.data('routeId', self.data.routeId);
-    self.elements.shuttleSelector.val(self.data.selectedShuttleId);
-    self.elements.driverSelector.val(self.data.selectedDriverId);
-    self.elements.routeSelector.val(self.data.selectedRouteId);
-    self.elements.startTimeSelector.val(timeUtils.formatTime(self.data.selectedStartTime));
+    self.elements.txtBoxRouteName.val(self.data.routeName);
 
-    self.bindStopDate();
+    self.bindStopData();
   };
 
-  self.bindStopDate = function() {
+  self.bindStopData = function() {
     self.elements.scheduleFormTableBody.empty();
 
     self.stopForms.forEach(function(stopForm, index) {
@@ -383,53 +358,19 @@ function RouteForm(selectOptions) {
     self.elements.form.hide();
   };
 
-  self.loadSavedRoute = function(routeId) {
-    self.elements.scheduleFormTableBody.empty();
-    self.stopForms = [];
-
-    var routeDetails = self.selectOptions.routeOptions[routeId];
-    routeDetails.stops.forEach(function(stopDetails) {
-      self.addStopForm(stopDetails);
-    });
-  };
-
   self.addSavedStopForm = function(stopId) {
     self.addStopForm(self.selectOptions.stopOptions[stopId]);
   };
 
   self.addStopForm = function(stopDetails) {
     var stopIndex = self.stopForms.length;
-    var stopForm = new AssignmentStopForm(stopDetails, stopIndex);
+    var stopForm = new RouteStopForm(stopDetails, stopIndex);
     stopForm.show();
     self.elements.scheduleFormTableBody.append(stopForm.elements.form);
     self.stopForms[stopForm.data.index] = stopForm;
   };
 
   var populateOptions = function() {
-    for (var driverId in selectOptions.driverOptions) {
-      populateSelector({
-                         value: driverId,
-                         label: selectOptions.driverOptions[driverId]
-                       }, self.elements.driverSelector
-      );
-    }
-
-    for (var shuttleId in selectOptions.shuttleOptions) {
-      populateSelector({
-                         value: shuttleId,
-                         label: selectOptions.shuttleOptions[shuttleId]
-                       }, self.elements.shuttleSelector
-      );
-    }
-
-    for (var routeId in selectOptions.routeOptions) {
-      populateSelector({
-                         value: routeId,
-                         label: selectOptions.routeOptions[routeId].name
-                       }, self.elements.routeSelector
-      );
-    }
-
     for (var stopId in selectOptions.stopOptions) {
       populateSelector({
                          value: stopId,
@@ -444,6 +385,87 @@ function RouteForm(selectOptions) {
     option.val(map.value);
     option.html(map.label);
     selector.append(option);
+  };
+
+  self.initialize();
+  return self;
+}
+
+function RouteStopForm(data, index) {
+  var self = this;
+  var templateId = '#route-stop-form-template';
+
+  self.elements = { };
+  self.data = { };
+
+  self.initialize = function() {
+    self.elements.form = $(templateId).find('.route-stop-form').clone();
+    self.elements.btnMoveUp = self.elements.form.find('.btn-move-up');
+    self.elements.btnMoveDown = self.elements.form.find('.btn-move-down');
+    self.elements.stopOrder = self.elements.form.find('.field-stop-order');
+    self.elements.name = self.elements.form.find('.field-stop-name');
+    self.elements.address = self.elements.form.find('.field-stop-address');
+    self.elements.latitude = self.elements.form.find('.field-stop-lat');
+    self.elements.longitude = self.elements.form.find('.field-stop-long');
+    self.elements.btnRemove = self.elements.form.find('.btn-remove');
+
+    self.setIndex(index);
+    self.update(data);
+  };
+
+  self.update = function(data) {
+    self.setData(data);
+    self.bindData();
+  };
+
+  self.setIndex = function(index) {
+    self.data.index = index;
+  };
+
+  self.setData = function(data) {
+    self.data.stopId = data.stopId;
+    self.data.name = data.name;
+    self.data.address = data.address;
+    self.data.latitude = data.lat;
+    self.data.longitude = data.long;
+  };
+
+  self.getFormData = function() {
+    var formData = {
+      stopId: { },
+      index: { },
+      name: { },
+      address: { },
+      latitude: { },
+      longitude: { }
+    };
+
+    formData.stopId.value = self.elements.form.data('stopId');
+    formData.index.value = self.elements.form.data('index');
+    formData.name.value = self.elements.name.html();
+    formData.address.value = self.elements.address.html();
+    formData.latitude.value = self.data.latitude;
+    formData.longitude.value = self.data.longitude;
+
+    return formData;
+  };
+
+  self.bindData = function() {
+    self.elements.form.data('stopId', self.data.stopId);
+    self.elements.form.data('index', self.data.index);
+    self.elements.stopOrder.val(self.data.index + 1);
+    self.elements.name.html(self.data.name);
+    self.elements.address.html(self.data.address);
+    self.elements.latitude.html(self.data.latitude);
+    self.elements.longitude.html(self.data.longitude);
+  };
+
+  self.show = function() {
+    self.elements.form.show();
+  };
+
+  self.hide = function() {
+    self.elements.form.hide();
   };
 
   self.initialize();

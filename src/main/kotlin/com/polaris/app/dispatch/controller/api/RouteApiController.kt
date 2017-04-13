@@ -48,17 +48,27 @@ class RouteApiController(private val authService: AuthenticationService) {
             val routeDetails1 = RouteDetailsAdapter()
             routeDetails1.routeId = 1
             routeDetails1.name = "Downtown Loop"
-            routeDetails1.stops = arrayListOf(stop1, stop3)
+            routeDetails1.stops = arrayListOf<RouteStopDetailsAdapter>(
+                    RouteStopDetailsAdapter(stop1, 0),
+                    RouteStopDetailsAdapter(stop3, 1)
+            )
 
             val routeDetails2 = RouteDetailsAdapter()
             routeDetails2.routeId = 2
             routeDetails2.name = "Shuttle-to-Airport"
-            routeDetails2.stops = arrayListOf(stop2, stop1, stop3)
+            routeDetails2.stops = arrayListOf(
+                    RouteStopDetailsAdapter(stop2, 0),
+                    RouteStopDetailsAdapter(stop1, 1),
+                    RouteStopDetailsAdapter(stop3, 2)
+            )
 
             val routeDetails3 = RouteDetailsAdapter()
             routeDetails3.routeId = 3
             routeDetails3.name = "Another Saved Route"
-            routeDetails3.stops = arrayListOf(stop3, stop2)
+            routeDetails3.stops = arrayListOf(
+                    RouteStopDetailsAdapter(stop3, 0),
+                    RouteStopDetailsAdapter(stop2, 1)
+            )
 //            val assignmentListAdapter = AssignmentListAdapter()
 //            val detailsAdapters = arrayListOf<AssignmentDetailsAdapter>()
 //            assignmentListAdapter.selectedDate = date
