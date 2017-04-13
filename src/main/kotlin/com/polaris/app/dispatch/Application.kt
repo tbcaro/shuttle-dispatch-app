@@ -18,6 +18,7 @@ import com.polaris.app.dispatch.service.AssignmentService
 import com.polaris.app.dispatch.service.AuthenticationService
 import com.polaris.app.dispatch.service.impl.AssignmentServiceImpl
 import com.polaris.app.dispatch.service.impl.AuthenticationServiceImpl
+import org.springframework.jdbc.datasource.DataSourceTransactionManager
 
 
 @SpringBootApplication
@@ -34,6 +35,13 @@ open class Application {
     @Autowired
     lateinit var assignmentRepo: AssignmentRepository
 
+//    @Autowired
+//    lateinit var transactionManager: DataSourceTransactionManager
+
+//    @Bean
+//    open fun transactionManager(): DataSourceTransactionManager {
+//        return DataSourceTransactionManager()
+//    }
     @Bean
     open fun authService(): AuthenticationService {
         return AuthenticationServiceImpl(userRepo)

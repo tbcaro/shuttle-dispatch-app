@@ -10,6 +10,7 @@ import com.polaris.app.dispatch.repository.entity.AssignmentStopEntity
 import com.polaris.app.dispatch.service.AssignmentService
 import com.polaris.app.dispatch.service.bo.*
 import com.polaris.app.dispatch.service.exception.AssignmentValidationException
+import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -134,11 +135,9 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
         return routeStops
     }
 
-    @Transactional
     override fun addAssignment(newAssignment: NewAssignment): Int {
         val errors: Multimap<AssignmentFieldTags, String> = HashMultimap.create()
         val stopErrors: MutableMap<Int, Multimap<AssignmentStopFieldTags,String>> = HashMap()
-
 
         val assignmentid = this.AssignmentRepository.addAssignment(newAssignment)
         this.AssignmentRepository.addAssignmentStops(assignmentid, newAssignment.stops)
