@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.math.BigDecimal
 import java.time.LocalDate
 import javax.servlet.http.HttpServletRequest
 
@@ -22,6 +23,42 @@ class RouteApiController(private val authService: AuthenticationService) {
     ) : ResponseEntity<List<RouteDetailsAdapter>> {
         if (authService.isAuthenticated(http)) {
             val userContext = authService.getUserContext(http)
+
+            val stop1 = StopDetailsAdapter()
+            stop1.stopId = 1
+            stop1.name = "Stop 1"
+            stop1.address = "123 Stop 1 Address"
+            stop1.lat = BigDecimal("41.192382")
+            stop1.long = BigDecimal("-79.391694")
+
+            val stop2 = StopDetailsAdapter()
+            stop2.stopId = 2
+            stop2.name = "Stop 2"
+            stop2.address = "123 Stop 2 Address"
+            stop2.lat = BigDecimal("41.188791")
+            stop2.long = BigDecimal("-79.394937")
+
+            val stop3 = StopDetailsAdapter()
+            stop3.stopId = 3
+            stop3.name = "Stop 3"
+            stop3.address = "123 Stop 3 Address"
+            stop3.lat = BigDecimal("41.207504")
+            stop3.long = BigDecimal("-79.397200")
+
+            val routeDetails1 = RouteDetailsAdapter()
+            routeDetails1.routeId = 1
+            routeDetails1.name = "Downtown Loop"
+            routeDetails1.stops = arrayListOf(stop1, stop3)
+
+            val routeDetails2 = RouteDetailsAdapter()
+            routeDetails2.routeId = 2
+            routeDetails2.name = "Shuttle-to-Airport"
+            routeDetails2.stops = arrayListOf(stop2, stop1, stop3)
+
+            val routeDetails3 = RouteDetailsAdapter()
+            routeDetails3.routeId = 3
+            routeDetails3.name = "Another Saved Route"
+            routeDetails3.stops = arrayListOf(stop3, stop2)
 //            val assignmentListAdapter = AssignmentListAdapter()
 //            val detailsAdapters = arrayListOf<AssignmentDetailsAdapter>()
 //            assignmentListAdapter.selectedDate = date
@@ -65,7 +102,7 @@ class RouteApiController(private val authService: AuthenticationService) {
 //            }
 //
 //            assignmentListAdapter.assignmentDetailAdapters = detailsAdapters
-            return ResponseEntity(arrayListOf<RouteDetailsAdapter>(), HttpStatus.OK)
+            return ResponseEntity(arrayListOf(routeDetails1, routeDetails2, routeDetails3), HttpStatus.OK)
         } else {
             return ResponseEntity(HttpStatus.UNAUTHORIZED)
         }
@@ -76,6 +113,31 @@ class RouteApiController(private val authService: AuthenticationService) {
         if (authService.isAuthenticated(http)) {
             val userContext = authService.getUserContext(http)
             val options = RouteFormOptionsAdapter()
+
+            val stop1 = StopDetailsAdapter()
+            stop1.stopId = 1
+            stop1.name = "Stop 1"
+            stop1.address = "123 Stop 1 Address"
+            stop1.lat = BigDecimal("41.192382")
+            stop1.long = BigDecimal("-79.391694")
+
+            val stop2 = StopDetailsAdapter()
+            stop2.stopId = 2
+            stop2.name = "Stop 2"
+            stop2.address = "123 Stop 2 Address"
+            stop2.lat = BigDecimal("41.188791")
+            stop2.long = BigDecimal("-79.394937")
+
+            val stop3 = StopDetailsAdapter()
+            stop3.stopId = 3
+            stop3.name = "Stop 3"
+            stop3.address = "123 Stop 3 Address"
+            stop3.lat = BigDecimal("41.207504")
+            stop3.long = BigDecimal("-79.397200")
+
+            options.stopOptions.put(1, stop1)
+            options.stopOptions.put(2, stop2)
+            options.stopOptions.put(3, stop3)
 //
 //            val shuttles = assignmentService.shuttleDrop(userContext.serviceId)
 //            val drivers = assignmentService.driverDrop(userContext.serviceId)

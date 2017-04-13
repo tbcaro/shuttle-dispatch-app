@@ -108,9 +108,10 @@ function RouteApp() {
   };
 
   var fetchAllRoutes = function() {
-    axios.get('/api/fetchAllRoutes)
+    axios.get('/api/fetchAllRoutes')
         .then(function(response){
           console.log(response);
+          updateRoutes(response.data);
         })
         .catch(function(error){
           console.log(error);
@@ -150,6 +151,16 @@ function RouteApp() {
         });
   };
 
+  var updateRoutes = function(routes) {
+    routeCards = { };
+    elements.routeCardContainer.empty();
+    routes.forEach(function(route) {
+      routeCards[route.routeId] = new Route(route);
+      elements.routeCardContainer.append(routeCards[route.routeId].elements.card);
+      routeCards[route.routeId].show();
+    });
+  };
+
   var addRouteForm = function(options, routeData) {
     removeRouteForm();
 
@@ -184,7 +195,6 @@ function RouteApp() {
 function Route(data) {
   var self = this;
   var templateId = '#route-details-card-template';
-  var timeUtils = new TimeUtils();
 
   self.elements = { };
   self.data = { };
@@ -205,7 +215,7 @@ function Route(data) {
 
   self.setData = function(data) {
     self.data.routeId = data.routeId;
-    self.data.routeName = data.routeName;
+    self.data.routeName = data.name;
     self.data.stops = data.stops;
   };
 
@@ -228,32 +238,28 @@ function Route(data) {
   };
 
   self.bindStopData = function() {
-    var report = self.data.assignmentReport;
     self.elements.scheduleTableBody.empty();
-
-    for (var i = 0; i < report.assignmentStops.length; i++) {
+    var stops = self.data.stops;
+    for (var i = 0; i < stops.length; i++) {
       var row = $('<tr>');
 
       var order = $('<td>');
       var stopName = $('<td>');
       var address = $('<td>');
-      var estArrive = $('<td>');
-      var estWait = $('<td>');
-      var estDepart = $('<td>');
+      var latitude = $('<td>');
+      var longitude = $('<td>');
 
       order.html(i + 1);
-      stopName.html(report.assignmentStops[i].name);
-      address.html(report.assignmentStops[i].address);
-      estArrive.html(timeUtils.formatTime(report.assignmentStops[i].estArriveTime));
-      estWait.html(timeUtils.formatWait(report.assignmentStops[i].estWaitTime));
-      estDepart.html(timeUtils.formatTime(report.assignmentStops[i].estDepartTime));
+      stopName.html(stops[i].name);
+      address.html(stops[i].address);
+      latitude.html(stops[i].lat);
+      longitude.html(stops[i].long);
 
       row.append(order);
       row.append(stopName);
       row.append(address);
-      row.append(estArrive);
-      row.append(estWait);
-      row.append(estDepart);
+      row.append(latitude);
+      row.append(longitude);
 
       self.elements.scheduleTableBody.append(row);
     }
