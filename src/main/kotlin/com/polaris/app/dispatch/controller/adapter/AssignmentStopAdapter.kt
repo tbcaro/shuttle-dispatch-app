@@ -13,7 +13,7 @@ class AssignmentStopAdapter {
     var address: String = ""
     var lat: BigDecimal = BigDecimal("0")
     var long: BigDecimal = BigDecimal("0")
-    var estArriveTime: LocalTime = LocalTime.now()
+    var estArriveTime: LocalTime? = LocalTime.now()
     var estDepartTime: LocalTime? = LocalTime.now()
     var actualArriveTime: LocalTime? = null
     var actualDepartTime: LocalTime? = null

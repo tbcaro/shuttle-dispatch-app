@@ -6,6 +6,7 @@ import com.polaris.app.dispatch.controller.adapter.enums.AssignmentFieldTags
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentState
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentStopFieldTags
 import com.polaris.app.dispatch.repository.AssignmentRepository
+import com.polaris.app.dispatch.repository.StopRepository
 import com.polaris.app.dispatch.repository.entity.AssignmentStopEntity
 import com.polaris.app.dispatch.service.AssignmentService
 import com.polaris.app.dispatch.service.bo.*
@@ -41,7 +42,7 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
                     assignmentID = it.assignmentID,
                     startTime = it.startTime,
                     routeID = it.routeID,
-                    routeName = it.routeName,
+                    routeName = it.routeName ?: "",
                     driverID = it.driverID,
                     driverFName = it.driverFName,
                     driverLName = it.driverLName,
@@ -137,10 +138,10 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
         val errors: Multimap<AssignmentFieldTags, String> = HashMultimap.create()
         val stopErrors: MutableMap<Int, Multimap<AssignmentStopFieldTags,String>> = HashMap()
 
-        this.AssignmentRepository.startTransaction()
+//        this.AssignmentRepository.startTransaction()
         val assignmentid = this.AssignmentRepository.addAssignment(newAssignment)
         this.AssignmentRepository.addAssignmentStops(assignmentid, newAssignment.stops)
-        this.AssignmentRepository.endTransaction()
+//        this.AssignmentRepository.endTransaction()
 
         return assignmentid
 

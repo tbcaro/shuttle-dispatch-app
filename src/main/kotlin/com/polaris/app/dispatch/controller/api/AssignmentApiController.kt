@@ -54,10 +54,10 @@ class AssignmentApiController(private val authService: AuthenticationService, pr
                     stopDetails.name = it.stopName
                     stopDetails.lat = it.stopLat
                     stopDetails.long = it.stopLong
-                    stopDetails.estArriveTime = it.stopArriveEst.toLocalTime()
-                    stopDetails.estDepartTime = it.stopDepartEst.toLocalTime()
-                    stopDetails.actualArriveTime = it.stopArrive.toLocalTime()
-                    stopDetails.actualDepartTime = it.stopDepart.toLocalTime()
+                    stopDetails.estArriveTime = it.stopArriveEst?.toLocalTime()
+                    stopDetails.estDepartTime = it.stopDepartEst?.toLocalTime()
+                    stopDetails.actualArriveTime = it.stopArrive?.toLocalTime()
+                    stopDetails.actualDepartTime = it.stopDepart?.toLocalTime()
 
                     stops.add(stopDetails)
                 }

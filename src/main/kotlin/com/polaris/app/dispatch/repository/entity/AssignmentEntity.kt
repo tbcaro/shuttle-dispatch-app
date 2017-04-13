@@ -10,7 +10,7 @@ data class AssignmentEntity(
         val startDate: LocalDate,
         val startTime: LocalTime,
         val routeID: Int,
-        val routeName: String,
+        val routeName: String?,
         val driverID: Int,
         val driverFName: String,
         val driverLName: String,
