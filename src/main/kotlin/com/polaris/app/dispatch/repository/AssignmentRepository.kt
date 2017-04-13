@@ -21,6 +21,4 @@ interface AssignmentRepository {
     fun checkIndex(assignmentID: Int): Int
     fun removeAssignmentStops(assignmentID: Int, index: Int)
     fun archiveAssignment(assignmentID: Int)
-    fun startTransaction()
-    fun endTransaction()
 }

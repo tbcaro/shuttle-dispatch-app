@@ -149,7 +149,7 @@ class AssignmentApiController(private val authService: AuthenticationService, pr
                 try {
                     assignmentId = assignmentService.addAssignment(form.toNewAssignment(userContext.serviceId))
                 } catch (ex: AssignmentValidationException) {
-
+                    // TODO : Map errors
                 }
             } else {
                 // TBC : Do update
@@ -166,6 +166,9 @@ class AssignmentApiController(private val authService: AuthenticationService, pr
     fun archiveAssignment(
             @RequestBody archiveAdapter: AssignmentArchiveAdapter
     ) : ResponseEntity<Int> {
+        try {
+            assignmentService.archiveAssignment(archiveAdapter.assignmentId)
+        } catch (ex: Exception) { }
         return ResponseEntity(archiveAdapter.assignmentId, HttpStatus.OK)
     }
 }

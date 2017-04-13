@@ -219,8 +219,13 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
 
     override fun updateAssignment(ua: AssignmentUpdate) {
         db.update(
-                "UPDATE assignment SET driverid = ? AND shuttleid = ? AND routeid = ? AND starttime = ? AND startdate = ? WHERE assignmentid = ?;",
-                arrayOf(ua.driverID, ua.shuttleID, ua.routeID, ua.startTime, ua.startDate, ua.assignmentID)
+                "UPDATE assignment SET driverid = ?, shuttleid = ?, routeid = ?, starttime = ?, startdate = ? WHERE assignmentid = ?;",
+                ua.driverID,
+                ua.shuttleID,
+                ua.routeID,
+                ua.startTime,
+                ua.startDate,
+                ua.assignmentID
                 //arrayOf(ua.driverID, ua.shuttleID, ua.routeID, ua.startTime, ua.startDate, ua.routeName, ua.assignmentID)
         )
     }
@@ -270,19 +275,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
     override fun archiveAssignment(assignmentID: Int) {
         db.update(
                 "UPDATE assignment SET isarchived = true WHERE assignmentid = ?;",
-                arrayOf(assignmentID)
-        )
-    }
-
-    override fun startTransaction() {
-        db.update(
-                "BEGIN;"
-        )
-    }
-
-    override fun endTransaction() {
-        db.update(
-                "COMMIT;"
+                assignmentID
         )
     }
 }

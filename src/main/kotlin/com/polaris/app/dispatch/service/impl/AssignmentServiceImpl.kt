@@ -182,11 +182,9 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
             return false
         }
         else/*UNFINISHED OR SCHEDULED*/{
-            this.AssignmentRepository.startTransaction()
             this.AssignmentRepository.updateAssignment(updatedAssignment)
             this.AssignmentRepository.removeAssignmentStops(updatedAssignment.assignmentID, 0)
             this.AssignmentRepository.addAssignmentStops(updatedAssignment.assignmentID, updatedAssignment.stops)
-            this.AssignmentRepository.endTransaction()
             return true
         }
     }

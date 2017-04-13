@@ -116,7 +116,7 @@ function AssignmentApp(options) {
   };
 
   self.archiveAssignment = function(assignmentId) {
-    axios.post('/test/api/assignment/archive',
+    axios.post('/api/assignment/archive',
                { assignmentId: assignmentId }
     )
         .then(function(response) {
