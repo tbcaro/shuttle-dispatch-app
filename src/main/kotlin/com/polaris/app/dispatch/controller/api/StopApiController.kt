@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
+import java.math.BigDecimal
 import javax.servlet.http.HttpServletRequest
 
 @RestController
@@ -22,111 +23,29 @@ class StopApiController(private val authService: AuthenticationService) {
     ) : ResponseEntity<List<StopDetailsAdapter>> {
         if (authService.isAuthenticated(http)) {
             val userContext = authService.getUserContext(http)
-//            val assignmentListAdapter = AssignmentListAdapter()
-//            val detailsAdapters = arrayListOf<AssignmentDetailsAdapter>()
-//            assignmentListAdapter.selectedDate = date
-//
-//            val assignments = assignmentService.retrieveAssignments(userContext.serviceId, date ?: LocalDate.now())
-//            assignments.forEach {
-//                val assignmentDetails = AssignmentDetailsAdapter()
-//
-//                assignmentDetails.driverId = it.driverID
-//                assignmentDetails.driverName = "${it.driverFName} ${it.driverLName}"
-//                assignmentDetails.routeId = it.routeID
-//                assignmentDetails.routeName = it.routeName
-//                assignmentDetails.shuttleId = it.shuttleID
-//                assignmentDetails.shuttleName = it.shuttleName
-//                assignmentDetails.startTime = it.startTime
-//
-//                val report = AssignmentReport()
-//                val stops = arrayListOf<AssignmentStopAdapter>()
-//                report.assignmentId = it.assignmentID
-//                // TODO : Possibly return assignmentStatus as well
-//
-//                it.stops.forEach {
-//                    val stopDetails = AssignmentStopAdapter()
-//
-//                    stopDetails.stopId = it.stopId
-//                    stopDetails.address = it.stopAddress
-//                    stopDetails.name = it.stopName
-//                    stopDetails.lat = it.stopLat
-//                    stopDetails.long = it.stopLong
-//                    stopDetails.estArriveTime = it.stopArriveEst.toLocalTime()
-//                    stopDetails.estDepartTime = it.stopDepartEst.toLocalTime()
-//                    stopDetails.actualArriveTime = it.stopArrive.toLocalTime()
-//                    stopDetails.actualDepartTime = it.stopDepart.toLocalTime()
-//
-//                    stops.add(stopDetails)
-//                }
-//
-//                report.assignmentStops = stops
-//                assignmentDetails.assignmentReport = report
-//                detailsAdapters.add(assignmentDetails)
-//            }
-//
-//            assignmentListAdapter.assignmentDetailAdapters = detailsAdapters
-            return ResponseEntity(arrayListOf<StopDetailsAdapter>(), HttpStatus.OK)
-        } else {
-            return ResponseEntity(HttpStatus.UNAUTHORIZED)
-        }
-    }
 
-    @RequestMapping("/stop/formOptions")
-    fun stopForm(http: HttpServletRequest) : ResponseEntity<StopFormOptionsAdapter> {
-        if (authService.isAuthenticated(http)) {
-            val userContext = authService.getUserContext(http)
-            val options = StopFormOptionsAdapter()
-//
-//            val shuttles = assignmentService.shuttleDrop(userContext.serviceId)
-//            val drivers = assignmentService.driverDrop(userContext.serviceId)
-//            val routes = assignmentService.routeDrop(userContext.serviceId)
-//            val stops = assignmentService.stopDrop(userContext.serviceId)
-//
-//            shuttles.forEach {
-//                options.shuttleOptions.put(it.shuttleID, it.shuttleName)
-//            }
-//
-//            drivers.forEach {
-//                options.driverOptions.put(it.driverID, "${it.driverFName} ${it.driverLName}")
-//            }
-//
-//            routes.forEach {
-//                val routeStops = assignmentService.retrieveRouteStops(it.routeID)
-//                val routeDetails = RouteDetailsAdapter()
-//
-//                routeDetails.name = it.routeName
-//                routeDetails.routeId = it.routeID
-//
-//                val stopDetailsAdapters = arrayListOf<StopDetailsAdapter>()
-//                routeStops.forEach {
-//                    val stopDetails = StopDetailsAdapter()
-//
-//                    stopDetails.name = it.stopName
-//                    stopDetails.address = it.address
-//                    stopDetails.stopId = it.stopID
-//                    stopDetails.lat = it.latitude
-//                    stopDetails.long = it.longitude
-//
-//                    stopDetailsAdapters.add(stopDetails)
-//                }
-//
-//                routeDetails.stops = stopDetailsAdapters
-//                options.routeOptions.put(it.routeID, routeDetails)
-//            }
-//
-//            stops.forEach {
-//                val stopDetails = StopDetailsAdapter()
-//
-//                stopDetails.name = it.stopName
-//                stopDetails.address = it.address
-//                stopDetails.stopId = it.stopID
-//                stopDetails.lat = it.latitude
-//                stopDetails.long = it.longitude
-//
-//                options.stopOptions.put(it.stopID, stopDetails)
-//            }
+            val stop1 = StopDetailsAdapter()
+            stop1.stopId = 1
+            stop1.name = "Stop 1"
+            stop1.address = "123 Stop 1 Address"
+            stop1.lat = BigDecimal("41.192382")
+            stop1.long = BigDecimal("-79.391694")
 
-            return ResponseEntity(options, HttpStatus.OK)
+            val stop2 = StopDetailsAdapter()
+            stop2.stopId = 2
+            stop2.name = "Stop 2"
+            stop2.address = "123 Stop 2 Address"
+            stop2.lat = BigDecimal("41.188791")
+            stop2.long = BigDecimal("-79.394937")
+
+            val stop3 = StopDetailsAdapter()
+            stop3.stopId = 3
+            stop3.name = "Stop 3"
+            stop3.address = "123 Stop 3 Address"
+            stop3.lat = BigDecimal("41.207504")
+            stop3.long = BigDecimal("-79.397200")
+
+            return ResponseEntity(arrayListOf(stop1, stop2, stop3), HttpStatus.OK)
         } else {
             return ResponseEntity(HttpStatus.UNAUTHORIZED)
         }
@@ -139,21 +58,9 @@ class StopApiController(private val authService: AuthenticationService) {
     ) : ResponseEntity<Int> {
         if (authService.isAuthenticated(http)) {
             val userContext = authService.getUserContext(http)
-            var routeId = 0
+            var stopId = 0
 
-//            if (form.assignmentId.value == null) {
-//                // TBC : Do create
-//                try {
-//                    assignmentId = assignmentService.addAssignment(form.toNewAssignment(userContext.serviceId))
-//                } catch (ex: AssignmentValidationException) {
-//
-//                }
-//            } else {
-//                // TBC : Do update
-//                assignmentId = 1
-//            }
-
-            return ResponseEntity(routeId, HttpStatus.OK)
+            return ResponseEntity(stopId, HttpStatus.OK)
         } else {
             return ResponseEntity(HttpStatus.UNAUTHORIZED)
         }
