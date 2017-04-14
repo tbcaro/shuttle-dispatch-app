@@ -55,7 +55,67 @@ function StopApp(options) {
   };
 
   var bindEventHandlers = function() {
+    google.maps.event.addListener(map, 'click', function(event) {
+      formattedCurrentStopAddress = null;
+      updateStopMarker(event.latLng);
+    });
 
+    elements.txtBoxAddress.on('keyup', function(event) {
+      if (event.key == 'Enter') {
+        elements.btnSearchAddress.click();
+      }
+    });
+
+    elements.btnSearchAddress.on('click', function() {
+      var address = elements.txtBoxAddress.val();
+      if (address != null && address != '') {
+        geoCodeAddress(address);
+      }
+    });
+
+    elements.btnNewStop.on('click', function() {
+      addStopForm({
+                    stopId: null,
+                    name: '',
+                    address: formattedCurrentStopAddress || '',
+                    lat: mapMarkers.stopMarker.position.lat(),
+                    long: mapMarkers.stopMarker.position.lng()
+                  });
+    });
+
+    elements.stopCardContainer.on('click', '.stop-card .btn-edit', function() {
+      var stopId = $(this).closest('.stop-card').data('stopId');
+      var stopCard = stopCards[stopId];
+
+      if (editingStopId != null) {
+        stopCards[editingStopId].show();
+      }
+
+      editingStopId = stopId;
+      stopCard.hide();
+      addStopForm(stopCard.getData());
+    });
+
+    elements.stopCardContainer.on('click', '.stop-card .btn-archive', function() {
+      var stopId = $(this).closest('.stop-card').data('stopId');
+      var stopCard = stopCards[stopId];
+
+      stopCard.hide();
+      archiveStop(stopId);
+    });
+
+    elements.stopCardContainer.on('click', '.stop-form .btn-cancel', function() {
+      removeStopForm();
+
+      if (editingStopId != null) {
+        stopCards[editingStopId].show();
+        editingStopId = null;
+      }
+    });
+
+    elements.stopCardContainer.on('click', '.stop-form .btn-save', function() {
+      saveStop();
+    });
   };
 
   var fetchAllStops = function() {
@@ -101,10 +161,10 @@ function StopApp(options) {
     });
   };
 
-  var addStopForm = function(options, stopData) {
+  var addStopForm = function(stopData) {
     removeStopForm();
 
-    stopForm = new StopForm(options);
+    stopForm = new StopForm();
 
     if (stopData != null) {
       stopForm.update(stopData);
@@ -119,6 +179,30 @@ function StopApp(options) {
       stopForm.elements.form.remove();
       stopForm = null;
     }
+  };
+
+  var updateStopMarker = function(position) {
+    mapMarkers.stopMarker.setPosition(position);
+  };
+
+  var geoCodeAddress = function(address) {
+    axios.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=' + GEOCODER_API_KEY)
+        .then(function(response) {
+          var result = response.data.results[0];
+
+          updateStopMarker(result.geometry.location);
+          map.setCenter(result.geometry.location);
+          formattedCurrentStopAddress = result.formatted_address;
+          elements.txtBoxAddress.val(result.formatted_address);
+
+          var bounds = new google.maps.LatLngBounds();
+          bounds.extend(result.geometry.bounds.northeast);
+          bounds.extend(result.geometry.bounds.southwest);
+          map.fitBounds(bounds);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
   };
 
   self.initialize();
