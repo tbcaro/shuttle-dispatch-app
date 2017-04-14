@@ -13,15 +13,15 @@ class StopFormAdapter : FormAdapter {
     var stopId: FormInt
     var name: FormString
     var address: FormString
-    var latitude: FormBigDecimal
-    var longitude: FormBigDecimal
+    var lat: FormBigDecimal
+    var long: FormBigDecimal
 
     constructor() {
         this.hasErrors = false
         this.stopId = FormInt(0)
         this.name = FormString("")
         this.address = FormString("")
-        this.latitude = FormBigDecimal(BigDecimal("0"))
-        this.longitude = FormBigDecimal(BigDecimal("0"))
+        this.lat = FormBigDecimal(BigDecimal("0"))
+        this.long = FormBigDecimal(BigDecimal("0"))
     }
 }

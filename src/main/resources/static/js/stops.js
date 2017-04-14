@@ -279,12 +279,9 @@ function StopForm() {
   self.initialize = function() {
     self.elements.form = $(templateId).find('.stop-form').clone();
     self.elements.txtBoxStopName = self.elements.form.find('.field-stop-name');
-    self.elements.stopSelector = self.elements.form.find('.field-stop-select');
-    self.elements.scheduleForm = self.elements.form.find('.schedule-form');
-    self.elements.scheduleFormTableBody = self.elements.scheduleForm.find('tbody');
-
-    // TBC : Populate components with options
-    populateOptions();
+    self.elements.txtBoxStopAddress = self.elements.form.find('.field-stop-address');
+    self.elements.txtBoxStopLatitude = self.elements.form.find('.field-stop-lat');
+    self.elements.txtBoxStopLongitude = self.elements.form.find('.field-stop-long');
   };
 
   self.update = function(data) {
@@ -294,48 +291,36 @@ function StopForm() {
 
   self.setData = function(data) {
     self.data.stopId = data.stopId;
-    self.data.stopName = data.stopName;
-
-    data.stops.forEach(function(stopData) {
-      var form = new StopStopForm(stopData, stopData.index);
-      self.stopForms[form.data.index] = form;
-    });
+    self.data.name = data.name;
+    self.data.address = data.address;
+    self.data.lat = data.lat;
+    self.data.long = data.long;
   };
 
   self.getFormData = function() {
     var formData = {
       stopId: { },
-      stopName: { },
-      stopStopForms: { }
+      name: { },
+      address: { },
+      lat: { },
+      long: { }
     };
-    var stopData = [];
-
-    self.stopForms.forEach(function(stopForm) {
-      stopData.push(stopForm.getFormData());
-    });
 
     formData.stopId.value = self.elements.form.data('stopId');
-    formData.stopName.value = self.elements.txtBoxStopName.val();
-    formData.stopStopForms = stopData;
+    formData.name.value = self.elements.txtBoxStopName.val();
+    formData.address.value = self.elements.txtBoxStopAddress.val();
+    formData.lat.value = self.elements.txtBoxStopLatitude.val();
+    formData.long.value = self.elements.txtBoxStopLongitude.val();
 
     return formData;
   };
 
   self.bindData = function() {
     self.elements.form.data('stopId', self.data.stopId);
-    self.elements.txtBoxStopName.val(self.data.stopName);
-
-    self.bindStopData();
-  };
-
-  self.bindStopData = function() {
-    self.elements.scheduleFormTableBody.empty();
-
-    self.stopForms.forEach(function(stopForm, index) {
-      stopForm.setIndex(index);
-      stopForm.bindData();
-      self.elements.scheduleFormTableBody.append(stopForm.elements.form);
-    });
+    self.elements.txtBoxStopName.val(self.data.name);
+    self.elements.txtBoxStopAddress.val(self.data.address);
+    self.elements.txtBoxStopLatitude.val(self.data.lat);
+    self.elements.txtBoxStopLongitude.val(self.data.long);
   };
 
   self.show = function() {
@@ -344,35 +329,6 @@ function StopForm() {
 
   self.hide = function() {
     self.elements.form.hide();
-  };
-
-  self.addSavedStopForm = function(stopId) {
-    self.addStopForm(self.selectOptions.stopOptions[stopId]);
-  };
-
-  self.addStopForm = function(stopDetails) {
-    var stopIndex = self.stopForms.length;
-    var stopForm = new StopStopForm(stopDetails, stopIndex);
-    stopForm.show();
-    self.elements.scheduleFormTableBody.append(stopForm.elements.form);
-    self.stopForms[stopForm.data.index] = stopForm;
-  };
-
-  var populateOptions = function() {
-    for (var stopId in selectOptions.stopOptions) {
-      populateSelector({
-                         value: stopId,
-                         label: selectOptions.stopOptions[stopId].name
-                       }, self.elements.stopSelector
-      );
-    }
-  };
-
-  var populateSelector = function(map, selector) {
-    var option = $('<option>');
-    option.val(map.value);
-    option.html(map.label);
-    selector.append(option);
   };
 
   self.initialize();
