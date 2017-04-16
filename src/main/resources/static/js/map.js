@@ -64,11 +64,11 @@ function MapApp(options) {
 
     // TBC : Extend bounds to shuttle positions
     if (self.mapMarkers.hasOwnProperty('busMarkers') && self.mapMarkers.busMarkers.length > 0) {
-      self.mapMarkers.busMarkers.forEach(function(marker) {
-        bounds.extend(marker.getPosition());
-      });
-
-      self.map.fitBounds(bounds);
+      // self.mapMarkers.busMarkers.forEach(function(marker) {
+      //   bounds.extend(marker.getPosition());
+      // });
+      //
+      // self.map.fitBounds(bounds);
     } else {
 
       // TBC : Extend bounds to user position
