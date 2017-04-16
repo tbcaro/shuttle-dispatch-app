@@ -169,6 +169,22 @@ function MapApp(options) {
   };
 
   self.updateShuttleCards = function(data) {
+    for(var activityId in self.shuttleActivities) {
+      var found = false;
+
+      data.forEach(function(activityData) {
+        if (activityData.activityId == activityId)
+          found = true;
+      });
+
+      if (!found) {
+        var activity = self.shuttleActivities[activityId];
+
+        activity.elements.card.remove();
+        delete self.shuttleActivities[activityId];
+      }
+    }
+
     data.forEach(function(activityData) {
       var activity;
       // TBC : If activity has already been loaded, update it.
@@ -185,6 +201,11 @@ function MapApp(options) {
   };
 
   self.updateShuttleMapMarkers = function() {
+    if (self.mapMarkers.busMarkers != null) {
+      self.mapMarkers.busMarkers.forEach(function(marker){
+        marker.setMap(null);
+      });
+    }
     self.mapMarkers.busMarkers = [];
 
     for (var activityId in self.shuttleActivities) {
