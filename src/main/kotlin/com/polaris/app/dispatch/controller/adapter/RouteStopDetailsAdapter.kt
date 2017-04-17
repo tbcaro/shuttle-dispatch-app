@@ -10,8 +10,8 @@ class RouteStopDetailsAdapter{
 
     var index: Int
     var stopId: Int = 0
-    var name: String = ""
-    var address: String = ""
+    var name: String? = ""
+    var address: String? = ""
     var lat: BigDecimal = BigDecimal("0")
     var long: BigDecimal = BigDecimal("0")
 
