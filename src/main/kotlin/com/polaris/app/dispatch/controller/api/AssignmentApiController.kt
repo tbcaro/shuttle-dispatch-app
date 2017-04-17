@@ -100,7 +100,7 @@ class AssignmentApiController(private val authService: AuthenticationService, pr
                 routeDetails.name = it.routeName
                 routeDetails.routeId = it.routeID
 
-                val stopDetailsAdapters = arrayListOf<StopDetailsAdapter>()
+                val stopDetailsAdapters = arrayListOf<RouteStopDetailsAdapter>()
                 routeStops.forEach {
                     val stopDetails = StopDetailsAdapter()
 
@@ -110,7 +110,7 @@ class AssignmentApiController(private val authService: AuthenticationService, pr
                     stopDetails.lat = it.latitude
                     stopDetails.long = it.longitude
 
-                    stopDetailsAdapters.add(stopDetails)
+                    stopDetailsAdapters.add(RouteStopDetailsAdapter(stopDetails, it.index))
                 }
 
                 routeDetails.stops = stopDetailsAdapters
