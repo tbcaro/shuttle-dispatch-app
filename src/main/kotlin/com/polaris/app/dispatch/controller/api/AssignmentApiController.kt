@@ -46,18 +46,19 @@ class AssignmentApiController(private val authService: AuthenticationService, pr
                 report.assignmentId = it.assignmentID
                 // TODO : Possibly return assignmentStatus as well
 
-                it.stops.forEach {
+                for ((index, stop) in it.stops.withIndex()) {
                     val stopDetails = AssignmentStopAdapter()
 
-                    stopDetails.stopId = it.stopId
-                    stopDetails.address = it.stopAddress
-                    stopDetails.name = it.stopName
-                    stopDetails.lat = it.stopLat
-                    stopDetails.long = it.stopLong
-                    stopDetails.estArriveTime = it.stopArriveEst?.toLocalTime()
-                    stopDetails.estDepartTime = it.stopDepartEst?.toLocalTime()
-                    stopDetails.actualArriveTime = it.stopArrive?.toLocalTime()
-                    stopDetails.actualDepartTime = it.stopDepart?.toLocalTime()
+                    stopDetails.stopId = stop.stopId
+                    stopDetails.address = stop.stopAddress
+                    stopDetails.name = stop.stopName
+                    stopDetails.lat = stop.stopLat
+                    stopDetails.long = stop.stopLong
+                    stopDetails.order = index
+                    stopDetails.estArriveTime = stop.stopArriveEst?.toLocalTime()
+                    stopDetails.estDepartTime = stop.stopDepartEst?.toLocalTime()
+                    stopDetails.actualArriveTime = stop.stopArrive?.toLocalTime()
+                    stopDetails.actualDepartTime = stop.stopDepart?.toLocalTime()
 
                     stops.add(stopDetails)
                 }
