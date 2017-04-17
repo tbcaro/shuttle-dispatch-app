@@ -33,10 +33,14 @@ class AssignmentApiController(private val authService: AuthenticationService, pr
             assignments.forEach {
                 val assignmentDetails = AssignmentDetailsAdapter()
 
+                if(it.routeName == null || it.routeName.isNullOrEmpty())
+                    assignmentDetails.routeName = "Custom Route"
+                else
+                    assignmentDetails.routeName = it.routeName
+
                 assignmentDetails.driverId = it.driverID
                 assignmentDetails.driverName = "${it.driverFName} ${it.driverLName}"
                 assignmentDetails.routeId = it.routeID
-                assignmentDetails.routeName = it.routeName
                 assignmentDetails.shuttleId = it.shuttleID
                 assignmentDetails.shuttleName = it.shuttleName
                 assignmentDetails.startTime = it.startTime
@@ -49,9 +53,13 @@ class AssignmentApiController(private val authService: AuthenticationService, pr
                 for ((index, stop) in it.stops.withIndex()) {
                     val stopDetails = AssignmentStopAdapter()
 
+                    if(stop.stopName == null || stop.stopName.isNullOrEmpty())
+                        stopDetails.name = "Custom Stop"
+                    else
+                        stopDetails.name = stop.stopName
+
                     stopDetails.stopId = stop.stopId
                     stopDetails.address = stop.stopAddress
-                    stopDetails.name = stop.stopName
                     stopDetails.lat = stop.stopLat
                     stopDetails.long = stop.stopLong
                     stopDetails.order = index
