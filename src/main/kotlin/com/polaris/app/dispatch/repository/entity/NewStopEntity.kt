@@ -1,5 +1,10 @@
 package com.polaris.app.dispatch.repository.entity
 
-/**
- * Created by Tyler on 4/16/2017.
- */
+import java.math.BigDecimal
+
+data class NewStopEntity(
+        val stopName: String?,
+        val stopAddress: String?,
+        val stopLat: BigDecimal,
+        val stopLong: BigDecimal
+)

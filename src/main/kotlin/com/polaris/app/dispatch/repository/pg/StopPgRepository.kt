@@ -1,6 +1,7 @@
 package com.polaris.app.dispatch.repository.pg
 
 import com.polaris.app.dispatch.repository.StopRepository
+import com.polaris.app.dispatch.repository.entity.NewStopEntity
 import com.polaris.app.dispatch.repository.entity.StopEntity
 import com.polaris.app.dispatch.repository.entity.UpdateStopEntity
 import org.springframework.jdbc.core.JdbcTemplate
@@ -14,6 +15,7 @@ class StopPgRepository(val db: JdbcTemplate): StopRepository {
                 arrayOf(service),
                 {
                     resultSet, rowNum -> StopEntity(
+                        resultSet.getInt("ID"),
                         resultSet.getString("Name"),
                         resultSet.getString("Address"),
                         resultSet.getBigDecimal("Latitude"),
@@ -24,7 +26,7 @@ class StopPgRepository(val db: JdbcTemplate): StopRepository {
         return StopEntities
     }
 
-    override fun addStop(service: Int, stop: StopEntity) {
+    override fun addStop(service: Int, stop: NewStopEntity) {
         db.update(
                 "INSERT INTO stop (serviceid, \"Name\", address, latitude, longitude, isarchived) VALUES (?, ?, ?, ?, ?, false)",
                         service, stop.stopName, stop.stopAddress, stop.stopLat, stop.stopLong

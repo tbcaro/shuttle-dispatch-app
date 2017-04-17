@@ -4,6 +4,7 @@ import com.polaris.app.dispatch.controller.adapter.RouteFormAdapter
 import com.polaris.app.dispatch.controller.adapter.*
 import com.polaris.app.dispatch.service.AssignmentService
 import com.polaris.app.dispatch.service.AuthenticationService
+import com.polaris.app.dispatch.service.StopService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestBody
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/api")
-class StopApiController(private val authService: AuthenticationService) {
+class StopApiController(private val authService: AuthenticationService, private val stopService: StopService) {
 
     @RequestMapping("/fetchAllStops")
     fun fetchAllStops(
@@ -23,21 +24,21 @@ class StopApiController(private val authService: AuthenticationService) {
         if (authService.isAuthenticated(http)) {
             val userContext = authService.getUserContext(http)
 //            val assignmentListAdapter = AssignmentListAdapter()
-//            val detailsAdapters = arrayListOf<AssignmentDetailsAdapter>()
+            val detailsAdapters = arrayListOf<StopDetailsAdapter>()
 //            assignmentListAdapter.selectedDate = date
 //
-//            val assignments = assignmentService.retrieveAssignments(userContext.serviceId, date ?: LocalDate.now())
-//            assignments.forEach {
-//                val assignmentDetails = AssignmentDetailsAdapter()
-//
-//                assignmentDetails.driverId = it.driverID
-//                assignmentDetails.driverName = "${it.driverFName} ${it.driverLName}"
-//                assignmentDetails.routeId = it.routeID
-//                assignmentDetails.routeName = it.routeName
-//                assignmentDetails.shuttleId = it.shuttleID
-//                assignmentDetails.shuttleName = it.shuttleName
-//                assignmentDetails.startTime = it.startTime
-//
+            val stops = stopService.retrieveStops(userContext.serviceId)
+            stops.forEach {
+                val stopDetails = StopDetailsAdapter()
+
+                stopDetails.address = it.stopAddress
+                stopDetails.lat = it.stopLat
+                stopDetails.long = it.stopLong
+                stopDetails.name = it.stopName
+                stopDetails.stopId = it.stopID
+
+
+
 //                val report = AssignmentReport()
 //                val stops = arrayListOf<AssignmentStopAdapter>()
 //                report.assignmentId = it.assignmentID
@@ -62,9 +63,10 @@ class StopApiController(private val authService: AuthenticationService) {
 //                report.assignmentStops = stops
 //                assignmentDetails.assignmentReport = report
 //                detailsAdapters.add(assignmentDetails)
-//            }
+            }
 //
 //            assignmentListAdapter.assignmentDetailAdapters = detailsAdapters
+
             return ResponseEntity(arrayListOf<StopDetailsAdapter>(), HttpStatus.OK)
         } else {
             return ResponseEntity(HttpStatus.UNAUTHORIZED)
