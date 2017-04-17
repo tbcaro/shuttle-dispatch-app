@@ -15,10 +15,13 @@ interface AssignmentRepository {
     fun findDropStops(service: Int): List<AssignmentStopDropEntity>
     fun findDropRouteStops(routeID: Int): List<AssignmentRouteStopEntity>
     fun addAssignment(a: NewAssignment): Int//Returns the newly created assignmentID
-    fun addAssignmentStops(assignmentID: Int, assignmentStop: List<NewAssignmentStop>)
+    fun addAssignmentStops(assignmentID: Int?, assignmentStop: List<NewAssignmentStop>)
     fun updateAssignment(ua: AssignmentUpdate)
-    fun checkAssignment(assignmentID: Int): AssignmentEntity
-    fun checkIndex(assignmentID: Int): Int
-    fun removeAssignmentStops(assignmentID: Int, index: Int)
+    fun checkAssignment(assignmentID: Int?): AssignmentEntity
+    fun checkIndex(assignmentID: Int?): Int
+    fun removeAssignmentStops(assignmentID: Int?, index: Int?)
     fun archiveAssignment(assignmentID: Int)
+    fun findAssignmentByAssignmentID(assignmentID: Int?): AssignmentEntity
+    fun findStopIndex(assignmentStopID: Int): Int
+    fun findStop(assignmentStopID: Int): AssignmentStopEntity
 }

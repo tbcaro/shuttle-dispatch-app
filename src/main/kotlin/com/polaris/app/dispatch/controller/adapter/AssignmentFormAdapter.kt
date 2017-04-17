@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentFieldTags
 import com.polaris.app.dispatch.controller.adapter.form.*
 import com.polaris.app.dispatch.service.bo.AssignmentStop
+import com.polaris.app.dispatch.service.bo.AssignmentUpdate
 import com.polaris.app.dispatch.service.bo.NewAssignment
 import com.polaris.app.dispatch.service.bo.NewAssignmentStop
 import org.springframework.format.annotation.DateTimeFormat
@@ -53,6 +54,33 @@ class AssignmentFormAdapter : FormAdapter {
         }
 
         return NewAssignment(
+                serviceID = serviceId,
+                driverID = this.driverId.value,
+                shuttleID = this.shuttleId.value,
+                routeID = this.routeId.value,
+                startDate = this.startTime.value?.toLocalDate(),
+                startTime = this.startTime.value?.toLocalTime(),
+                stops = newAssignmentStops
+        )
+    }
+
+    fun toAssignmentUpdate(serviceId: Int): AssignmentUpdate {
+        val newAssignmentStops = arrayListOf<NewAssignmentStop>()
+
+        this.assignmentStopForms.forEach {
+            newAssignmentStops.add(NewAssignmentStop(
+                    stopArriveEst = it.estArriveTime.value?.toLocalTime(),
+                    stopDepartEst = it.estDepartTime.value?.toLocalTime(),
+                    stopID = it.stopId.value,
+                    stopAddress = it.address.value,
+                    stopIndex = it.index.value,
+                    stopLat = it.latitude.value,
+                    stopLong = it.longitude.value
+            ))
+        }
+
+        return AssignmentUpdate(
+                assignmentID = this.assignmentId.value,
                 serviceID = serviceId,
                 driverID = this.driverId.value,
                 shuttleID = this.shuttleId.value,

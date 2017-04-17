@@ -1,8 +1,6 @@
 package com.polaris.app.dispatch
 
 import com.polaris.app.dispatch.repository.pg.HelloWorldPgRepository
-import com.polaris.app.dispatch.service.HelloWorldService
-import com.polaris.app.dispatch.service.impl.HelloWorldServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -10,14 +8,11 @@ import org.springframework.context.annotation.Bean
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.polaris.app.dispatch.repository.AssignmentRepository
 import com.polaris.app.dispatch.repository.MapRepository
+import com.polaris.app.dispatch.repository.StopRepository
 import com.polaris.app.dispatch.repository.pg.MapPgRepository
-import com.polaris.app.dispatch.service.MapService
-import com.polaris.app.dispatch.service.impl.MapServiceImpl
 import com.polaris.app.dispatch.repository.pg.UserPgRepository
-import com.polaris.app.dispatch.service.AssignmentService
-import com.polaris.app.dispatch.service.AuthenticationService
-import com.polaris.app.dispatch.service.impl.AssignmentServiceImpl
-import com.polaris.app.dispatch.service.impl.AuthenticationServiceImpl
+import com.polaris.app.dispatch.service.*
+import com.polaris.app.dispatch.service.impl.*
 import org.springframework.jdbc.datasource.DataSourceTransactionManager
 
 
@@ -34,6 +29,9 @@ open class Application {
 
     @Autowired
     lateinit var assignmentRepo: AssignmentRepository
+
+    @Autowired
+    lateinit var stopRepo: StopRepository
 
 //    @Autowired
 //    lateinit var transactionManager: DataSourceTransactionManager
@@ -60,6 +58,11 @@ open class Application {
     @Bean
     open fun assignmentService(): AssignmentService {
         return AssignmentServiceImpl(assignmentRepo)
+    }
+
+    @Bean
+    open fun stopService(): StopService {
+        return StopServiceImpl(stopRepo)
     }
 }
 

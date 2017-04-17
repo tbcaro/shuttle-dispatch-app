@@ -53,7 +53,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
 
     override fun findAssignmentStops(assignID: Int): List<AssignmentStopEntity> {
         val rows = db.queryForList(
-                "SELECT * FROM assignment_stop INNER JOIN stop ON (assignment_stop.stopid = stop.\"ID\") WHERE assignmentid = ?;",
+                "SELECT * FROM assignment_stop INNER JOIN stop ON (assignment_stop.stopid = stop.\"ID\") WHERE assignmentid = ? ORDER BY \"Index\";",
                 assignID
         )
 
@@ -195,7 +195,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
         return assignmentId[0].assignmentid
     }
 
-    override fun addAssignmentStops(assignmentID: Int, assignmentStop: List<NewAssignmentStop>) {
+    override fun addAssignmentStops(assignmentID: Int?, assignmentStop: List<NewAssignmentStop>) {
         assignmentStop.forEach {
             var estArrive: Timestamp? = null
             var estDepart: Timestamp? = null
@@ -223,16 +223,16 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                 ua.driverID,
                 ua.shuttleID,
                 ua.routeID,
-                ua.startTime,
-                ua.startDate,
+                Time.valueOf(ua.startTime),
+                Date.valueOf(ua.startDate),
                 ua.assignmentID
                 //arrayOf(ua.driverID, ua.shuttleID, ua.routeID, ua.startTime, ua.startDate, ua.routeName, ua.assignmentID)
         )
     }
 
-    override fun checkAssignment(assignmentID: Int): AssignmentEntity {
+    override fun checkAssignment(assignmentID: Int?): AssignmentEntity {
         val assignment = db.query(
-                "SELECT assignment.assignmentid, assignment.serviceid, assignment.startdate, assignment.starttime, assignment.routeid, assignment.routename, assignment.driverID, \"user\".fname, \"user\".lname, assignment.shuttleid, shuttle.\"ID\" FROM assignment INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") WHERE assignment.assignmentid = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
+                "SELECT assignment.assignmentid, assignment.serviceid, assignment.startdate, assignment.starttime, assignment.routeid, assignment.routename, assignment.driverID, \"user\".fname, \"user\".lname, assignment.shuttleid, shuttle.\"ID\", assignment.status FROM assignment INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") WHERE assignment.assignmentid = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
                 arrayOf(assignmentID),
                 {
                     resultSet, rowNum -> AssignmentEntity(
@@ -254,7 +254,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
         return assignment[0]
     }
 
-    override fun checkIndex(assignmentID: Int): Int {
+    override fun checkIndex(assignmentID: Int?): Int {
         val index = db.query(
                 "SELECT \"Index\" FROM shuttle_activity WHERE assignmentid = ?;",
                 arrayOf(assignmentID),{
@@ -266,9 +266,10 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
         return index[0].index
     }
 
-    override fun removeAssignmentStops(assignmentID: Int, index: Int) {
+    override fun removeAssignmentStops(assignmentID: Int?, index: Int?) {
         db.update(
-                "DELETE FROM assignment_stop WHERE assignmentid = ? AND \"Index\" > ?"
+                "DELETE FROM assignment_stop WHERE assignmentid = ? AND \"Index\" > ?",
+                assignmentID, index
         )
     }
 
@@ -277,5 +278,88 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                 "UPDATE assignment SET isarchived = true WHERE assignmentid = ?;",
                 assignmentID
         )
+    }
+
+    override fun findAssignmentByAssignmentID(assignmentID: Int?): AssignmentEntity {
+        val AssignmentEntities = db.query(
+                //Double check script to ensure database data is correct. At this time, database updates have not taken effect.
+                "SELECT assignment.assignmentid, assignment.serviceid, assignment.startdate, assignment.starttime, assignment.routeid, route.\"Name\" AS routename, assignment.driverID, assignment.status, \"user\".fname, \"user\".lname, assignment.shuttleid, shuttle.\"Name\" " +
+                        "FROM assignment " +
+                        "INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") " +
+                        "INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") " +
+                        "INNER JOIN route ON (assignment.routeid = route.\"ID\") " +
+                        "WHERE assignment.assignmentID = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
+                arrayOf(assignmentID),
+                {
+                    resultSet, rowNum -> AssignmentEntity(
+                        resultSet.getInt("assignmentid"),
+                        resultSet.getInt("serviceid"),
+                        resultSet.getTimestamp("startdate").toLocalDateTime().toLocalDate(),
+                        resultSet.getTimestamp("starttime").toLocalDateTime().toLocalTime(),
+                        resultSet.getInt("routeid"),
+                        resultSet.getString("routename"),
+                        resultSet.getInt("driverID"),
+                        resultSet.getString("fname"),
+                        resultSet.getString("lname"),
+                        resultSet.getInt("shuttleid"),
+                        resultSet.getString("Name"),
+                        AssignmentState.valueOf(resultSet.getString("status"))
+                        //AssignmentState.valueOf(resultSet.getString("status"))
+                )
+                }
+        )
+        return AssignmentEntities[0]
+    }
+
+    override fun findStopIndex(assignmentStopID: Int): Int {
+        val index = db.query(
+                "SELECT \"Index\" FROM assignment_stop WHERE assignment_stop_id = ?;",
+                arrayOf(assignmentStopID),{
+                    resultSet, rowNum -> IndexEntity(
+                        resultSet.getInt("Index")
+                    )
+                }
+        )
+        return index[0].index
+    }
+
+    override fun findStop(assignmentStopID: Int): AssignmentStopEntity {
+        val rows = db.queryForList(
+                "SELECT * FROM assignment_stop INNER JOIN stop ON (assignment_stop.stopid = stop.\"ID\") WHERE assignment_stop_id = ?;",
+                assignmentStopID
+        )
+
+        val assignmentStopEntities = arrayListOf<AssignmentStopEntity>()
+        rows.forEach {
+            var latitude = it["latitude"] as BigDecimal
+            var longitude = it["longitude"] as BigDecimal
+            var arriveTime: LocalDateTime? = null
+            var departTime: LocalDateTime? = null
+            var estArriveTime: LocalDateTime? = null
+            var estDepartTime: LocalDateTime? = null
+
+            arriveTime = (it["timeofarrival"]?.let { it as Timestamp })?.toLocalDateTime()
+            departTime = (it["timeofdeparture"]?.let { it as Timestamp })?.toLocalDateTime()
+            estArriveTime = (it["estimatedtimeofarrival"]?.let { it as Timestamp })?.toLocalDateTime()
+            estDepartTime = (it["estimatedtimeofdeparture"]?.let { it as Timestamp })?.toLocalDateTime()
+
+            val assignmentStop = AssignmentStopEntity(
+                    it["assignment_stop_id"] as Int,
+                    it["assignmentid"] as Int,
+                    it["stopid"] as Int,
+                    it["Name"] as String,
+                    it["Index"] as Int,
+                    it["address"] as String,
+                    latitude,
+                    longitude,
+                    arriveTime,
+                    departTime,
+                    estArriveTime,
+                    estDepartTime
+            )
+
+            assignmentStopEntities.add(assignmentStop)
+        }
+        return assignmentStopEntities[0]
     }
 }

@@ -1,10 +1,8 @@
-package com.polaris.app.dispatch.repository.entity
+package com.polaris.app.dispatch.service.bo
 
 import java.math.BigDecimal
-import java.time.LocalTime
 
-data class StopEntity(
-        val stopID: Int,
+data class NewStop(
         val stopName: String?,
         val stopAddress: String?,
         val stopLat: BigDecimal,

@@ -4,6 +4,7 @@ import com.polaris.app.dispatch.controller.adapter.RouteFormAdapter
 import com.polaris.app.dispatch.controller.adapter.*
 import com.polaris.app.dispatch.service.AssignmentService
 import com.polaris.app.dispatch.service.AuthenticationService
+import com.polaris.app.dispatch.service.StopService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestBody
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/api")
-class StopApiController(private val authService: AuthenticationService) {
+class StopApiController(private val authService: AuthenticationService, private val stopService: StopService) {
 
     @RequestMapping("/fetchAllStops")
     fun fetchAllStops(
@@ -23,7 +24,6 @@ class StopApiController(private val authService: AuthenticationService) {
     ) : ResponseEntity<List<StopDetailsAdapter>> {
         if (authService.isAuthenticated(http)) {
             val userContext = authService.getUserContext(http)
-
             val stop1 = StopDetailsAdapter()
             stop1.stopId = 1
             stop1.name = "Stop 1"

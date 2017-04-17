@@ -154,7 +154,11 @@ class AssignmentApiController(private val authService: AuthenticationService, pr
                 }
             } else {
                 // TBC : Do update
-                assignmentId = 1
+                try {
+                    assignmentId = assignmentService.updateAssignment(form.toAssignmentUpdate(userContext.serviceId))
+                } catch (ex: AssignmentValidationException) {
+                    // TODO : Map errors
+                }
             }
 
             return ResponseEntity(assignmentId, HttpStatus.OK)

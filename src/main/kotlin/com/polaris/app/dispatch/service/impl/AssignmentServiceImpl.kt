@@ -169,23 +169,47 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
         this.AssignmentRepository.archiveAssignment(assignmentid)
     }
 
-    override fun updateAssignment(updatedAssignment: AssignmentUpdate): Boolean {
-        val currentAssignment = this.AssignmentRepository.checkAssignment(updatedAssignment.assignmentID)
+    override fun updateAssignment(ua: AssignmentUpdate): Int {
+        val currentAssignment = this.AssignmentRepository.checkAssignment(ua.assignmentID)
         if (currentAssignment.status == AssignmentState.IN_PROGRESS){
             //INCOMPLETE
+            val assignmentData = this.AssignmentRepository.findAssignmentByAssignmentID(ua.assignmentID)
+            if (assignmentData.shuttleID == ua.shuttleID && assignmentData.driverID == ua.driverID && assignmentData.startTime == ua.startTime)
+            {//driver, shuttle, and start time cannot be changed mid route
+                val index = this.AssignmentRepository.checkIndex(ua.assignmentID)
+                /*val stopData = this.AssignmentRepository.findAssignmentStops(ua.assignmentID)
+                stopData.forEach {
+                    if (it.stopIndex <= index)
+                    {//User can only change data for future stops
+                        ua.stops.
+                    }
+                }*/
 
+                //Add checking for if they try to change stops before the current index
 
+                this.AssignmentRepository.removeAssignmentStops(ua.assignmentID, index)
+                val updateStops = arrayListOf<NewAssignmentStop>()
+                ua.stops.forEach{
+                    if (it.stopIndex != null) {
+                        if (it.stopIndex > index) {
+                            updateStops.add(it)
+                        }
+                    }
+                }
+                this.AssignmentRepository.addAssignmentStops(ua.assignmentID, updateStops)
 
-            return true
+            }
+            return assignmentData.assignmentID
         }
         else if (currentAssignment.status == AssignmentState.COMPLETED){
-            return false
+            return -1
         }
         else/*UNFINISHED OR SCHEDULED*/{
-            this.AssignmentRepository.updateAssignment(updatedAssignment)
-            this.AssignmentRepository.removeAssignmentStops(updatedAssignment.assignmentID, 0)
-            this.AssignmentRepository.addAssignmentStops(updatedAssignment.assignmentID, updatedAssignment.stops)
-            return true
+            this.AssignmentRepository.updateAssignment(ua)
+            this.AssignmentRepository.removeAssignmentStops(ua.assignmentID, -1)
+            this.AssignmentRepository.addAssignmentStops(ua.assignmentID, ua.stops)
+            val assignmentData = this.AssignmentRepository.findAssignmentByAssignmentID(ua.assignmentID)
+            return assignmentData.assignmentID
         }
     }
 }

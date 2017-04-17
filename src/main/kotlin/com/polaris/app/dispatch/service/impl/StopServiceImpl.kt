@@ -1,9 +1,11 @@
 package com.polaris.app.dispatch.service.impl
 
 import com.polaris.app.dispatch.repository.StopRepository
+import com.polaris.app.dispatch.repository.entity.NewStopEntity
 import com.polaris.app.dispatch.repository.entity.StopEntity
 import com.polaris.app.dispatch.repository.entity.UpdateStopEntity
 import com.polaris.app.dispatch.service.StopService
+import com.polaris.app.dispatch.service.bo.NewStop
 import com.polaris.app.dispatch.service.bo.Stop
 import com.polaris.app.dispatch.service.bo.UpdateStop
 
@@ -14,6 +16,7 @@ class StopServiceImpl(val StopRepository:StopRepository): StopService{
 
         stopEntities.forEach {
             val stop = Stop(
+                    stopID = it.stopID,
                     stopName = it.stopName,
                     stopAddress = it.stopAddress,
                     stopLat = it.stopLat,
@@ -24,8 +27,8 @@ class StopServiceImpl(val StopRepository:StopRepository): StopService{
         return stops
     }
 
-    override fun addStop(service: Int, newStop: Stop) {
-        val stopEntity = StopEntity(
+    override fun addStop(service: Int, newStop: NewStop) {
+        val stopEntity = NewStopEntity(
                 stopName = newStop.stopName,
                 stopAddress = newStop.stopAddress,
                 stopLat = newStop.stopLat,

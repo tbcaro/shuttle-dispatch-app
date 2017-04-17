@@ -13,5 +13,5 @@ interface AssignmentService{
     fun retrieveRouteStops(routeid: Int): List<AssignmentRouteStop>
     fun addAssignment(newAssignment: NewAssignment): Int
     fun archiveAssignment(assignmentid: Int)
-    fun updateAssignment(updatedAssignment: AssignmentUpdate): Boolean
+    fun updateAssignment(updatedAssignment: AssignmentUpdate): Int
 }
