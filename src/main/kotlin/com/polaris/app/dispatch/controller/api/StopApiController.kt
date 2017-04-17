@@ -24,7 +24,18 @@ class StopApiController(private val authService: AuthenticationService, private 
     ) : ResponseEntity<List<StopDetailsAdapter>> {
         if (authService.isAuthenticated(http)) {
             val userContext = authService.getUserContext(http)
-            val stop1 = StopDetailsAdapter()
+            val stops = this.stopService.retrieveStops(userContext.serviceId)
+            val sdas = arrayListOf<StopDetailsAdapter>()
+            stops.forEach {
+                val stop = StopDetailsAdapter()
+                stop.stopId = it.stopID
+                stop.name = it.stopName
+                stop.address = it.stopAddress
+                stop.lat = it.stopLat
+                stop.long = it.stopLong
+                sdas.add(stop)
+            }
+            /*val stop1 = StopDetailsAdapter()
             stop1.stopId = 1
             stop1.name = "Stop 1"
             stop1.address = "123 Stop 1 Address"
@@ -43,9 +54,9 @@ class StopApiController(private val authService: AuthenticationService, private 
             stop3.name = "Stop 3"
             stop3.address = "123 Stop 3 Address"
             stop3.lat = BigDecimal("41.207504")
-            stop3.long = BigDecimal("-79.397200")
+            stop3.long = BigDecimal("-79.397200")*/
 
-            return ResponseEntity(arrayListOf(stop1, stop2, stop3), HttpStatus.OK)
+            return ResponseEntity(sdas, HttpStatus.OK)
         } else {
             return ResponseEntity(HttpStatus.UNAUTHORIZED)
         }
@@ -70,6 +81,10 @@ class StopApiController(private val authService: AuthenticationService, private 
     fun archiveStop(
             @RequestBody archiveAdapter: StopArchiveAdapter
     ) : ResponseEntity<Int> {
+        try {
+            stopService.archiveStop(archiveAdapter.stopId)
+        }
+        catch (ex: Exception) { }
         return ResponseEntity(0, HttpStatus.OK)
     }
 }
