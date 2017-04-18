@@ -6,7 +6,7 @@ import com.polaris.app.dispatch.service.bo.UpdateStop
 
 interface StopService{
     fun retrieveStops(service: Int): List<Stop>
-    fun addStop(service: Int, newStop: NewStop)
-    fun updateStop(s: UpdateStop)
+    fun addStop(newStop: NewStop): Int
+    fun updateStop(s: UpdateStop): Int
     fun archiveStop(stopID: Int)
 }

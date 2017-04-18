@@ -27,25 +27,28 @@ class StopServiceImpl(val StopRepository:StopRepository): StopService{
         return stops
     }
 
-    override fun addStop(service: Int, newStop: NewStop) {
+    override fun addStop(newStop: NewStop): Int {
         val stopEntity = NewStopEntity(
                 stopName = newStop.stopName,
                 stopAddress = newStop.stopAddress,
                 stopLat = newStop.stopLat,
                 stopLong = newStop.stopLong
         )
-        this.StopRepository.addStop(service,stopEntity)
+        val stopID = this.StopRepository.addStop(newStop.serviceID,stopEntity)
+        return stopID
     }
 
-    override fun updateStop(s: UpdateStop) {
+    override fun updateStop(s: UpdateStop): Int {
         val updateStopEntity = UpdateStopEntity(
+                serviceID = s.serviceID,
                 stopID = s.stopID,
                 stopAddress = s.stopAddress,
                 stopName = s.stopName,
                 stopLat = s.stopLat,
                 stopLong = s.stopLong
         )
-        this.StopRepository.updateStop(updateStopEntity)
+        val stopID = this.StopRepository.updateStop(updateStopEntity)
+        return stopID
     }
 
     override fun archiveStop(stopID: Int) {

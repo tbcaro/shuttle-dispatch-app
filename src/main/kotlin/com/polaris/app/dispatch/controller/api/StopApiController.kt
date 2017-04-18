@@ -5,6 +5,8 @@ import com.polaris.app.dispatch.controller.adapter.*
 import com.polaris.app.dispatch.service.AssignmentService
 import com.polaris.app.dispatch.service.AuthenticationService
 import com.polaris.app.dispatch.service.StopService
+import com.polaris.app.dispatch.service.bo.Stop
+import com.polaris.app.dispatch.service.exception.StopValidationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestBody
@@ -71,6 +73,21 @@ class StopApiController(private val authService: AuthenticationService, private 
             val userContext = authService.getUserContext(http)
             var stopId = 0
 
+            if (form.stopId.value == null) {
+                //Do create
+                try {
+                    stopId = stopService.addStop(form.toNewStop(userContext.serviceId))
+                }catch (ex: StopValidationException) {
+                    // TODO : Map errors
+                }
+            } else {
+                //Do update
+                try {
+                    stopId = stopService.updateStop(form.toUpdateStop(userContext.serviceId))
+                }catch (ex: StopValidationException) {
+                    // TODO: Map errors
+                }
+            }
             return ResponseEntity(stopId, HttpStatus.OK)
         } else {
             return ResponseEntity(HttpStatus.UNAUTHORIZED)
