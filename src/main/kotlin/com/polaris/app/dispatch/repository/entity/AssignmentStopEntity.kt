@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 data class AssignmentStopEntity(
         val assignmentStopID: Int,
         val assignmentID: Int,
-        val stopID: Int,
+        val stopID: Int?,
         val stopName: String,
         val stopIndex: Int,
         val stopAddress: String,

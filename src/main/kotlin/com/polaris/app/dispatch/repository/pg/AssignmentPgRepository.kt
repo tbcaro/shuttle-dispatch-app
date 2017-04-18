@@ -27,7 +27,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                         "FROM assignment " +
                         "INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") " +
                         "INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") " +
-                        "INNER JOIN route ON (assignment.routeid = route.\"ID\") " +
+                        "LEFT OUTER JOIN route ON (assignment.routeid = route.\"ID\") " +
                         "WHERE assignment.serviceid = ? AND startdate = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
                 arrayOf(service, Date.valueOf(date)),
                 {
@@ -53,14 +53,25 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
 
     override fun findAssignmentStops(assignID: Int): List<AssignmentStopEntity> {
         val rows = db.queryForList(
-                "SELECT * FROM assignment_stop INNER JOIN stop ON (assignment_stop.stopid = stop.\"ID\") WHERE assignmentid = ? ORDER BY \"Index\";",
+                "SELECT * FROM assignment_stop LEFT OUTER JOIN stop ON (assignment_stop.stopid = stop.\"ID\") WHERE assignmentid = ? ORDER BY \"Index\";",
                 assignID
         )
 
         val assignmentStopEntities = arrayListOf<AssignmentStopEntity>()
         rows.forEach {
-            var latitude = it["latitude"] as BigDecimal
-            var longitude = it["longitude"] as BigDecimal
+            var latitude = BigDecimal("0")
+            var longitude = BigDecimal("0")
+            var stopId: Int? = null
+            var name: String = ""
+            var address: String = ""
+
+            if (it["latitude"] != null) latitude = it["latitude"] as BigDecimal
+            if (it["longitude"] != null) longitude = it["longitude"] as BigDecimal
+            if (it["stopID"] != null) stopId = it["stopID"] as Int?
+            if (it["Name"] != null) name = it["Name"] as String
+            if (it["address"] != null) address = it["address"] as String
+
+
             var arriveTime: LocalDateTime? = null
             var departTime: LocalDateTime? = null
             var estArriveTime: LocalDateTime? = null
@@ -74,10 +85,10 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
             val assignmentStop = AssignmentStopEntity(
                     it["assignment_stop_id"] as Int,
                     it["assignmentid"] as Int,
-                    it["stopid"] as Int,
-                    it["Name"] as String,
+                    stopId,
+                    name,
                     it["Index"] as Int,
-                    it["address"] as String,
+                    address,
                     latitude,
                     longitude,
                     arriveTime,
@@ -170,21 +181,27 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
     }
 
     override fun addAssignment(a: NewAssignment): Int {
+        var startTime: Time? = null
+        var startDate: Date? = null
+
+        a.startTime?.let { startTime = Time.valueOf(it) }
+        a.startDate?.let { startDate = Date.valueOf(it) }
+
         val numRows = db.update(//TSH 4/2/2017: Added status and isarchived fields to query to properly assign them when creating a record
                 "INSERT INTO assignment (serviceid, driverid, shuttleid, routeid, startdate, starttime, status, isarchived) VALUES (?, ?, ?, ?, ?, ?, CAST(? AS assignment_status), false);",
                 a.serviceID,
                 a.driverID,
                 a.shuttleID,
                 a.routeID,
-                Date.valueOf(a.startDate),
-                Time.valueOf(a.startTime),
+                startDate,
+                startTime,
                 "SCHEDULED"
                 //arrayOf(a.serviceID, a.driverID, a.shuttleID, a.routeID, a.startDate, a.startTime, a.routeName)
         )
 
         val assignmentId = db.query(//Should only return the newly added assignment's assignmentid
                 "SELECT assignmentid FROM assignment WHERE serviceid = ? AND driverid = ? AND startdate = ? AND starttime = ? AND isarchived = false;",
-                arrayOf(a.serviceID, a.driverID, Date.valueOf(a.startDate), Time.valueOf(a.startTime)),
+                arrayOf(a.serviceID, a.driverID, startDate, startTime),
                 {
                     resultSet, rowNum -> AssignmentIDEntity(
                         resultSet.getInt("assignmentid")
@@ -218,13 +235,19 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
     }
 
     override fun updateAssignment(ua: AssignmentUpdate) {
+        var startTime: Time? = null
+        var startDate: Date? = null
+
+        ua.startTime?.let { startTime = Time.valueOf(it) }
+        ua.startDate?.let { startDate = Date.valueOf(it) }
+
         db.update(
                 "UPDATE assignment SET driverid = ?, shuttleid = ?, routeid = ?, starttime = ?, startdate = ? WHERE assignmentid = ?;",
                 ua.driverID,
                 ua.shuttleID,
                 ua.routeID,
-                Time.valueOf(ua.startTime),
-                Date.valueOf(ua.startDate),
+                startTime,
+                startDate,
                 ua.assignmentID
                 //arrayOf(ua.driverID, ua.shuttleID, ua.routeID, ua.startTime, ua.startDate, ua.routeName, ua.assignmentID)
         )
@@ -287,7 +310,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                         "FROM assignment " +
                         "INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") " +
                         "INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") " +
-                        "INNER JOIN route ON (assignment.routeid = route.\"ID\") " +
+                        "LEFT OUTER JOIN route ON (assignment.routeid = route.\"ID\") " +
                         "WHERE assignment.assignmentID = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
                 arrayOf(assignmentID),
                 {
