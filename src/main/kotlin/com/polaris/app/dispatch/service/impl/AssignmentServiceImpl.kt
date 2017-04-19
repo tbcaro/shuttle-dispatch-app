@@ -227,7 +227,7 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
                         }
                     }
                 }
-                this.AssignmentRepository.addAssignmentStops(validatedAssignment.assignmentID, validatedStops)
+                this.AssignmentRepository.addAssignmentStops(validatedAssignment.assignmentID, updateStops)
 
             }
             return assignmentData.assignmentID

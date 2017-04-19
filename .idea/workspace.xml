@@ -2,24 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9cc5aafe-c424-4683-8311-5fab29655c9b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/entity/RouteIDEntity.kt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/UpdateRoute.kt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" afterPath="$PROJECT_DIR$/.gradle/3.3/taskArtifacts/taskArtifacts.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/Application.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/Application.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/RouteDetailsAdapter.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/RouteDetailsAdapter.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/RouteFormAdapter.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/RouteFormAdapter.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/api/RouteApiController.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/api/RouteApiController.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/RouteRepository.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/RouteRepository.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/RoutePgRepository.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/RoutePgRepository.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/RouteService.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/RouteService.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/NewRoute.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/NewRoute.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/NewRouteStop.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/NewRouteStop.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/Route.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/Route.kt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/RouteServiceImpl.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/RouteServiceImpl.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/enums/AssignmentState.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/enums/AssignmentState.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -196,36 +186,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UpdateRoute.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/UpdateRoute.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="27" lean-forward="false" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NewRouteStop.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/NewRouteStop.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="23" lean-forward="false" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RouteStop.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/RouteStop.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="RouteApiController.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/api/RouteApiController.kt">
           <provider selected="true" editor-type-id="text-editor">
@@ -243,35 +203,13 @@
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/api/StopApiController.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="136">
-              <caret line="88" column="17" lean-forward="true" selection-start-line="88" selection-start-column="17" selection-end-line="88" selection-end-column="17" />
+              <caret line="88" column="17" lean-forward="false" selection-start-line="88" selection-start-column="17" selection-end-line="88" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RouteServiceImpl.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/RouteServiceImpl.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="46" column="47" lean-forward="false" selection-start-line="46" selection-start-column="47" selection-end-line="46" selection-end-column="47" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RouteService.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/RouteService.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="10" column="38" lean-forward="false" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
-              <folding>
-                <element signature="e#42#245#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RoutePgRepository.kt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RoutePgRepository.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/RoutePgRepository.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
@@ -297,15 +235,89 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RouteRepository.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/RouteRepository.kt">
+      <file leaf-file-name="AssignmentServiceImpl.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="14" column="38" lean-forward="false" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
+            <state relative-caret-position="833">
+              <caret line="229" column="107" lean-forward="false" selection-start-line="229" selection-start-column="107" selection-end-line="229" selection-end-column="107" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AssignmentPgRepository.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="166" column="131" lean-forward="false" selection-start-line="166" selection-start-column="131" selection-end-line="166" selection-end-column="131" />
               <folding>
-                <element signature="e#45#389#0" expanded="true" />
-                <marker date="1492577006826" expanded="false" signature="52:334" ph="..." />
+                <marker date="1492621953524" expanded="true" signature="3073:3207" ph="SELECT * FRO... assignment_stop" />
+                <marker date="1492621953524" expanded="true" signature="5240:5324" ph="SELECT * FRO... shuttle" />
+                <marker date="1492621953524" expanded="true" signature="5763:5970" ph="SELECT \&quot;use... user" />
+                <marker date="1492621953524" expanded="true" signature="6459:6521" ph="SELECT * FRO... route" />
+                <marker date="1492621953524" expanded="true" signature="6954:7015" ph="SELECT * FRO... stop" />
+                <marker date="1492621953524" expanded="true" signature="7640:7735" ph="SELECT * FRO... route_stop" />
+                <marker date="1492621953524" expanded="true" signature="7640:7744" ph="SELECT * FRO... route_stop" />
+                <marker date="1492621953524" expanded="true" signature="7640:7754" ph="SELECT * FRO... route_stop" />
+                <marker date="1492621953524" expanded="true" signature="8693:8862" ph="INSERT INTO assignment... " />
+                <marker date="1492621953524" expanded="true" signature="9302:9433" ph="SELECT assig... assignment" />
+                <marker date="1492621953524" expanded="true" signature="10251:10424" ph="INSERT INTO assignment_stop... " />
+                <marker date="1492621953524" expanded="true" signature="11006:11121" ph="UPDATE assig... " />
+                <marker date="1492621953524" expanded="true" signature="11564:12052" ph="SELECT assig... assignment" />
+                <marker date="1492621953524" expanded="true" signature="13122:13183" ph="SELECT \&quot;Ind... shuttle_activity" />
+                <marker date="1492621953524" expanded="true" signature="13528:13596" ph="DELETE FROM " />
+                <marker date="1492621953524" expanded="true" signature="13744:13806" ph="UPDATE assig... " />
+                <marker date="1492621953524" expanded="true" signature="15991:16057" ph="SELECT \&quot;Ind... assignment_stop" />
+                <marker date="1492621953524" expanded="true" signature="16422:16538" ph="SELECT * FRO... assignment_stop" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AssignmentState.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/enums/AssignmentState.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="9" lean-forward="false" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActivePgRepository.kt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/pg/ActivePgRepository.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="279">
+              <caret line="126" column="46" lean-forward="false" selection-start-line="126" selection-start-column="46" selection-end-line="126" selection-end-column="46" />
+              <folding>
+                <marker date="1492623661677" expanded="true" signature="813:883" ph="SELECT * FRO... assignment" />
+                <marker date="1492623661677" expanded="true" signature="1801:1935" ph="SELECT * FRO... assignment_stop" />
+                <marker date="1492623661677" expanded="true" signature="4121:4188" ph="UPDATE assig... " />
+                <marker date="1492623661677" expanded="true" signature="4267:4351" ph="UPDATE shutt... " />
+                <marker date="1492623661677" expanded="true" signature="4607:4673" ph="UPDATE assig... " />
+                <marker date="1492623661677" expanded="true" signature="4779:4827" ph="DELETE FROM " />
+                <marker date="1492623661677" expanded="true" signature="6264:6314" ph="SELECT * FRO... shuttle_activity" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActiveServiceImpl.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/service/impl/ActiveServiceImpl.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="178">
+              <caret line="64" column="33" lean-forward="true" selection-start-line="64" selection-start-column="33" selection-end-line="64" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AssignmentRepository.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/AssignmentRepository.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="8" column="10" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -333,7 +345,7 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../shuttle-app" />
   </component>
   <component name="GradleLocalSettings">
     <option name="myGradleHomes">
@@ -1331,8 +1343,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../passenger-app/src/main/kotlin/com/polaris/app/passenger/repository/pg/ShuttlePgRepository.kt" />
-        <option value="$PROJECT_DIR$/../passenger-app/src/main/kotlin/com/polaris/app/passenger/repository/pg/MapPgRepository.kt" />
         <option value="$PROJECT_DIR$/../passenger-app/src/main/kotlin/com/polaris/app/passenger/repository/MapRepository.kt" />
         <option value="$PROJECT_DIR$/../passenger-app/src/main/kotlin/com/polaris/app/passenger/service/impl/MapServiceImpl.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/StopDetailsAdapter.kt" />
@@ -1340,7 +1350,6 @@
         <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/pg/ShuttleActivityRepository.kt" />
         <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/ShuttleActivityRepository.kt" />
         <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/pg/ShuttleActivityPgRepository.kt" />
-        <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/pg/ActivePgRepository.kt" />
         <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/pg/InactivePgRepository.kt" />
         <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/pg/OnRoutePgRepository.kt" />
         <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/pg/UpdatePgRepository.kt" />
@@ -1350,7 +1359,6 @@
         <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/UpdateRepository.kt" />
         <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/service/bo/ShuttleActivity.kt" />
         <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/service/ActiveService.kt" />
-        <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/service/impl/ActiveServiceImpl.kt" />
         <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/service/InactiveService.kt" />
         <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/service/OnRouteService.kt" />
         <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/service/UpdateService.kt" />
@@ -1367,7 +1375,6 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/StopServiceImpl.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/api/StopApiController.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/StopFormAdapter.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/StopPgRepository.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/RouteDetailsAdapter.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/bo/Route.kt" />
@@ -1382,6 +1389,11 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/RouteFormAdapter.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/api/RouteApiController.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/RoutePgRepository.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/enums/AssignmentState.kt" />
+        <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/service/impl/ActiveServiceImpl.kt" />
+        <option value="$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/pg/ActivePgRepository.kt" />
       </list>
     </option>
   </component>
@@ -1422,7 +1434,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch-app" />
+              <option name="myItemId" value="shuttle-app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1432,7 +1444,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch-app" />
+              <option name="myItemId" value="shuttle-app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1450,33 +1462,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kotlin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mr shuttle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch-app" />
+              <option name="myItemId" value="shuttle-app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1492,7 +1478,33 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch" />
+              <option name="myItemId" value="driver" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mr shuttle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shuttle-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kotlin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="driver" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1506,7 +1518,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch-app" />
+              <option name="myItemId" value="shuttle-app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1522,7 +1534,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch" />
+              <option name="myItemId" value="driver" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1540,7 +1552,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch-app" />
+              <option name="myItemId" value="shuttle-app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1556,41 +1568,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="service" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mr shuttle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kotlin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch" />
+              <option name="myItemId" value="driver" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1604,7 +1582,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch-app" />
+              <option name="myItemId" value="shuttle-app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1620,7 +1598,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch" />
+              <option name="myItemId" value="driver" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1629,138 +1607,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="pg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mr shuttle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kotlin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="repository" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="entity" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mr shuttle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kotlin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controller" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mr shuttle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kotlin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controller" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mr shuttle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kotlin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dispatch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controller" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adapter" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1781,7 +1627,7 @@
     <property name="js.eslint.eslintPackage" value="" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="PostgreSQL" />
   </component>
-  <component name="RunManager" selected="Gradle.dispatch-app [bootRun]">
+  <component name="RunManager" selected="Gradle.shuttle-app [bootRun]">
     <configuration default="false" name="shuttle-app [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -2223,8 +2069,8 @@
     </list>
     <recent_temporary>
       <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Gradle.dispatch-app [bootRun]" />
-        <item index="1" class="java.lang.String" itemvalue="Gradle.shuttle-app [bootRun]" />
+        <item index="0" class="java.lang.String" itemvalue="Gradle.shuttle-app [bootRun]" />
+        <item index="1" class="java.lang.String" itemvalue="Gradle.dispatch-app [bootRun]" />
         <item index="2" class="java.lang.String" itemvalue="Gradle.passenger-app [bootRun]" />
       </list>
     </recent_temporary>
@@ -2255,12 +2101,12 @@
       <workItem from="1491962418178" duration="7966000" />
       <workItem from="1492009286477" duration="25983000" />
       <workItem from="1492400196921" duration="8552000" />
-      <workItem from="1492450067080" duration="21351000" />
+      <workItem from="1492450067080" duration="27285000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="225262000" />
+    <option name="totallyTimeSpent" value="231196000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -2277,7 +2123,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36923078" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34700856" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -2308,7 +2154,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="11" />
+      <option name="time" value="13" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2317,40 +2163,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/service/impl/OnRouteServiceImpl.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73">
-          <caret line="61" column="40" lean-forward="false" selection-start-line="61" selection-start-column="40" selection-end-line="61" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/service/impl/InactiveServiceImpl.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="62" column="17" lean-forward="true" selection-start-line="62" selection-start-column="17" selection-end-line="62" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/service/impl/ActiveServiceImpl.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="96" column="4" lean-forward="true" selection-start-line="96" selection-start-column="4" selection-end-line="110" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/service/bo/ShuttleActivity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-          <folding>
-            <element signature="e#43#140#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/entity/ShuttleActivityEntity.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
@@ -2457,44 +2269,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="19" column="6" lean-forward="false" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/HelloWorldServiceImpl.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="7" column="6" lean-forward="false" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="200" column="0" lean-forward="false" selection-start-line="200" selection-start-column="0" selection-end-line="200" selection-end-column="0" />
-          <folding>
-            <marker date="1492523870643" expanded="true" signature="3073:3207" ph="SELECT * FRO... assignment_stop" />
-            <marker date="1492523870643" expanded="true" signature="5240:5324" ph="SELECT * FRO... shuttle" />
-            <marker date="1492523870643" expanded="true" signature="5763:5970" ph="SELECT \&quot;use... user" />
-            <marker date="1492523870643" expanded="true" signature="6459:6521" ph="SELECT * FRO... route" />
-            <marker date="1492523870643" expanded="true" signature="6954:7015" ph="SELECT * FRO... stop" />
-            <marker date="1492523870643" expanded="true" signature="7640:7735" ph="SELECT * FRO... route_stop" />
-            <marker date="1492523870643" expanded="true" signature="8674:8843" ph="INSERT INTO assignment... " />
-            <marker date="1492523870643" expanded="true" signature="9283:9414" ph="SELECT assig... assignment" />
-            <marker date="1492523870643" expanded="true" signature="10232:10405" ph="INSERT INTO assignment_stop... " />
-            <marker date="1492523870643" expanded="true" signature="10987:11102" ph="UPDATE assig... " />
-            <marker date="1492523870643" expanded="true" signature="11545:12033" ph="SELECT assig... assignment" />
-            <marker date="1492523870643" expanded="true" signature="13103:13164" ph="SELECT \&quot;Ind... shuttle_activity" />
-            <marker date="1492523870643" expanded="true" signature="13509:13577" ph="DELETE FROM " />
-            <marker date="1492523870643" expanded="true" signature="13725:13787" ph="UPDATE assig... " />
-            <marker date="1492523870643" expanded="true" signature="15972:16038" ph="SELECT \&quot;Ind... assignment_stop" />
-            <marker date="1492523870643" expanded="true" signature="16403:16519" ph="SELECT * FRO... assignment_stop" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2746,7 +2525,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/api/StopApiController.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="88" column="17" lean-forward="true" selection-start-line="88" selection-start-column="17" selection-end-line="88" selection-end-column="17" />
+          <caret line="88" column="17" lean-forward="false" selection-start-line="88" selection-start-column="17" selection-end-line="88" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -2782,6 +2561,81 @@
             <marker date="1492577425394" expanded="true" signature="3653:3735" ph="UPDATE assig... " />
             <marker date="1492577425394" expanded="true" signature="3862:3913" ph="UPDATE route... " />
             <marker date="1492577425394" expanded="true" signature="4073:4152" ph="SELECT * FRO... stop" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/service/impl/AssignmentServiceImpl.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="229" column="107" lean-forward="false" selection-start-line="229" selection-start-column="107" selection-end-line="229" selection-end-column="107" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/AssignmentRepository.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="10" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/repository/pg/AssignmentPgRepository.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="166" column="131" lean-forward="false" selection-start-line="166" selection-start-column="131" selection-end-line="166" selection-end-column="131" />
+          <folding>
+            <marker date="1492621953524" expanded="true" signature="3073:3207" ph="SELECT * FRO... assignment_stop" />
+            <marker date="1492621953524" expanded="true" signature="5240:5324" ph="SELECT * FRO... shuttle" />
+            <marker date="1492621953524" expanded="true" signature="5763:5970" ph="SELECT \&quot;use... user" />
+            <marker date="1492621953524" expanded="true" signature="6459:6521" ph="SELECT * FRO... route" />
+            <marker date="1492621953524" expanded="true" signature="6954:7015" ph="SELECT * FRO... stop" />
+            <marker date="1492621953524" expanded="true" signature="7640:7735" ph="SELECT * FRO... route_stop" />
+            <marker date="1492621953524" expanded="true" signature="7640:7744" ph="SELECT * FRO... route_stop" />
+            <marker date="1492621953524" expanded="true" signature="7640:7754" ph="SELECT * FRO... route_stop" />
+            <marker date="1492621953524" expanded="true" signature="8693:8862" ph="INSERT INTO assignment... " />
+            <marker date="1492621953524" expanded="true" signature="9302:9433" ph="SELECT assig... assignment" />
+            <marker date="1492621953524" expanded="true" signature="10251:10424" ph="INSERT INTO assignment_stop... " />
+            <marker date="1492621953524" expanded="true" signature="11006:11121" ph="UPDATE assig... " />
+            <marker date="1492621953524" expanded="true" signature="11564:12052" ph="SELECT assig... assignment" />
+            <marker date="1492621953524" expanded="true" signature="13122:13183" ph="SELECT \&quot;Ind... shuttle_activity" />
+            <marker date="1492621953524" expanded="true" signature="13528:13596" ph="DELETE FROM " />
+            <marker date="1492621953524" expanded="true" signature="13744:13806" ph="UPDATE assig... " />
+            <marker date="1492621953524" expanded="true" signature="15991:16057" ph="SELECT \&quot;Ind... assignment_stop" />
+            <marker date="1492621953524" expanded="true" signature="16422:16538" ph="SELECT * FRO... assignment_stop" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/polaris/app/dispatch/controller/adapter/enums/AssignmentState.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="9" lean-forward="false" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/service/impl/ActiveServiceImpl.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="64" column="33" lean-forward="true" selection-start-line="64" selection-start-column="33" selection-end-line="64" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../shuttle-app/src/main/kotlin/com/polaris/app/driver/repository/pg/ActivePgRepository.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="126" column="46" lean-forward="false" selection-start-line="126" selection-start-column="46" selection-end-line="126" selection-end-column="46" />
+          <folding>
+            <marker date="1492623661677" expanded="true" signature="813:883" ph="SELECT * FRO... assignment" />
+            <marker date="1492623661677" expanded="true" signature="1801:1935" ph="SELECT * FRO... assignment_stop" />
+            <marker date="1492623661677" expanded="true" signature="4121:4188" ph="UPDATE assig... " />
+            <marker date="1492623661677" expanded="true" signature="4267:4351" ph="UPDATE shutt... " />
+            <marker date="1492623661677" expanded="true" signature="4607:4673" ph="UPDATE assig... " />
+            <marker date="1492623661677" expanded="true" signature="4779:4827" ph="DELETE FROM " />
+            <marker date="1492623661677" expanded="true" signature="6264:6314" ph="SELECT * FRO... shuttle_activity" />
           </folding>
         </state>
       </provider>
