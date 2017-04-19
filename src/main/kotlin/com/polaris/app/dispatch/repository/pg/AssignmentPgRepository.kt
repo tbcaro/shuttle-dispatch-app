@@ -164,7 +164,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
 
     override fun findDropRouteStops(routeID: Int): List<AssignmentRouteStopEntity> {
         val DropRouteStops = db.query(
-                "SELECT * FROM route_stop INNER JOIN stop ON (route_stop.stopid = stop.\"ID\") WHERE routeid = ?;",
+                "SELECT * FROM route_stop INNER JOIN stop ON (route_stop.stopid = stop.\"ID\") WHERE routeid = ? ORDER BY \"Index\";",
                 arrayOf(routeID),
                 {
                     resultSet, rowNum -> AssignmentRouteStopEntity(
