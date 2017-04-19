@@ -323,12 +323,10 @@ function ShuttleActivity(data) {
       var actDepart = $('<td>');
 
       icon.append($('<i>').addClass('fa'));
-      if (report.currentStop < i) {
-        icon.find('i').addClass('fa-square-o');
-      } else if (report.currentStop === i) {
+      if (report.currentStop === i) {
         icon.find('i').addClass('fa-spinner');
       } else {
-        icon.find('i').addClass('fa-check-square-o');
+        icon.find('i').addClass('fa-check');
       }
 
       order.html(i + 1);
