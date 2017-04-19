@@ -53,7 +53,11 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
 
     override fun findAssignmentStops(assignID: Int): List<AssignmentStopEntity> {
         val rows = db.queryForList(
-                "SELECT * FROM assignment_stop LEFT OUTER JOIN stop ON (assignment_stop.stopid = stop.\"ID\") WHERE assignmentid = ? ORDER BY \"Index\";",
+                "SELECT assignment_stop.assignment_stop_id, assignment_stop.assignmentid, assignment_stop.stopid, assignment_stop.\"Index\", stop.\"Name\", assignment_stop.address, " +
+                        "assignment_stop.latitude, assignment_stop.longitude, assignment_stop.timeofarrival, " +
+                        "assignment_stop.timeofdeparture, assignment_stop.estimatedtimeofarrival, assignment_stop.estimatedtimeofdeparture, " +
+                        "stop.address AS stopAddress, stop.latitude AS stopLatitude, stop.longitude AS stopLongitude " +
+                        "FROM assignment_stop LEFT OUTER JOIN stop ON (assignment_stop.stopid = stop.\"ID\") WHERE assignment_stop.assignmentid = ? ORDER BY \"Index\";",
                 assignID
         )
 
@@ -66,10 +70,13 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
             var address: String = ""
 
             if (it["latitude"] != null) latitude = it["latitude"] as BigDecimal
+            else if (it["stopLatitude"] != null)latitude = it["stopLatitude"] as BigDecimal
             if (it["longitude"] != null) longitude = it["longitude"] as BigDecimal
+            else if (it["stopLongitude"] != null) longitude = it["stopLongitude"] as BigDecimal
             if (it["stopID"] != null) stopId = it["stopID"] as Int?
             if (it["Name"] != null) name = it["Name"] as String
             if (it["address"] != null) address = it["address"] as String
+            else if (it["stopAddress"] != null) address = it["stopAddress"] as String
 
 
             var arriveTime: LocalDateTime? = null

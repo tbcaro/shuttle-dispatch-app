@@ -58,10 +58,14 @@ class MapApiController(private val authService: AuthenticationService, private v
                         adapter.address = it.stopAddress
                         adapter.lat = it.stopLat
                         adapter.long = it.stopLong
-                        adapter.estArriveTime = it.stopArriveEst.toLocalTime()
-                        adapter.estDepartTime = it.stopDepartEst.toLocalTime()
-                        adapter.actualArriveTime = it.stopArrive.toLocalTime()
-                        adapter.actualDepartTime = it.stopDepart.toLocalTime()
+                        if (it.stopArriveEst != null)adapter.estArriveTime = it.stopArriveEst.toLocalTime()
+                        else adapter.estArriveTime = null
+                        if (it.stopDepartEst != null)adapter.estDepartTime = it.stopDepartEst.toLocalTime()
+                        else adapter.estDepartTime = null
+                        if (it.stopArrive != null)adapter.actualArriveTime = it.stopArrive.toLocalTime()
+                        else adapter.actualArriveTime = null
+                        if (it.stopDepart != null)adapter.actualDepartTime = it.stopDepart.toLocalTime()
+                        else adapter.actualDepartTime = null
 
                         stopAdapters.add(adapter)
                     }
