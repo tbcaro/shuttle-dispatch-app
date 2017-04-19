@@ -65,7 +65,7 @@ function AssignmentApp(options) {
   };
 
   self.fetchAssignments = function(date) {
-    axios.get('/test/api/fetchAllAssignments?date=' + date.toISOString())
+    axios.get('/api/fetchAllAssignments?date=' + date.toISOString())
         .then(function(response){
           console.log(response);
           self.updateAssignments(response.data.assignmentDetailAdapters);
@@ -92,7 +92,7 @@ function AssignmentApp(options) {
   };
 
   self.loadNewAssignmentForm = function(assignmentData) {
-    axios.get('/test/api/assignment/formOptions')
+    axios.get('/api/assignment/formOptions')
         .then(function(response){
           console.log(response);
           self.addAssignmentForm(response.data, assignmentData);
@@ -103,7 +103,7 @@ function AssignmentApp(options) {
   };
 
   self.saveAssignment = function() {
-    axios.post('/test/api/assignment/save',
+    axios.post('/api/assignment/save',
                self.assignmentForm.getFormData(self.selectedDate)
     )
         .then(function(response) {
@@ -116,7 +116,7 @@ function AssignmentApp(options) {
   };
 
   self.archiveAssignment = function(assignmentId) {
-    axios.post('/test/api/assignment/archive',
+    axios.post('/api/assignment/archive',
                { assignmentId: assignmentId }
     )
         .then(function(response) {

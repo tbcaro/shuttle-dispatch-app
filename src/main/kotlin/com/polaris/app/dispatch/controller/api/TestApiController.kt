@@ -241,24 +241,24 @@ class TestApiController {
         options.stopOptions.put(stop2.stopId, stop2)
         options.stopOptions.put(stop3.stopId, stop3)
 
-        val route1 = RouteDetailsAdapter()
-        route1.routeId = 1
-        route1.name = "Trav's Route"
-        route1.stops = arrayListOf(stop1, stop2)
+//        val route1 = RouteDetailsAdapter()
+//        route1.routeId = 1
+//        route1.name = "Trav's Route"
+//        route1.stops = arrayListOf(stop1, stop2)
+//
+//        val route2 = RouteDetailsAdapter()
+//        route2.routeId = 2
+//        route2.name = "Tyler's Route"
+//        route2.stops = arrayListOf(stop2, stop3)
+//
+//        val route3 = RouteDetailsAdapter()
+//        route3.routeId = 3
+//        route3.name = "Zach's Route"
+//        route3.stops = arrayListOf(stop2, stop3, stop1)
 
-        val route2 = RouteDetailsAdapter()
-        route2.routeId = 2
-        route2.name = "Tyler's Route"
-        route2.stops = arrayListOf(stop2, stop3)
-
-        val route3 = RouteDetailsAdapter()
-        route3.routeId = 3
-        route3.name = "Zach's Route"
-        route3.stops = arrayListOf(stop2, stop3, stop1)
-
-        options.routeOptions.put(route1.routeId, route1)
-        options.routeOptions.put(route2.routeId, route2)
-        options.routeOptions.put(route3.routeId, route3)
+//        options.routeOptions.put(route1.routeId, route1)
+//        options.routeOptions.put(route2.routeId, route2)
+//        options.routeOptions.put(route3.routeId, route3)
 
         return ResponseEntity(options, HttpStatus.OK)
     }

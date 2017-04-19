@@ -62,19 +62,30 @@ function MapApp(options) {
   self.fitMapToBounds = function() {
     var bounds = new google.maps.LatLngBounds();
 
-    // TBC : Extend bounds to user position
-    if (self.mapMarkers.hasOwnProperty('userMarker') && self.mapMarkers.userMarker.length > 0) {
-      bounds.extend(self.mapMarkers.userMarker.getPosition());
-    }
-
     // TBC : Extend bounds to shuttle positions
     if (self.mapMarkers.hasOwnProperty('busMarkers') && self.mapMarkers.busMarkers.length > 0) {
-      self.mapMarkers.busMarkers.forEach(function(marker) {
-        bounds.extend(marker.getPosition());
-      });
-    }
+      // self.mapMarkers.busMarkers.forEach(function(marker) {
+      //   bounds.extend(marker.getPosition());
+      // });
+      //
+      // self.map.fitBounds(bounds);
+    } else {
 
-    self.map.fitBounds(bounds);
+      // TBC : Extend bounds to user position
+      if (self.mapMarkers.hasOwnProperty('userMarker')) {
+        var userPosition = self.mapMarkers.userMarker.getPosition();
+        bounds.extend({
+                        lat: userPosition.lat() - .0005,
+                        lng: userPosition.lng() - .0005
+                      });
+        bounds.extend({
+                        lat: userPosition.lat() + .0005,
+                        lng: userPosition.lng() + .0005
+                      });
+
+        self.map.fitBounds(bounds);
+      }
+    }
   };
 
   self.loadShuttleActivities = function() {
@@ -89,7 +100,7 @@ function MapApp(options) {
         })
         .catch(function (error) {
           console.log(error);
-          clearInterval(intervalId);
+          // clearInterval(intervalId);
         });
   };
 
@@ -158,6 +169,22 @@ function MapApp(options) {
   };
 
   self.updateShuttleCards = function(data) {
+    for(var activityId in self.shuttleActivities) {
+      var found = false;
+
+      data.forEach(function(activityData) {
+        if (activityData.activityId == activityId)
+          found = true;
+      });
+
+      if (!found) {
+        var activity = self.shuttleActivities[activityId];
+
+        activity.elements.card.remove();
+        delete self.shuttleActivities[activityId];
+      }
+    }
+
     data.forEach(function(activityData) {
       var activity;
       // TBC : If activity has already been loaded, update it.
@@ -174,6 +201,11 @@ function MapApp(options) {
   };
 
   self.updateShuttleMapMarkers = function() {
+    if (self.mapMarkers.busMarkers != null) {
+      self.mapMarkers.busMarkers.forEach(function(marker){
+        marker.setMap(null);
+      });
+    }
     self.mapMarkers.busMarkers = [];
 
     for (var activityId in self.shuttleActivities) {
@@ -291,12 +323,10 @@ function ShuttleActivity(data) {
       var actDepart = $('<td>');
 
       icon.append($('<i>').addClass('fa'));
-      if (report.currentStop < i) {
-        icon.find('i').addClass('fa-square-o');
-      } else if (report.currentStop === i) {
+      if (report.currentStop === i) {
         icon.find('i').addClass('fa-spinner');
       } else {
-        icon.find('i').addClass('fa-check-square-o');
+        icon.find('i').addClass('fa-check');
       }
 
       order.html(i + 1);

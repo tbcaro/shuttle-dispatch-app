@@ -4,8 +4,9 @@ import java.math.BigDecimal
 import java.time.LocalTime
 
 data class StopEntity(
-        val stopName: String,
-        val stopAddress: String,
+        val stopID: Int,
+        val stopName: String?,
+        val stopAddress: String?,
         val stopLat: BigDecimal,
         val stopLong: BigDecimal
 )

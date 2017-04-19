@@ -3,12 +3,17 @@ package com.polaris.app.dispatch.service.impl
 import com.google.common.collect.HashMultimap
 import com.google.common.collect.Multimap
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentFieldTags
+import com.polaris.app.dispatch.controller.adapter.enums.AssignmentState
 import com.polaris.app.dispatch.controller.adapter.enums.AssignmentStopFieldTags
 import com.polaris.app.dispatch.repository.AssignmentRepository
 import com.polaris.app.dispatch.repository.entity.AssignmentStopEntity
 import com.polaris.app.dispatch.service.AssignmentService
 import com.polaris.app.dispatch.service.bo.*
 import com.polaris.app.dispatch.service.exception.AssignmentValidationException
+import org.springframework.jdbc.datasource.DataSourceTransactionManager
+import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
 import java.util.*
 
@@ -22,6 +27,7 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
             val assignmentStopEntities = this.AssignmentRepository.findAssignmentStops(it.assignmentID)
             assignmentStopEntities.forEach{
                 val assignmentStop = AssignmentStop(
+                        stopId = it.stopID,
                         stopName = it.stopName,
                         stopAddress = it.stopAddress,
                         stopLat = it.stopLat,
@@ -37,7 +43,7 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
                     assignmentID = it.assignmentID,
                     startTime = it.startTime,
                     routeID = it.routeID,
-                    routeName = it.routeName,
+                    routeName = it.routeName ?: "",
                     driverID = it.driverID,
                     driverFName = it.driverFName,
                     driverLName = it.driverLName,
@@ -129,14 +135,28 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
         return routeStops
     }
 
-    override fun addAssignment(newAssignment: NewAssignment) {
+    override fun addAssignment(newAssignment: NewAssignment): Int {
         val errors: Multimap<AssignmentFieldTags, String> = HashMultimap.create()
         val stopErrors: MutableMap<Int, Multimap<AssignmentStopFieldTags,String>> = HashMap()
+        var validatedAssignment = newAssignment.copy()
+        var validatedStops = arrayListOf<NewAssignmentStop>()
+        // Validate Stops
+        for (stop in newAssignment.stops) {
+            var validatedStop = stop.copy()
 
-        this.AssignmentRepository.startTransaction()
-        val assignmentid = this.AssignmentRepository.addAssignment(newAssignment)
-        this.AssignmentRepository.addAssignmentStops(assignmentid, newAssignment.stops)
-        this.AssignmentRepository.endTransaction()
+            if (stop.stopID == 0) validatedStop = stop.copy(stopID = null)
+
+            validatedStops.add(validatedStop)
+        }
+        validatedAssignment = validatedAssignment.copy(stops = validatedStops)
+
+        if (newAssignment.routeID == 0) {
+             validatedAssignment = newAssignment.copy(routeID = null)
+        }
+        val assignmentid = this.AssignmentRepository.addAssignment(validatedAssignment)
+        this.AssignmentRepository.addAssignmentStops(assignmentid, validatedStops)
+
+        return assignmentid
 
         //Implement error checking
 
@@ -161,5 +181,66 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
 
     override fun archiveAssignment(assignmentid: Int) {
         this.AssignmentRepository.archiveAssignment(assignmentid)
+    }
+
+    override fun updateAssignment(ua: AssignmentUpdate): Int {
+        var validatedAssignment = ua.copy()
+        var validatedStops = arrayListOf<NewAssignmentStop>()
+
+        // Validate
+        for (stop in ua.stops) {
+            var validatedStop = stop.copy()
+
+            if (stop.stopID == 0) validatedStop = stop.copy(stopID = null)
+
+            validatedStops.add(validatedStop)
+        }
+        validatedAssignment = validatedAssignment.copy(stops = validatedStops)
+
+        if (ua.routeID == 0) {
+            validatedAssignment = ua.copy(routeID = null)
+        }
+
+        val currentAssignment = this.AssignmentRepository.checkAssignment(validatedAssignment.assignmentID)
+        if (currentAssignment.status == AssignmentState.IN_PROGRESS){
+            //INCOMPLETE
+            val assignmentData = this.AssignmentRepository.findAssignmentByAssignmentID(validatedAssignment.assignmentID)
+            if (assignmentData.shuttleID == validatedAssignment.shuttleID && assignmentData.driverID == validatedAssignment.driverID && assignmentData.startTime == validatedAssignment.startTime)
+            {//driver, shuttle, and start time cannot be changed mid route
+                val index = this.AssignmentRepository.checkIndex(validatedAssignment.assignmentID)
+                /*val stopData = this.AssignmentRepository.findAssignmentStops(validatedAssignment.assignmentID)
+                stopData.forEach {
+                    if (it.stopIndex <= index)
+                    {//User can only change data for future stops
+                        validatedAssignment.stops.
+                    }
+                }*/
+
+                //Add checking for if they try to change stops before the current index
+
+                this.AssignmentRepository.removeAssignmentStops(validatedAssignment.assignmentID, index)
+                val updateStops = arrayListOf<NewAssignmentStop>()
+                validatedAssignment.stops.forEach{
+                    if (it.stopIndex != null) {
+                        if (it.stopIndex > index) {
+                            updateStops.add(it)
+                        }
+                    }
+                }
+                this.AssignmentRepository.addAssignmentStops(validatedAssignment.assignmentID, validatedStops)
+
+            }
+            return assignmentData.assignmentID
+        }
+        else if (currentAssignment.status == AssignmentState.COMPLETED){
+            return -1
+        }
+        else/*UNFINISHED OR SCHEDULED*/{
+            this.AssignmentRepository.updateAssignment(validatedAssignment)
+            this.AssignmentRepository.removeAssignmentStops(validatedAssignment.assignmentID, -1)
+            this.AssignmentRepository.addAssignmentStops(validatedAssignment.assignmentID, validatedAssignment.stops)
+            val assignmentData = this.AssignmentRepository.findAssignmentByAssignmentID(validatedAssignment.assignmentID)
+            return assignmentData.assignmentID
+        }
     }
 }
