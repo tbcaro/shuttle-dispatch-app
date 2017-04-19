@@ -2,10 +2,7 @@ package com.polaris.app.dispatch.service.impl
 
 import com.polaris.app.dispatch.repository.RouteRepository
 import com.polaris.app.dispatch.service.RouteService
-import com.polaris.app.dispatch.service.bo.NewRoute
-import com.polaris.app.dispatch.service.bo.Route
-import com.polaris.app.dispatch.service.bo.RouteStop
-import com.polaris.app.dispatch.service.bo.Stop
+import com.polaris.app.dispatch.service.bo.*
 import org.springframework.transaction.annotation.Transactional
 
 class RouteServiceImpl(val routeRepository: RouteRepository): RouteService{
@@ -39,25 +36,42 @@ class RouteServiceImpl(val routeRepository: RouteRepository): RouteService{
         return routes
     }
 
-    @Transactional
-    override fun addRoute(route: NewRoute) {
+    override fun addRoute(route: NewRoute): Int {
         val routeID = this.routeRepository.insertRoute(route)
         route.stops.forEach {
             this.routeRepository.insertRouteStop(routeID, it.stopID, it.index)
         }
+        return routeID
     }
 
-    @Transactional
-    override fun updateRoute(route: NewRoute) {
-        this.routeRepository.updateRoute(route)
+    override fun updateRoute(route: UpdateRoute): Int {
+        val routeID = this.routeRepository.updateRoute(route)
         this.routeRepository.deleteRouteStops(route.routeID)
         route.stops.forEach {
             this.routeRepository.insertRouteStop(route.routeID, it.stopID, it.index)
         }
         this.routeRepository.updateAssignments(route.routeID)
+        return routeID
     }
 
     override fun archiveRoute(routeID: Int) {
         this.routeRepository.archiveRoute(routeID)
+    }
+
+    override fun retrieveStops(service: Int): List<Stop> {
+        val stops = arrayListOf<Stop>()
+        val stopEntities = this.routeRepository.findStops(service)
+
+        stopEntities.forEach {
+            val stop = Stop(
+                    stopID = it.stopID,
+                    stopName = it.stopName,
+                    stopAddress = it.stopAddress,
+                    stopLat = it.stopLat,
+                    stopLong = it.stopLong
+            )
+            stops.add(stop)
+        }
+        return stops
     }
 }

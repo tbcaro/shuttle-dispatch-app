@@ -4,7 +4,10 @@ import com.polaris.app.dispatch.controller.adapter.RouteFormAdapter
 import com.polaris.app.dispatch.controller.adapter.*
 import com.polaris.app.dispatch.service.AssignmentService
 import com.polaris.app.dispatch.service.AuthenticationService
+import com.polaris.app.dispatch.service.RouteService
+import com.polaris.app.dispatch.service.bo.Route
 import com.polaris.app.dispatch.service.exception.AssignmentValidationException
+import com.polaris.app.dispatch.service.exception.RouteValidationException
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,7 +18,7 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/api")
-class RouteApiController(private val authService: AuthenticationService) {
+class RouteApiController(private val authService: AuthenticationService, private val routeService: RouteService) {
 
     @RequestMapping("/fetchAllRoutes")
     fun fetchAllRoutes(
@@ -23,8 +26,29 @@ class RouteApiController(private val authService: AuthenticationService) {
     ) : ResponseEntity<List<RouteDetailsAdapter>> {
         if (authService.isAuthenticated(http)) {
             val userContext = authService.getUserContext(http)
+            val routes = this.routeService.retrieveRoutes(userContext.serviceId)
+            val routeDetailsAdapters = arrayListOf<RouteDetailsAdapter>()
 
-            val stop1 = StopDetailsAdapter()
+            routes.forEach{
+                val route = RouteDetailsAdapter()
+                route.routeId = it.routeID
+                route.name = it.routeName
+                val stopDetailsAdapters = arrayListOf<RouteStopDetailsAdapter>()
+                it.stops.forEach {
+                    val stop = StopDetailsAdapter()
+                    stop.stopId = it.stopID
+                    stop.name = it.name
+                    stop.address = it.address
+                    stop.lat = it.latitude
+                    stop.long = it.longitude
+                    val routeStop = RouteStopDetailsAdapter(stop, it.index)
+                    stopDetailsAdapters.add(routeStop)
+                }
+                route.stops = stopDetailsAdapters
+                routeDetailsAdapters.add(route)
+            }
+
+/*            val stop1 = StopDetailsAdapter()
             stop1.stopId = 1
             stop1.name = "Stop 1"
             stop1.address = "123 Stop 1 Address"
@@ -68,7 +92,7 @@ class RouteApiController(private val authService: AuthenticationService) {
             routeDetails3.stops = arrayListOf(
                     RouteStopDetailsAdapter(stop3, 0),
                     RouteStopDetailsAdapter(stop2, 1)
-            )
+            )*/
 //            val assignmentListAdapter = AssignmentListAdapter()
 //            val detailsAdapters = arrayListOf<AssignmentDetailsAdapter>()
 //            assignmentListAdapter.selectedDate = date
@@ -112,7 +136,7 @@ class RouteApiController(private val authService: AuthenticationService) {
 //            }
 //
 //            assignmentListAdapter.assignmentDetailAdapters = detailsAdapters
-            return ResponseEntity(arrayListOf(routeDetails1, routeDetails2, routeDetails3), HttpStatus.OK)
+            return ResponseEntity(routeDetailsAdapters, HttpStatus.OK)
         } else {
             return ResponseEntity(HttpStatus.UNAUTHORIZED)
         }
@@ -124,7 +148,21 @@ class RouteApiController(private val authService: AuthenticationService) {
             val userContext = authService.getUserContext(http)
             val options = RouteFormOptionsAdapter()
 
-            val stop1 = StopDetailsAdapter()
+            val stops = routeService.retrieveStops(userContext.serviceId)
+
+            stops.forEach {
+                val stopDetails = StopDetailsAdapter()
+
+                stopDetails.name = it.stopName
+                stopDetails.address = it.stopAddress
+                stopDetails.stopId = it.stopID
+                stopDetails.lat = it.stopLat
+                stopDetails.long = it.stopLong
+
+                options.stopOptions.put(it.stopID, stopDetails)
+            }
+
+            /*val stop1 = StopDetailsAdapter()
             stop1.stopId = 1
             stop1.name = "Stop 1"
             stop1.address = "123 Stop 1 Address"
@@ -147,7 +185,7 @@ class RouteApiController(private val authService: AuthenticationService) {
 
             options.stopOptions.put(1, stop1)
             options.stopOptions.put(2, stop2)
-            options.stopOptions.put(3, stop3)
+            options.stopOptions.put(3, stop3)*/
 //
 //            val shuttles = assignmentService.shuttleDrop(userContext.serviceId)
 //            val drivers = assignmentService.driverDrop(userContext.serviceId)
@@ -213,6 +251,22 @@ class RouteApiController(private val authService: AuthenticationService) {
             val userContext = authService.getUserContext(http)
             var routeId = 0
 
+            if (form.routeId.value == null) {
+                //Do create
+                try {
+                    routeId = routeService.addRoute(form.toNewRoute(userContext.serviceId))
+                }catch (ex: RouteValidationException) {
+                    // TODO : Map errors
+                }
+            } else{
+                //Do update
+                try {
+                    routeId = routeService.updateRoute(form.toUpdateRoute(userContext.serviceId))
+                }catch (ex: RouteValidationException) {
+                    // TODO: Map errors
+                }
+            }
+
 //            if (form.assignmentId.value == null) {
 //                // TBC : Do create
 //                try {
@@ -235,6 +289,9 @@ class RouteApiController(private val authService: AuthenticationService) {
     fun archiveRoute(
             @RequestBody archiveAdapter: RouteArchiveAdapter
     ) : ResponseEntity<Int> {
+        try {
+            routeService.archiveRoute(archiveAdapter.routeId)
+        }catch (ex: Exception){}
         return ResponseEntity(0, HttpStatus.OK)
     }
 }

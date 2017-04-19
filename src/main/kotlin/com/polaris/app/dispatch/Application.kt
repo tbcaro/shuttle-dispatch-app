@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.polaris.app.dispatch.repository.AssignmentRepository
 import com.polaris.app.dispatch.repository.MapRepository
+import com.polaris.app.dispatch.repository.RouteRepository
 import com.polaris.app.dispatch.repository.StopRepository
 import com.polaris.app.dispatch.repository.pg.MapPgRepository
 import com.polaris.app.dispatch.repository.pg.UserPgRepository
@@ -32,6 +33,9 @@ open class Application {
 
     @Autowired
     lateinit var stopRepo: StopRepository
+
+    @Autowired
+    lateinit var routeRepo: RouteRepository
 
 //    @Autowired
 //    lateinit var transactionManager: DataSourceTransactionManager
@@ -63,6 +67,11 @@ open class Application {
     @Bean
     open fun stopService(): StopService {
         return StopServiceImpl(stopRepo)
+    }
+
+    @Bean
+    open fun routeService(): RouteService {
+        return RouteServiceImpl(routeRepo)
     }
 }
 
