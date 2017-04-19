@@ -1,4 +1,4 @@
 package com.polaris.app.dispatch.controller.exception
 
 
-class AuthenticationException(private val msg : String = "UserEntity not logged in") : Exception(msg)
+class AuthenticationException(private val msg : String = "User logged out") : Exception(msg)
