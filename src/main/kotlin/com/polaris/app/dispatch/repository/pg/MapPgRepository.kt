@@ -70,14 +70,14 @@ class MapPgRepository(val db: JdbcTemplate): MapRepository{
             var name: String = ""
             var address: String = ""
 
-            if (it["latitude"] != null) latitude = it["latitude"] as BigDecimal
-            else if (it["stopLatitude"] != null)latitude = it["stopLatitude"] as BigDecimal
-            if (it["longitude"] != null) longitude = it["longitude"] as BigDecimal
-            else if (it["stopLongitude"] != null) longitude = it["stopLongitude"] as BigDecimal
+            if (it["stopLatitude"] != null)latitude = it["stopLatitude"] as BigDecimal
+            else if (it["latitude"] != null) latitude = it["latitude"] as BigDecimal
+            if (it["stopLongitude"] != null) longitude = it["stopLongitude"] as BigDecimal
+            else if (it["longitude"] != null) longitude = it["longitude"] as BigDecimal
             if (it["stopID"] != null) stopId = it["stopID"] as Int?
             if (it["Name"] != null) name = it["Name"] as String
-            if (it["address"] != null) address = it["address"] as String
-            else if (it["stopAddress"] != null) address = it["stopAddress"] as String
+            if (it["stopAddress"] != null) address = it["stopAddress"] as String
+            else if (it["address"] != null) address = it["address"] as String
 
             var arriveTime: LocalDateTime? = null
             var departTime: LocalDateTime? = null
