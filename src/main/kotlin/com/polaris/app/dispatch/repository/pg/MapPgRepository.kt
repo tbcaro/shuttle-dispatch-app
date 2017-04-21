@@ -8,6 +8,9 @@ import com.polaris.app.dispatch.repository.entity.MapDriverEntity
 import com.polaris.app.dispatch.service.bo.MapShuttle
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Component
+import java.math.BigDecimal
+import java.sql.Timestamp
+import java.time.LocalDateTime
 
 @Component
 class MapPgRepository(val db: JdbcTemplate): MapRepository{
@@ -50,9 +53,59 @@ class MapPgRepository(val db: JdbcTemplate): MapRepository{
     }
 
     override fun findActiveAssignmentInfo(shuttle: MapShuttle): List<MapAssignStopEntity> {
-        val mapAssignStopEntities = db.query(
-                "SELECT * FROM assignment_stop INNER JOIN stop ON (assignment_stop.stopid = stop.\"ID\") WHERE assignment_stop.assignmentid = ?;",
-                arrayOf(shuttle.shuttleAssignmentID),
+        val rows = db.queryForList(
+                "SELECT assignment_stop.assignment_stop_id, assignment_stop.stopid, assignment_stop.\"Index\", stop.\"Name\", assignment_stop.address, " +
+                        "assignment_stop.latitude, assignment_stop.longitude, assignment_stop.timeofarrival, " +
+                        "assignment_stop.timeofdeparture, assignment_stop.estimatedtimeofarrival, assignment_stop.estimatedtimeofdeparture, " +
+                        "stop.address AS stopAddress, stop.latitude AS stopLatitude, stop.longitude AS stopLongitude " +
+                        "FROM assignment_stop LEFT OUTER JOIN stop ON (assignment_stop.stopid = stop.\"ID\") WHERE assignment_stop.assignmentid = ? ORDER BY \"Index\";",
+                shuttle.shuttleAssignmentID
+        )
+
+        val mapAssignStopEntities = arrayListOf<MapAssignStopEntity>()
+        rows.forEach{
+            var latitude = BigDecimal("0")
+            var longitude = BigDecimal("0")
+            var stopId: Int? = null
+            var name: String = ""
+            var address: String = ""
+
+            if (it["stopLatitude"] != null)latitude = it["stopLatitude"] as BigDecimal
+            else if (it["latitude"] != null) latitude = it["latitude"] as BigDecimal
+            if (it["stopLongitude"] != null) longitude = it["stopLongitude"] as BigDecimal
+            else if (it["longitude"] != null) longitude = it["longitude"] as BigDecimal
+            if (it["stopID"] != null) stopId = it["stopID"] as Int?
+            if (it["Name"] != null) name = it["Name"] as String
+            if (it["stopAddress"] != null) address = it["stopAddress"] as String
+            else if (it["address"] != null) address = it["address"] as String
+
+            var arriveTime: LocalDateTime? = null
+            var departTime: LocalDateTime? = null
+            var estArriveTime: LocalDateTime? = null
+            var estDepartTime: LocalDateTime? = null
+
+            arriveTime = (it["timeofarrival"]?.let { it as Timestamp })?.toLocalDateTime()
+            departTime = (it["timeofdeparture"]?.let { it as Timestamp })?.toLocalDateTime()
+            estArriveTime = (it["estimatedtimeofarrival"]?.let { it as Timestamp })?.toLocalDateTime()
+            estDepartTime = (it["estimatedtimeofdeparture"]?.let { it as Timestamp })?.toLocalDateTime()
+
+            val assignmentStop = MapAssignStopEntity(
+                    it["assignment_stop_id"] as Int,
+                    stopId,
+                    it["Index"] as Int,
+                    name,
+                    address,
+                    latitude,
+                    longitude,
+                    arriveTime,
+                    departTime,
+                    estArriveTime,
+                    estDepartTime
+            )
+
+            mapAssignStopEntities.add(assignmentStop)
+        }
+        /*
                 {
                     resultSet, rowNum -> MapAssignStopEntity(
                         resultSet.getInt("assignment_stop_id"),
@@ -67,8 +120,8 @@ class MapPgRepository(val db: JdbcTemplate): MapRepository{
                         resultSet.getTimestamp("estimatedtimeofarrival").toLocalDateTime(),
                         resultSet.getTimestamp("estimatedtimeofdeparture").toLocalDateTime()
                 )
-                }
-        )
+                }*/
+
         return mapAssignStopEntities
     }
 

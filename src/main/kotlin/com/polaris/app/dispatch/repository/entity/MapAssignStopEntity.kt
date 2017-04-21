@@ -11,8 +11,8 @@ data class MapAssignStopEntity(
         val stopAddress: String,//Displayed
         val stopLat: BigDecimal,//May not be necessary
         val stopLong: BigDecimal,//May not be necessary
-        val stopArrive: LocalDateTime,//May not be necessary
-        val stopDepart: LocalDateTime,//Displayed when applicable
-        val stopArriveEst: LocalDateTime,//Displayed
-        val stopDepartEst: LocalDateTime//Used to determine EWT
+        val stopArrive: LocalDateTime?,//May not be necessary
+        val stopDepart: LocalDateTime?,//Displayed when applicable
+        val stopArriveEst: LocalDateTime?,//Displayed
+        val stopDepartEst: LocalDateTime?//Used to determine EWT
 )

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 class RoutePgRepository(val db: JdbcTemplate): RouteRepository {
     override fun findRoutes(serviceID: Int): List<RouteEntity> {
         val routeEntities = db.query(
-                "SELECT * FROM route WHERE serviceid = ? AND isarchived = false;",
+                "SELECT * FROM route WHERE serviceid = ? AND isarchived = false ORDER BY \"Name\";",
                 arrayOf(serviceID),{
                     resultSet, rowNum -> RouteEntity(
                         resultSet.getInt("serviceid"),
