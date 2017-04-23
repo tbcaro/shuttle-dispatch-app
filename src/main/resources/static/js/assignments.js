@@ -265,6 +265,7 @@ function AssignmentApp(options) {
     });
 
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-add-stop', function() {
+      self.assignmentForm.elements.routeSelector.val(0);
       self.addAssignmentStop();
     });
 
@@ -284,6 +285,7 @@ function AssignmentApp(options) {
       if (index - 1 >= 0) {
         var tempForm = self.assignmentForm.assignmentStopForms.splice(index, 1)[0];
         self.assignmentForm.assignmentStopForms.splice(index - 1, 0, tempForm);
+        self.assignmentForm.elements.routeSelector.val(0);
       }
 
       self.assignmentForm.bindAssignmentStopData();
@@ -296,6 +298,7 @@ function AssignmentApp(options) {
       if (index + 1 <= self.assignmentForm.assignmentStopForms.length - 1) {
         var tempForm = self.assignmentForm.assignmentStopForms.splice(index, 1)[0];
         self.assignmentForm.assignmentStopForms.splice(index + 1, 0, tempForm);
+        self.assignmentForm.elements.routeSelector.val(0);
       }
 
       self.assignmentForm.bindAssignmentStopData();
@@ -305,6 +308,8 @@ function AssignmentApp(options) {
       var formElement = $(this).closest('.assignment-stop-form');
       var index = formElement.data('index');
       self.assignmentForm.assignmentStopForms.splice(index,1);
+
+      self.assignmentForm.elements.routeSelector.val(0);
       self.assignmentForm.bindAssignmentStopData();
     });
 
@@ -319,6 +324,7 @@ function AssignmentApp(options) {
           self.assignmentForm.assignmentStopForms.splice(newIndex, 0, tempForm);
         }
 
+        self.assignmentForm.elements.routeSelector.val(0);
         self.assignmentForm.bindAssignmentStopData();
       } catch (ex) {
         console.log(ex);
