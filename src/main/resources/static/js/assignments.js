@@ -260,6 +260,7 @@ function AssignmentApp(options) {
 
     elements.assignmentCardContainer.on('click', '.assignment-form .btn-save', function() {
       // TBC : Submit assignment-form data
+      $(this).prop('disabled', true);
       self.saveAssignment();
     });
 

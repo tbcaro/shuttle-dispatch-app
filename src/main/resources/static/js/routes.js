@@ -51,6 +51,7 @@ function RouteApp() {
     });
 
     elements.routeCardContainer.on('click', '.route-form .btn-save', function() {
+      $(this).prop('disabled', true);
       saveRoute();
     });
 

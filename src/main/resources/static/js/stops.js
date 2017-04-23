@@ -115,6 +115,7 @@ function StopApp(options) {
     });
 
     elements.stopCardContainer.on('click', '.stop-form .btn-save', function() {
+      $(this).prop('disabled', true);
       saveStop();
     });
   };
