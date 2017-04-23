@@ -325,7 +325,7 @@ function ShuttleActivity(data) {
       icon.append($('<i>').addClass('fa'));
       if (report.currentStop === i) {
         icon.find('i').addClass('fa-spinner');
-      } else {
+      } else if (report.currentStop > i) {
         icon.find('i').addClass('fa-check');
       }
 
