@@ -11,7 +11,7 @@ function GeoLocator() {
           };
 
           deferred.resolve(location);
-        }, deferred.reject);
+        }, deferred.reject, { maximumAge: 0, timeout: 30000, enableHighAccuracy: true });
       } else {
         deferred.reject("Your browser does not support geolocation");
       }
