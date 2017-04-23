@@ -50,7 +50,8 @@ function StopApp(options) {
   var initializeMap = function() {
     map = new google.maps.Map(elements.mapContainer[0], {
       center: { lat: 39.8282, lng: -98.5795 }, // TBC : Default center over central USA
-      zoom: 5
+      zoom: 5,
+      disableDefaultUI: true
     });
   };
 
