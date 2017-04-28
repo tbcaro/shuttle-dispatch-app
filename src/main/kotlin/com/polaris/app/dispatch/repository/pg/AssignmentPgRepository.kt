@@ -28,7 +28,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                         "INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") " +
                         "INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") " +
                         "LEFT OUTER JOIN route ON (assignment.routeid = route.\"ID\") " +
-                        "WHERE assignment.serviceid = ? AND startdate = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
+                        "WHERE assignment.serviceid = ? AND startdate = ? AND assignment.isarchived = false AND shuttle.isarchived = false ORDER BY assignment.starttime;",
                 arrayOf(service, Date.valueOf(date)),
                 {
                     resultSet, rowNum -> AssignmentEntity(
@@ -195,16 +195,31 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
         a.startTime?.let { startTime = Time.valueOf(it) }
         a.startDate?.let { startDate = Date.valueOf(it) }
 
-        val numRows = db.update(//TSH 4/2/2017: Added status and isarchived fields to query to properly assign them when creating a record
-                "INSERT INTO assignment (serviceid, driverid, shuttleid, routeid, startdate, starttime, status, isarchived) VALUES (?, ?, ?, ?, ?, ?, CAST(? AS assignment_status), false);",
-                a.serviceID,
-                a.driverID,
-                a.shuttleID,
-                a.routeID,
-                startDate,
-                startTime,
-                "SCHEDULED"
-                //arrayOf(a.serviceID, a.driverID, a.shuttleID, a.routeID, a.startDate, a.startTime, a.routeName)
+        if (a.routeID != null) {
+            db.update(//TSH 4/2/2017: Added status and isarchived fields to query to properly assign them when creating a record
+                    "INSERT INTO assignment (serviceid, driverid, shuttleid, routeid, startdate, starttime, status, isarchived) VALUES (?, ?, ?, ?, ?, ?, CAST(? AS assignment_status), false);",
+                    a.serviceID,
+                    a.driverID,
+                    a.shuttleID,
+                    a.routeID,
+                    startDate,
+                    startTime,
+                    "SCHEDULED"
+                    //arrayOf(a.serviceID, a.driverID, a.shuttleID, a.routeID, a.startDate, a.startTime, a.routeName)
+            )
+        }
+        else(
+            db.update(//TSH 4/2/2017: Added status and isarchived fields to query to properly assign them when creating a record
+                    "INSERT INTO assignment (serviceid, driverid, shuttleid, routeid, startdate, starttime, status, isarchived, routename) VALUES (?, ?, ?, ?, ?, ?, CAST(? AS assignment_status), false, 'Custom Route');",
+                    a.serviceID,
+                    a.driverID,
+                    a.shuttleID,
+                    a.routeID,
+                    startDate,
+                    startTime,
+                    "SCHEDULED"
+                    //arrayOf(a.serviceID, a.driverID, a.shuttleID, a.routeID, a.startDate, a.startTime, a.routeName)
+            )
         )
 
         val assignmentId = db.query(//Should only return the newly added assignment's assignmentid
