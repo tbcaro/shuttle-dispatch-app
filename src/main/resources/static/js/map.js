@@ -48,7 +48,7 @@ function MapApp(options) {
 
     // TBC : Begin loading shuttle activities from server
     self.loadShuttleActivities();
-    intervalId = setInterval(self.loadShuttleActivities, 5000);
+    intervalId = setInterval(self.loadShuttleActivities, 3000);
   };
 
   self.initializeMap = function() {
