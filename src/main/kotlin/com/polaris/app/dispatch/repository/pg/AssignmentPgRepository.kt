@@ -28,7 +28,7 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                         "INNER JOIN shuttle ON (assignment.shuttleid = shuttle.\"ID\") " +
                         "INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") " +
                         "LEFT OUTER JOIN route ON (assignment.routeid = route.\"ID\") " +
-                        "WHERE assignment.serviceid = ? AND startdate = ? AND assignment.isarchived = false AND shuttle.isarchived = false;",
+                        "WHERE assignment.serviceid = ? AND startdate = ? AND assignment.isarchived = false AND shuttle.isarchived = false ORDER BY assignment.starttime;",
                 arrayOf(service, Date.valueOf(date)),
                 {
                     resultSet, rowNum -> AssignmentEntity(
