@@ -184,20 +184,32 @@ function MapApp(options) {
         delete self.shuttleActivities[activityId];
       }
     }
-
-    data.forEach(function(activityData) {
-      var activity;
-      // TBC : If activity has already been loaded, update it.
-      if (self.shuttleActivities.hasOwnProperty(activityData.activityId.toString())) {
-        activity = self.shuttleActivities[activityData.activityId];
-        activity.update(activityData);
-      } else { // TBC : If activity is not present, create it
-        activity = new ShuttleActivity(activityData);
-        self.shuttleActivities[activity.data.activityId] = activity;
-        activity.appendTo(elements.shuttleCardContainer);
-        activity.show();
+    if (data.length == 0) {
+      var noResultsCard = elements.shuttleCardContainer.find('.no-results-card');
+      if(!noResultsCard.length) {
+        var card = $('<div>').addClass('card').addClass('m-2').addClass('p-5').addClass('no-results-card').addClass('text-center');
+        card.html('No shuttles currently active');
+        elements.shuttleCardContainer.append(card);
       }
-    });
+    } else {
+      var noResultsCard = elements.shuttleCardContainer.find('.no-results-card');
+      if(noResultsCard.length) {
+        noResultsCard.remove();
+      }
+      data.forEach(function (activityData) {
+        var activity;
+        // TBC : If activity has already been loaded, update it.
+        if (self.shuttleActivities.hasOwnProperty(activityData.activityId.toString())) {
+          activity = self.shuttleActivities[activityData.activityId];
+          activity.update(activityData);
+        } else { // TBC : If activity is not present, create it
+          activity = new ShuttleActivity(activityData);
+          self.shuttleActivities[activity.data.activityId] = activity;
+          activity.appendTo(elements.shuttleCardContainer);
+          activity.show();
+        }
+      });
+    }
   };
 
   self.updateShuttleMapMarkers = function() {
