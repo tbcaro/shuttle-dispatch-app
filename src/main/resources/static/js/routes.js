@@ -155,11 +155,26 @@ function RouteApp() {
   var updateRoutes = function(routes) {
     routeCards = { };
     elements.routeCardContainer.empty();
-    routes.forEach(function(route) {
-      routeCards[route.routeId] = new Route(route);
-      elements.routeCardContainer.append(routeCards[route.routeId].elements.card);
-      routeCards[route.routeId].show();
-    });
+
+    if (routes.length == 0) {
+      var noResultsCard = elements.routeCardContainer.find('.no-results-card');
+      if(!noResultsCard.length) {
+        var card = $('<div>').addClass('card').addClass('m-2').addClass('p-5').addClass('no-results-card').addClass('text-center');
+        card.html('No routes found');
+        elements.routeCardContainer.append(card);
+      }
+    } else {
+      var noResultsCard = elements.routeCardContainer.find('.no-results-card');
+      if (noResultsCard.length) {
+        noResultsCard.remove();
+      }
+
+      routes.forEach(function (route) {
+        routeCards[route.routeId] = new Route(route);
+        elements.routeCardContainer.append(routeCards[route.routeId].elements.card);
+        routeCards[route.routeId].show();
+      });
+    }
   };
 
   var addRouteForm = function(options, routeData) {
