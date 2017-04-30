@@ -84,11 +84,28 @@ function AssignmentApp(options) {
   self.updateAssignments = function(assignmentAdapters) {
     self.assignmentCards = { };
     elements.assignmentCardContainer.empty();
-    assignmentAdapters.forEach(function(assignmentData) {
-      self.assignmentCards[assignmentData.assignmentReport.assignmentId] = new Assignment(assignmentData);
-      elements.assignmentCardContainer.append(self.assignmentCards[assignmentData.assignmentReport.assignmentId].elements.card);
-      self.assignmentCards[assignmentData.assignmentReport.assignmentId].show();
-    });
+
+    if (assignmentAdapters.length == 0) {
+      var noResultsCard = elements.assignmentCardContainer.find('.no-results-card');
+      if(!noResultsCard.length) {
+        var card = $('<div>').addClass('card').addClass('m-2').addClass('p-5').addClass('no-results-card').addClass('text-center');
+        card.html('No assignments found');
+        elements.assignmentCardContainer.append(card);
+      }
+    } else {
+      var noResultsCard = elements.assignmentCardContainer.find('.no-results-card');
+      if (noResultsCard.length) {
+        noResultsCard.remove();
+      }
+
+      assignmentAdapters.forEach(function (assignmentData) {
+        self.assignmentCards[assignmentData.assignmentReport.assignmentId] =
+            new Assignment(assignmentData);
+        elements.assignmentCardContainer.append(
+            self.assignmentCards[assignmentData.assignmentReport.assignmentId].elements.card);
+        self.assignmentCards[assignmentData.assignmentReport.assignmentId].show();
+      });
+    }
   };
 
   self.loadNewAssignmentForm = function(assignmentData) {
