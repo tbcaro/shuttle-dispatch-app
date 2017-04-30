@@ -350,6 +350,7 @@ function Assignment(data) {
     self.elements.driverName = self.elements.card.find('.field-driver-name');
     self.elements.routeName = self.elements.card.find('.field-route-name');
     self.elements.startTime = self.elements.card.find('.field-start-time');
+    self.elements.assignmentStatus = self.elements.card.find('.assignment-status-label');
     self.elements.scheduleCard = self.elements.card.find('.schedule-card');
     self.elements.scheduleTableBody = self.elements.scheduleCard.find('tbody');
 
@@ -402,6 +403,26 @@ function Assignment(data) {
   self.bindAssignmentReportData = function() {
     var report = self.data.assignmentReport;
     self.elements.scheduleTableBody.empty();
+
+    self.elements.assignmentStatus.removeClass('btn-secondary').removeClass('btn-primary').removeClass('btn-success').removeClass('btn-warning');
+    switch (report.assignmentStatus) {
+      case 'SCHEDULED':
+        self.elements.assignmentStatus.html('Scheduled');
+        self.elements.assignmentStatus.addClass('btn-secondary');
+        break;
+      case 'UNFINISHED':
+        self.elements.assignmentStatus.html('Unfinished');
+        self.elements.assignmentStatus.addClass('btn-warning');
+        break;
+      case 'IN_PROGRESS':
+        self.elements.assignmentStatus.html('In Progress');
+        self.elements.assignmentStatus.addClass('btn-success');
+        break;
+      case 'COMPLETED':
+        self.elements.assignmentStatus.html('Completed');
+        self.elements.assignmentStatus.addClass('btn-primary');
+        break;
+    }
 
     for (var i = 0; i < report.assignmentStops.length; i++) {
       var row = $('<tr>');
