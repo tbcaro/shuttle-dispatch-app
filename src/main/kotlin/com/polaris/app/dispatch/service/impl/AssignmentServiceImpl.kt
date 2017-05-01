@@ -152,7 +152,7 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
         validatedAssignment = validatedAssignment.copy(stops = validatedStops)
 
         if (newAssignment.routeID == 0) {
-             validatedAssignment = newAssignment.copy(routeID = null)
+             validatedAssignment = validatedAssignment.copy(routeID = null)
         }
         val assignmentid = this.AssignmentRepository.addAssignment(validatedAssignment)
         this.AssignmentRepository.addAssignmentStops(assignmentid, validatedStops)
@@ -199,7 +199,7 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
         validatedAssignment = validatedAssignment.copy(stops = validatedStops)
 
         if (ua.routeID == 0) {
-            validatedAssignment = ua.copy(routeID = null)
+            validatedAssignment = validatedAssignment.copy(routeID = null)
         }
 
         val currentAssignment = this.AssignmentRepository.checkAssignment(validatedAssignment.assignmentID)
