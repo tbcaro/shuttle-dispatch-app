@@ -30,7 +30,7 @@
     <div id="assignment-panel" class="d-flex align-self-stretch flex-column">
       <div id="control-panel" class="p-2">
         <div class="row">
-          <div id="date-cursor" class="col-3 text-left">
+          <div id="date-cursor" class="col-4 text-left">
             <button id="btn-prevday" class="btn btn-secondary"><i class="fa fa-chevron-left"></i></button>
             <button id="btn-selecteddate" class="btn btn-secondary"
                     th:text="${displayDate}">
@@ -38,18 +38,16 @@
             </button>
             <button id="btn-nextday" class="btn btn-secondary"><i class="fa fa-chevron-right"></i></button>
           </div>
-          <div class="col-2 text-center">
-            <div class="input-group">
-              <select id="assignment-status-filter" class="form-control">
-                <option value="ALL">All Assignments</option>
-                <option value="SCHEDULED">Scheduled</option>
-                <option value="UNFINISHED">Unfinished</option>
-                <option value="IN_PROGRESS">In Progress</option>
-                <option value="COMPLETED">Completed</option>
-              </select>
-            </div>
+          <div class="col-2 text-right">
+            <select id="assignment-status-filter" class="form-control">
+              <option value="ALL">All Assignments</option>
+              <option value="SCHEDULED">Scheduled</option>
+              <option value="UNFINISHED">Unfinished</option>
+              <option value="IN_PROGRESS">In Progress</option>
+              <option value="COMPLETED">Completed</option>
+            </select>
           </div>
-          <div class="col-4 text-center">
+          <div class="col-3 text-right">
             <div class="input-group">
               <span class="input-group-addon">Address</span>
               <input id="txtbox-address" type="text" class="form-control" />
