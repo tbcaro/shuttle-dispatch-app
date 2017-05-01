@@ -6,6 +6,7 @@ function MapApp(options) {
   var intervalId = 0;
   var initialLoad = true;
   var selectedActivityCardId = null;
+  var selectedAssignment = null;
 
   self.map = { };
   self.mapMarkers = { };
@@ -45,6 +46,8 @@ function MapApp(options) {
 
     // TBC : Bind event handlers
     self.bindEventHandlers();
+
+    self.mapMarkers.selectedRouteMarkers = [];
 
     // TBC : Begin loading shuttle activities from server
     self.loadShuttleActivities();
@@ -93,6 +96,12 @@ function MapApp(options) {
         .then(function (response) {
           self.updateShuttleCards(response.data);
           self.updateShuttleMapMarkers();
+
+          self.showSelectedRoute();
+          if (selectedActivityCardId != null) {
+            selectedAssignment = self.shuttleActivities[selectedActivityCardId].data.assignmentReport;
+          }
+
           if(initialLoad) {
             self.fitMapToBounds();
           }
@@ -100,39 +109,53 @@ function MapApp(options) {
         })
         .catch(function (error) {
           console.log(error);
-          // clearInterval(intervalId);
+          selectedActivityCardId = null;
+          selectedAssignment = null;
+          self.showSelectedRoute();
         });
   };
 
   self.bindEventHandlers = function() {
     elements.shuttleCardContainer.on('click', '.shuttle-card', function() {
       self.toggleCardSelected($(this));
-      self.showSelectedRoute();
+      self.showSelectedRoute(true);
     });
   };
 
   self.toggleCardSelected = function(selectedCard) {
     if (selectedCard.hasClass('selected')) {
       selectedActivityCardId = null;
+      selectedAssignment = null;
       selectedCard.removeClass('selected');
     } else {
       selectedActivityCardId = selectedCard.data('activityId');
+      selectedAssignment = self.shuttleActivities[selectedActivityCardId].data.assignmentReport;
       elements.shuttleCardContainer.find('.selected').removeClass('selected');
       selectedCard.addClass('selected');
     }
   };
 
-  self.showSelectedRoute = function() {
-    if (self.mapMarkers.hasOwnProperty('selectedRouteMarkers') && self.mapMarkers.selectedRouteMarkers.length > 0) {
-      // Remove all markers from map
-      self.mapMarkers.selectedRouteMarkers.forEach(function (marker) {
-        marker.setMap(null);
-      });
-    }
-
-    self.mapMarkers.selectedRouteMarkers = [];
-    if (selectedActivityCardId != null) {
+  self.showSelectedRoute = function(initialOverride) {
+    if (selectedActivityCardId == null) {
+      if (self.mapMarkers.hasOwnProperty('selectedRouteMarkers')
+          && self.mapMarkers.selectedRouteMarkers.length > 0) {
+        // Remove all markers from map
+        self.mapMarkers.selectedRouteMarkers.forEach(function (marker) {
+          marker.setMap(null);
+        });
+      }
+      self.mapMarkers.selectedRouteMarkers = [];
+    } else if (initialOverride || self.selectedAssignmentHasChanged(self.shuttleActivities[selectedActivityCardId].data.assignmentReport)) {
       var activity = self.shuttleActivities[selectedActivityCardId];
+
+      if (self.mapMarkers.hasOwnProperty('selectedRouteMarkers')
+          && self.mapMarkers.selectedRouteMarkers.length > 0) {
+        // Remove all markers from map
+        self.mapMarkers.selectedRouteMarkers.forEach(function (marker) {
+          marker.setMap(null);
+        });
+      }
+      self.mapMarkers.selectedRouteMarkers = [];
 
       if (activity.data.assignmentReport != null) {
         activity.data.assignmentReport.assignmentStops.forEach(function (assignmentStop) {
@@ -166,6 +189,17 @@ function MapApp(options) {
         });
       }
     }
+  };
+
+  self.selectedAssignmentHasChanged = function(newAssignment) {
+    if (selectedAssignment == null && newAssignment != null) return true;
+    if (selectedAssignment != null && newAssignment == null) return true;
+    if (selectedAssignment != null && newAssignment != null) {
+      if (selectedAssignment.currentStop != newAssignment.currentStop) return true;
+      if (selectedAssignment.assignmentStops.length != newAssignment.assignmentStops.length) return true;
+    }
+
+    return false;
   };
 
   self.updateShuttleCards = function(data) {
@@ -316,6 +350,8 @@ function ShuttleActivity(data) {
     // TBC : Bind assignment report to table
     if (self.data.assignmentReport != null) {
       self.bindAssignmentReportData();
+    } else {
+      self.elements.scheduleTableBody.empty();
     }
   };
 
