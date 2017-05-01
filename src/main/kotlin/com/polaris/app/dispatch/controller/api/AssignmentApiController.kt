@@ -48,7 +48,7 @@ class AssignmentApiController(private val authService: AuthenticationService, pr
                 val report = AssignmentReport()
                 val stops = arrayListOf<AssignmentStopAdapter>()
                 report.assignmentId = it.assignmentID
-                // TODO : Possibly return assignmentStatus as well
+                report.assignmentStatus = it.status
 
                 for ((index, stop) in it.stops.withIndex()) {
                     val stopDetails = AssignmentStopAdapter()

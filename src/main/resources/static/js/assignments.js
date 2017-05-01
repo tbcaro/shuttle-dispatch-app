@@ -21,6 +21,7 @@ function AssignmentApp(options) {
     elements.btnPrevDay = elements.controlPanel.find('#btn-prevday');
     elements.btnSelectedDate = elements.controlPanel.find('#btn-selecteddate');
     elements.btnNextDay = elements.controlPanel.find('#btn-nextday');
+    elements.assignmentStatusFilter = elements.controlPanel.find('#assignment-status-filter');
     elements.txtBoxAddress = elements.controlPanel.find('#txtbox-address');
     elements.btnSearchAddress = elements.controlPanel.find('#btn-search');
     elements.btnNewAssignment = elements.controlPanel.find('#btn-new-assignment');
@@ -84,11 +85,28 @@ function AssignmentApp(options) {
   self.updateAssignments = function(assignmentAdapters) {
     self.assignmentCards = { };
     elements.assignmentCardContainer.empty();
-    assignmentAdapters.forEach(function(assignmentData) {
-      self.assignmentCards[assignmentData.assignmentReport.assignmentId] = new Assignment(assignmentData);
-      elements.assignmentCardContainer.append(self.assignmentCards[assignmentData.assignmentReport.assignmentId].elements.card);
-      self.assignmentCards[assignmentData.assignmentReport.assignmentId].show();
-    });
+
+    if (assignmentAdapters.length == 0) {
+      var noResultsCard = elements.assignmentCardContainer.find('.no-results-card');
+      if(!noResultsCard.length) {
+        var card = $('<div>').addClass('card').addClass('m-2').addClass('p-5').addClass('no-results-card').addClass('text-center');
+        card.html('No assignments found');
+        elements.assignmentCardContainer.append(card);
+      }
+    } else {
+      var noResultsCard = elements.assignmentCardContainer.find('.no-results-card');
+      if (noResultsCard.length) {
+        noResultsCard.remove();
+      }
+
+      assignmentAdapters.forEach(function (assignmentData) {
+        self.assignmentCards[assignmentData.assignmentReport.assignmentId] =
+            new Assignment(assignmentData);
+        elements.assignmentCardContainer.append(
+            self.assignmentCards[assignmentData.assignmentReport.assignmentId].elements.card);
+        self.assignmentCards[assignmentData.assignmentReport.assignmentId].show();
+      });
+    }
   };
 
   self.loadNewAssignmentForm = function(assignmentData) {
@@ -193,6 +211,20 @@ function AssignmentApp(options) {
         });
   };
 
+  var applyFilterByStatus = function(filter) {
+    for (var key in self.assignmentCards) {
+      var assignment = self.assignmentCards[key];
+
+      if (filter == 'ALL') {
+        assignment.show();
+      } else if (assignment.data.assignmentReport.assignmentStatus == filter) {
+        assignment.show();
+      } else {
+        assignment.hide();
+      }
+    }
+  };
+
   var bindEventHandlers = function() {
     google.maps.event.addListener(self.map, 'click', function(event) {
       self.formattedCurrentStopAddress = null;
@@ -209,6 +241,11 @@ function AssignmentApp(options) {
       var day = moment(self.selectedDate);
       day.add(1, 'd');
       self.fetchAssignments(day);
+    });
+
+    elements.assignmentStatusFilter.on('change', function(){
+      var filter = $(this).val();
+      applyFilterByStatus(filter);
     });
 
     elements.txtBoxAddress.on('keyup', function(event) {
@@ -350,6 +387,7 @@ function Assignment(data) {
     self.elements.driverName = self.elements.card.find('.field-driver-name');
     self.elements.routeName = self.elements.card.find('.field-route-name');
     self.elements.startTime = self.elements.card.find('.field-start-time');
+    self.elements.assignmentStatus = self.elements.card.find('.assignment-status-label');
     self.elements.scheduleCard = self.elements.card.find('.schedule-card');
     self.elements.scheduleTableBody = self.elements.scheduleCard.find('tbody');
 
@@ -402,6 +440,26 @@ function Assignment(data) {
   self.bindAssignmentReportData = function() {
     var report = self.data.assignmentReport;
     self.elements.scheduleTableBody.empty();
+
+    self.elements.assignmentStatus.removeClass('btn-secondary').removeClass('btn-primary').removeClass('btn-success').removeClass('btn-warning');
+    switch (report.assignmentStatus) {
+      case 'SCHEDULED':
+        self.elements.assignmentStatus.html('Scheduled');
+        self.elements.assignmentStatus.addClass('btn-secondary');
+        break;
+      case 'UNFINISHED':
+        self.elements.assignmentStatus.html('Unfinished');
+        self.elements.assignmentStatus.addClass('btn-warning');
+        break;
+      case 'IN_PROGRESS':
+        self.elements.assignmentStatus.html('In Progress');
+        self.elements.assignmentStatus.addClass('btn-success');
+        break;
+      case 'COMPLETED':
+        self.elements.assignmentStatus.html('Completed');
+        self.elements.assignmentStatus.addClass('btn-primary');
+        break;
+    }
 
     for (var i = 0; i < report.assignmentStops.length; i++) {
       var row = $('<tr>');

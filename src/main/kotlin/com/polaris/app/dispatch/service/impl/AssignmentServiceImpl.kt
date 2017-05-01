@@ -49,7 +49,8 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
                     driverLName = it.driverLName,
                     shuttleID = it.shuttleID,
                     shuttleName = it.shuttleName,
-                    stops = assignmentStops
+                    stops = assignmentStops,
+                    status = it.status
             )
             assignments.add(assignment)
         }

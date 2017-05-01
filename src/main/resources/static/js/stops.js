@@ -156,11 +156,26 @@ function StopApp(options) {
   var updateStops = function(stops) {
     stopCards = { };
     elements.stopCardContainer.empty();
-    stops.forEach(function(stop) {
-      stopCards[stop.stopId] = new Stop(stop);
-      elements.stopCardContainer.append(stopCards[stop.stopId].elements.card);
-      stopCards[stop.stopId].show();
-    });
+
+    if (stops.length == 0) {
+      var noResultsCard = elements.stopCardContainer.find('.no-results-card');
+      if(!noResultsCard.length) {
+        var card = $('<div>').addClass('card').addClass('m-2').addClass('p-5').addClass('no-results-card').addClass('text-center');
+        card.html('No stops found');
+        elements.stopCardContainer.append(card);
+      }
+    } else {
+      var noResultsCard = elements.stopCardContainer.find('.no-results-card');
+      if (noResultsCard.length) {
+        noResultsCard.remove();
+      }
+
+      stops.forEach(function (stop) {
+        stopCards[stop.stopId] = new Stop(stop);
+        elements.stopCardContainer.append(stopCards[stop.stopId].elements.card);
+        stopCards[stop.stopId].show();
+      });
+    }
   };
 
   var addStopForm = function(stopData) {
