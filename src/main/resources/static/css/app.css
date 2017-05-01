@@ -81,7 +81,7 @@ a.navigation:active {
   overflow: hidden;
 }
 
-.btn {
+.btn, .btn-move-up, .btn-move-down, .btn-remove {
   cursor: pointer;
 }
 
