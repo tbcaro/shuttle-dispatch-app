@@ -5,9 +5,9 @@ import java.time.LocalTime
 
 data class Assignment(
         val assignmentID: Int,
-        val startTime: LocalTime,
-        val routeID: Int,
-        val routeName: String,
+        val startTime: LocalTime?,
+        val routeID: Int?,
+        val routeName: String?,
         val driverID: Int,
         val driverFName: String,
         val driverLName: String,

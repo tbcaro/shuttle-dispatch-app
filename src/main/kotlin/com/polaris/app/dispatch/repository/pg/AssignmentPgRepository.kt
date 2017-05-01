@@ -17,11 +17,12 @@ import java.sql.Types
 import java.text.DateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 @Component
 class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
     override fun findAssignments(service: Int, date: LocalDate): List<AssignmentEntity> {
-        val AssignmentEntities = db.query(
+        val rows = db.queryForList(
                 //Double check script to ensure database data is correct. At this time, database updates have not taken effect.
                 "SELECT assignment.assignmentid, assignment.serviceid, assignment.startdate, assignment.starttime, assignment.routeid, route.\"Name\" AS routename, assignment.driverID, assignment.status, \"user\".fname, \"user\".lname, assignment.shuttleid, shuttle.\"Name\" " +
                         "FROM assignment " +
@@ -29,8 +30,39 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
                         "INNER JOIN \"user\" ON (assignment.driverid = \"user\".\"ID\") " +
                         "LEFT OUTER JOIN route ON (assignment.routeid = route.\"ID\") " +
                         "WHERE assignment.serviceid = ? AND startdate = ? AND assignment.isarchived = false AND shuttle.isarchived = false ORDER BY assignment.starttime;",
-                arrayOf(service, Date.valueOf(date)),
-                {
+                service, Date.valueOf(date))
+
+        val assignmentEntities = arrayListOf<AssignmentEntity>()
+        rows.forEach{
+            var routeid: Int? = null
+            var starttime: LocalTime? = LocalTime.MIDNIGHT
+            var startdate: LocalDate? = null
+            var routename: String? = ""
+            var shuttlename: String? = ""
+
+            if (it["routeid"] != null)routeid = it["routeid"] as Int
+            starttime = (it["starttime"]?.let { it as Time })?.toLocalTime()
+            startdate = (it["startdate"]?.let { it as Date })?.toLocalDate()
+            if (it["routename"] != null)routename = it["routename"] as String
+            if (it["Name"] != null)shuttlename = it["Name"] as String
+
+            val ae = AssignmentEntity(
+                    assignmentID = it["assignmentid"] as Int,
+                    serviceID = it["serviceid"] as Int,
+                    startDate = startdate,
+                    startTime = starttime,
+                    routeID = routeid,
+                    routeName = routename,
+                    driverID = it["driverid"] as Int,
+                    driverFName = it["fname"] as String,
+                    driverLName = it["lname"] as String,
+                    shuttleID = it["shuttleid"] as Int,
+                    shuttleName = it["Name"] as String,
+                    status = AssignmentState.valueOf(it["status"] as String)
+            )
+            assignmentEntities.add(ae)
+        }
+                /*{
                     resultSet, rowNum -> AssignmentEntity(
                         resultSet.getInt("assignmentid"),
                         resultSet.getInt("serviceid"),
@@ -47,8 +79,8 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
 //                        AssignmentState.valueOf(resultSet.getString("status"))
                     )
                 }
-        )
-        return AssignmentEntities
+        )*/
+        return assignmentEntities
     }
 
     override fun findAssignmentStops(assignID: Int): List<AssignmentStopEntity> {
