@@ -21,6 +21,7 @@ function AssignmentApp(options) {
     elements.btnPrevDay = elements.controlPanel.find('#btn-prevday');
     elements.btnSelectedDate = elements.controlPanel.find('#btn-selecteddate');
     elements.btnNextDay = elements.controlPanel.find('#btn-nextday');
+    elements.assignmentStatusFilter = elements.controlPanel.find('#assignment-status-filter');
     elements.txtBoxAddress = elements.controlPanel.find('#txtbox-address');
     elements.btnSearchAddress = elements.controlPanel.find('#btn-search');
     elements.btnNewAssignment = elements.controlPanel.find('#btn-new-assignment');
@@ -210,6 +211,20 @@ function AssignmentApp(options) {
         });
   };
 
+  var applyFilterByStatus = function(filter) {
+    for (var key in self.assignmentCards) {
+      var assignment = self.assignmentCards[key];
+
+      if (filter == 'ALL') {
+        assignment.show();
+      } else if (assignment.data.assignmentReport.assignmentStatus == filter) {
+        assignment.show();
+      } else {
+        assignment.hide();
+      }
+    }
+  };
+
   var bindEventHandlers = function() {
     google.maps.event.addListener(self.map, 'click', function(event) {
       self.formattedCurrentStopAddress = null;
@@ -226,6 +241,11 @@ function AssignmentApp(options) {
       var day = moment(self.selectedDate);
       day.add(1, 'd');
       self.fetchAssignments(day);
+    });
+
+    elements.assignmentStatusFilter.on('change', function(){
+      var filter = $(this).val();
+      applyFilterByStatus(filter);
     });
 
     elements.txtBoxAddress.on('keyup', function(event) {
