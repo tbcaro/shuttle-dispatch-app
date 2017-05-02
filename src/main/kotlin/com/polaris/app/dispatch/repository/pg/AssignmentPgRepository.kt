@@ -296,16 +296,30 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
         ua.startTime?.let { startTime = Time.valueOf(it) }
         ua.startDate?.let { startDate = Date.valueOf(it) }
 
-        db.update(
-                "UPDATE assignment SET driverid = ?, shuttleid = ?, routeid = ?, starttime = ?, startdate = ? WHERE assignmentid = ?;",
-                ua.driverID,
-                ua.shuttleID,
-                ua.routeID,
-                startTime,
-                startDate,
-                ua.assignmentID
-                //arrayOf(ua.driverID, ua.shuttleID, ua.routeID, ua.startTime, ua.startDate, ua.routeName, ua.assignmentID)
-        )
+        if (ua.routeID != null) {
+            db.update(
+                    "UPDATE assignment SET driverid = ?, shuttleid = ?, routeid = ?, starttime = ?, startdate = ? WHERE assignmentid = ?;",
+                    ua.driverID,
+                    ua.shuttleID,
+                    ua.routeID,
+                    startTime,
+                    startDate,
+                    ua.assignmentID
+                    //arrayOf(ua.driverID, ua.shuttleID, ua.routeID, ua.startTime, ua.startDate, ua.routeName, ua.assignmentID)
+            )
+        }
+        else {
+            db.update(
+                    "UPDATE assignment SET driverid = ?, shuttleid = ?, routeid = ?, starttime = ?, startdate = ?, routename = 'Custom Route' WHERE assignmentid = ?;",
+                    ua.driverID,
+                    ua.shuttleID,
+                    ua.routeID,
+                    startTime,
+                    startDate,
+                    ua.assignmentID
+                    //arrayOf(ua.driverID, ua.shuttleID, ua.routeID, ua.startTime, ua.startDate, ua.routeName, ua.assignmentID)
+            )
+        }
     }
 
     override fun checkAssignment(assignmentID: Int?): AssignmentEntity {
