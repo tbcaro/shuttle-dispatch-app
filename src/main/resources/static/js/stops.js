@@ -128,6 +128,7 @@ function StopApp(options) {
         })
         .catch(function(error){
           console.log(error);
+          alert('Fetch all stops failed: ' + error.message);
         });
   };
 
@@ -138,7 +139,7 @@ function StopApp(options) {
         })
         .catch(function(error) {
           console.log(error);
-          alert(error.message());
+          alert('Failed to save stop: ' + error.message);
         });
   };
 
@@ -149,7 +150,7 @@ function StopApp(options) {
         })
         .catch(function(error) {
           console.log(error);
-          alert(error.message());
+          alert('Failed to archive stop: ' + error.message);
         });
   };
 
@@ -219,6 +220,7 @@ function StopApp(options) {
         })
         .catch(function(error) {
           console.log(error);
+          alert('Failed to geocode address: ' + error.message);
         });
   };
 

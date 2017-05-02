@@ -116,6 +116,7 @@ function RouteApp() {
         })
         .catch(function(error){
           console.log(error);
+          alert('Fetch all routes failed: ' + error.message);
         });
   };
 
@@ -127,6 +128,7 @@ function RouteApp() {
         })
         .catch(function(error){
           console.log(error);
+          alert('Fetch form options failed: ' + error.message);
         });
   };
 
@@ -137,7 +139,7 @@ function RouteApp() {
         })
         .catch(function(error) {
           console.log(error);
-          alert(error.message());
+          alert('Failed to save route: ' + error.message);
         });
   };
 
@@ -148,7 +150,7 @@ function RouteApp() {
         })
         .catch(function(error) {
           console.log(error);
-          alert(error.message());
+          alert('Failed to archive route: ' + error.message);
         });
   };
 

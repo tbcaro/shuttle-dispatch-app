@@ -79,6 +79,7 @@ function AssignmentApp(options) {
         })
         .catch(function(error){
           console.log(error);
+          alert('Fetch all assignments failed: ' + error.message);
         });
   };
 
@@ -117,6 +118,7 @@ function AssignmentApp(options) {
         })
         .catch(function(error){
           console.log(error);
+          alert('Fetch form options failed: ' + error.message);
         });
   };
 
@@ -129,7 +131,7 @@ function AssignmentApp(options) {
         })
         .catch(function(error) {
           console.log(error);
-          alert(error.message());
+          alert('Failed to save assignment: ' + error.message);
         });
   };
 
@@ -141,7 +143,7 @@ function AssignmentApp(options) {
           self.fetchAssignments(self.selectedDate);
         })
         .catch(function(error) {
-          console.log(error);
+          alert('Failed to archive assignment: ' + error.message);
         });
   };
 
@@ -207,7 +209,7 @@ function AssignmentApp(options) {
           self.map.fitBounds(bounds);
         })
         .catch(function(error) {
-          console.log(error);
+          alert('Failed to geocode address: ' + error.message);
         });
   };
 
