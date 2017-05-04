@@ -24,4 +24,5 @@ interface AssignmentRepository {
     fun findAssignmentByAssignmentID(assignmentID: Int?): AssignmentEntity
     fun findStopIndex(assignmentStopID: Int): Int
     fun findStop(assignmentStopID: Int): AssignmentStopEntity
+    fun checkForAssignment(a: NewAssignment):Boolean
 }

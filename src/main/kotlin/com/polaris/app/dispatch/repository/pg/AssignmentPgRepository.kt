@@ -454,4 +454,24 @@ class AssignmentPgRepository(val db: JdbcTemplate): AssignmentRepository {
         }
         return assignmentStopEntities[0]
     }
+
+    override fun checkForAssignment(a: NewAssignment): Boolean {
+        var startTime: Time? = null
+        var startDate: Date? = null
+
+        a.startTime?.let { startTime = Time.valueOf(it) }
+        a.startDate?.let { startDate = Date.valueOf(it) }
+
+        val prevAssigns = db.query(//Should only return the newly added assignment's assignmentid
+                "SELECT assignmentid FROM assignment WHERE serviceid = ? AND driverid = ? AND startdate = ? AND starttime = ? AND isarchived = false;",
+                arrayOf(a.serviceID, a.driverID, startDate, startTime),
+                {
+                    resultSet, rowNum -> AssignmentIDEntity(
+                        resultSet.getInt("assignmentid")
+                )
+                }
+
+        )
+        return prevAssigns.size == 0
+    }
 }

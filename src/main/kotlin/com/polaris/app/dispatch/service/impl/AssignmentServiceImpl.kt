@@ -154,10 +154,13 @@ class AssignmentServiceImpl(val AssignmentRepository: AssignmentRepository): Ass
         if (newAssignment.routeID == 0) {
              validatedAssignment = validatedAssignment.copy(routeID = null)
         }
-        val assignmentid = this.AssignmentRepository.addAssignment(validatedAssignment)
-        this.AssignmentRepository.addAssignmentStops(assignmentid, validatedStops)
+        if (this.AssignmentRepository.checkForAssignment(validatedAssignment)){
+            val assignmentid = this.AssignmentRepository.addAssignment(validatedAssignment)
+            this.AssignmentRepository.addAssignmentStops(assignmentid, validatedStops)
 
-        return assignmentid
+            return assignmentid
+        }
+        else return -1
 
         //Implement error checking
 
